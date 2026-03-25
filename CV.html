@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alec Gargett - CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #2980b9;
+            --background-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            --tag-bg: #e1e8ed;
+            --tag-text: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .contact-info {
+            font-size: 1.05rem;
+            color: #ecf0f1;
+            font-weight: 300;
+            margin-top: 1rem;
+        }
+
+        .contact-info a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-info a:hover {
+            color: #3498db;
+        }
+
+        .contact-info .divider {
+            margin: 0 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: -2rem auto 2rem;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .item {
+            margin-bottom: 2rem;
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.2rem;
+            flex-wrap: wrap;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .item-date {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .item-details {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Tags for skills/subjects */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .tag {
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Links and Buttons */
+        .links-group {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        a.btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        a.btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        ul.bullet-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul.bullet-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        ul.bullet-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .contact-info {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+            .contact-info .divider {
+                display: none;
+            }
+            .item-header {
+                flex-direction: column;
+            }
+            .item-date {
+                margin-top: 0.2rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+            header {
+                padding: 3rem 1rem 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Alec Gargett</h1>
+        <div class="contact-info">
+            <a href="mailto:alecgargett@gmail.com">alecgargett@gmail.com</a>
+            <span class="divider">•</span>
+            <a href="tel:0431628458">0431628458</a>
+            <span class="divider">•</span>
+            <span>October 2025</span>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- EDUCATION -->
+        <section id="education">
+            <h2>Education</h2>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Bachelor of Arts (European studies)</div>
+                    <div class="item-date">3 years at University of Adelaide</div>
+                </div>
+                <div class="item-details">
+                    <div class="tags">
+                        <span class="tag">maths</span>
+                        <span class="tag">physics</span>
+                        <span class="tag">logic</span>
+                        <span class="tag">philosophy</span>
+                        <span class="tag">languages</span>
+                        <span class="tag">linguistics</span>
+                        <span class="tag">history</span>
+                        <span class="tag">economics</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Graduate Certificate in International Security</div>
+                    <div class="item-date">6 months at University of Adelaide</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">TAFE programming</div>
+                    <div class="item-date">6 months before transferring to Data Science at University of Adelaide</div>
+                </div>
+                <div class="item-details">
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">Javascript</span>
+                        <span class="tag">Git</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Graduate Certificate in Data Science</div>
+                </div>
+                <div class="item-details">
+                    <div class="tags">
+                        <span class="tag">statistics</span>
+                        <span class="tag">programming</span>
+                        <span class="tag">scripting</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">R</span>
+                        <span class="tag">Bash</span>
+                        <span class="tag">Git</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <h3>Other skills learnt during tertiary education</h3>
+                <div class="tags">
+                    <span class="tag">problem solving</span>
+                    <span class="tag">critical thinking</span>
+                    <span class="tag">scientific thinking</span>
+                    <span class="tag">research</span>
+                    <span class="tag">reading</span>
+                    <span class="tag">writing</span>
+                    <span class="tag">editing</span>
+                    <span class="tag">communication</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EMPLOYMENT HISTORY -->
+        <section id="employment">
+            <h2>Employment history</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Hospitality</div>
+                    <div class="item-date">1 year</div>
+                </div>
+                <div class="item-details">
+                    <p>Bartender, drinks waiter</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Tutor at Tip Top Brain College</div>
+                    <div class="item-date">2021-2023</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Tutor at Cluey Learning</div>
+                    <div class="item-date">2022-2023</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Teacher at Code Camp</div>
+                    <div class="item-date">2022-2023</div>
+                </div>
+                <div class="item-details">
+                    <p>Teaching kids to make computer games with proprietary software, mostly with block coding</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTHER PROJECTS -->
+        <section id="projects">
+            <h2>Other projects</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Musician, audio producer and video producer</div>
+                    <div class="item-date">2021-2026</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Music and creative writing website</div>
+                    <div class="item-date">(2024-2025)</div>
+                </div>
+                <div class="item-details">
+                    <div class="tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">Javascript</span>
+                    </div>
+                    <div class="links-group">
+                        <a href="https://alecgargett.github.io/alecgargett-space" target="_blank" class="btn">View Website</a>
+                        <a href="https://github.com/alecgargett/alecgargett-space" target="_blank" class="btn">GitHub Repo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Political campaign (Independent for Waite)</div>
+                    <div class="item-date">(2025-2026)</div>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Political campaign website</div>
+                    <div class="item-date">(2025-2026)</div>
+                </div>
+                <div class="item-details">
+                    <div class="tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">Javascript</span>
+                    </div>
+                    <div class="links-group">
+                        <a href="https://alecgargett.github.io/waite" target="_blank" class="btn">View Website</a>
+                        <a href="https://github.com/alecgargett/waite" target="_blank" class="btn">GitHub Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTHER ACTIVITIES, CERTIFICATIONS AND ACHIEVEMENTS -->
+        <section id="activities">
+            <h2>Other activities, certifications and achievements</h2>
+            <ul class="bullet-list">
+                <li>Air Force cadets</li>
+                <li>Club tennis team manager (2024)</li>
+                <li>Australian Science Competition High Distinction</li>
+                <li>Australian Mathematics Competition High Distinction</li>
+                <li>White card, RSA, WWCC, RRHAN, First Aid (CPR, HLTAID010, HLTAID011, HLTAID012)</li>
+            </ul>
+        </section>
+
+        <!-- TOOLS TO LEARN NEXT -->
+        <section id="future-tools">
+            <h2>Tools that I'm interested in learning next</h2>
+            <div class="tags">
+                <span class="tag">SQL</span>
+                <span class="tag">Gleam</span>
+                <span class="tag">Odin</span>
+                <span class="tag">Datastar</span>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

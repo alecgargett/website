@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RGB Noise</title>
+    <style>
+        html { height: 100%; background-color: #000; }
+        body {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: transparent; color: #fff; font-family: sans-serif;
+            overflow: hidden;
+            transition: color 0.1s;
+        }
+        
+        canvas {
+            display: block; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1; 
+        }
+
+        #ui-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            pointer-events: none; z-index: 10;
+        }
+
+        .header-area {
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column; /* Add this line */
+            align-items: center; 
+            justify-content: center;
+            width: 100%; 
+            min-height: 0; 
+            pointer-events: auto; 
+        }
+
+        h1{
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 19vw; line-height: 1; margin: 0;
+            text-align: center;
+            text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
+        }
+
+        a {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9vw; line-height: 1; margin: 0;
+            text-align: center;
+            text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
+            color: rgb(0, 255, 255)
+        }
+
+        a:visited {
+            color: rgb(0, 255, 200);
+        }
+
+        #controls {
+            pointer-events: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; 
+            gap: 12px; align-items: center;
+            width: 90%; max-width: 350px; 
+            align-self: center; margin-bottom: 20px;
+            max-height: 60vh; overflow-y: auto;
+        }
+        
+        input[type=range] { 
+            cursor: pointer; width: 100%; display: block; 
+            margin: 0; height: 20px; 
+        }
+        
+        .red-slider { accent-color: #ff4444; }
+        .green-slider { accent-color: #44ff44; }
+        .blue-slider { accent-color: #4444ff; }
+        .speed-slider { accent-color: #888888; }
+        /* Brightness slider is now white/gray to represent avg intensity */
+        .bright-slider { accent-color: #cccccc; }
+
+        button {
+            cursor: pointer; padding: 12px 10px; width: 100%;
+            border-radius: 8px; border: 1px solid #ffcc00;
+            background-color: transparent; color: #ffcc00;
+            font-weight: bold; font-size: 14px;
+            transition: all 0.2s; text-transform: uppercase;
+            user-select: none; -webkit-tap-highlight-color: transparent;
+        }
+
+        button.active {
+            background-color: #ffcc00; color: #000;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+
+        #controls * { pointer-events: auto; }
+        #controls::-webkit-scrollbar { width: 6px; }
+        #controls::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        #controls::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div id="ui-layer">
+        <nav class="header-area">
+            <a href="politics.html">Politics</a>
+            <a href="arts.html">Arts</a>
+            <a href="CV.html">CV</a>
+        </nav>
+
+        <div id="controls">
+            <!-- Max Red -->
+            <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
+            <!-- Max Green -->
+            <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
+            <!-- Max Blue -->
+            <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
+            
+            <!-- Toggle Yellow Button -->
+            <button id="btnYellow" class="active">Turn On Yellow (R or G is 0)</button>
+
+            <!-- Average Brightness Bias -->
+            <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
+
+            <!-- Speed -->
+            <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
+        </div>
+    </div>
+
+    <canvas id="noiseCanvas"></canvas>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('noiseCanvas');
+            const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+
+            const inputs = {
+                r: document.getElementById('rMax'),
+                g: document.getElementById('gMax'),
+                b: document.getElementById('bMax'),
+                avg: document.getElementById('avgBright'),
+                speed: document.getElementById('speed')
+            };
+            const btnYellow = document.getElementById('btnYellow');
+
+            // State
+            let maxR = 127, maxG = 255, maxB = 255;
+            let brightnessExponent = 1; // 1 = Linear/Normal distribution
+            let noYellowMode = true; 
+            let width, height, imgData, buffer, targetPixelsPerFrame = 0;
+
+            btnYellow.addEventListener('click', () => {
+                noYellowMode = !noYellowMode;
+                updateButtonUI();
+            });
+
+            function updateButtonUI() {
+                if (noYellowMode) {
+                    btnYellow.classList.add('active');
+                    btnYellow.textContent = "Turn On Yellow";
+                } else {
+                    btnYellow.classList.remove('active');
+                    btnYellow.textContent = "Turn Off Yellow";
+                }
+            }
+
+            function updateSettings() {
+                // 1. Color Limits
+                maxR = parseInt(inputs.r.value);
+                maxG = parseInt(inputs.g.value);
+                maxB = parseInt(inputs.b.value);
+                
+                document.body.style.color = `rgb(${maxR}, ${maxG}, ${maxB})`;
+
+                // 2. Average Brightness Calculation
+                // We map the slider (1 to 99) to an exponent.
+                // Slider = 50 -> Exponent = 1 (Linear distribution)
+                // Slider < 50 -> Exponent > 1 (Pushes values toward 0/Black)
+                // Slider > 50 -> Exponent < 1 (Pushes values toward Max/White)
+                
+                const sliderVal = parseInt(inputs.avg.value);
+                
+                // Convert 1..99 to 0.01..0.99
+                const normalized = sliderVal / 100;
+
+                // Formula: exp = (1 - u) / u
+                // if u=0.5, exp=1. if u=0.9, exp=0.11 (bright). if u=0.1, exp=9 (dark).
+                brightnessExponent = (1 - normalized) / normalized;
+
+                // 3. Speed
+                const minSpeed = 500;
+                const maxSpeed = ((width * height) / 60) * 2; 
+                targetPixelsPerFrame = minSpeed + (parseFloat(inputs.speed.value) * (maxSpeed - minSpeed));
+            }
+
+            Object.values(inputs).forEach(input => input.addEventListener('input', updateSettings));
+
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                imgData = ctx.createImageData(width, height);
+                buffer = new Uint32Array(imgData.data.buffer);
+                buffer.fill(0xFF000000); 
+                updateSettings();
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            function animate() {
+                const totalPixels = width * height;
+
+                for (let i = 0; i < targetPixelsPerFrame; i++) {
+                    const index = (Math.random() * totalPixels) | 0;
+
+                    // Instead of simple Math.random(), we use Math.pow(random, exponent)
+                    // This biases the probability distribution without exceeding limits.
+                    // This eliminates the need for a while() loop or rejection sampling.
+                    
+                    let rRand = Math.pow(Math.random(), brightnessExponent);
+                    let gRand = Math.pow(Math.random(), brightnessExponent);
+                    let bRand = Math.pow(Math.random(), brightnessExponent);
+
+                    let r = (rRand * (maxR + 1)) | 0;
+                    let g = (gRand * (maxG + 1)) | 0;
+                    let b = (bRand * (maxB + 1)) | 0;
+
+                    if (noYellowMode) {
+                        // "Yellow" mode logic: Zero out Red or Green
+                        if (Math.random() < 0.5) r = 0;
+                        else g = 0;
+                    }
+
+                    buffer[index] = (255 << 24) | (b << 16) | (g << 8) | r;
+                }
+
+                ctx.putImageData(imgData, 0, 0);
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+    </script>
+</body>
+</html>

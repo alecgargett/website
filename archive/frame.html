@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="description" content="A personal website created by Alec Gargett">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+ 
+ <link rel="icon" href="images/alec_gargett_adelaide_oval_torrens_river_202303.jpg" type="image/x-icon">
+ 
+ <meta property="og:title" content="Alec Gargett dot space">
+ <meta property="og:description" content="A personal website created by Alec Gargett">
+ <meta property="og:image" content="images/alec_gargett_adelaide_oval_torrens_river_202303.jpg">
+ <meta property="og:url" content="https://alecgargett.space">
+ 
+  <title>Alec Gargett dot space</title>
+ </head>
+ 
+<body onload="applyTransitionToSavedTheme()">
+<div id="background-div">
+<div id="background-color-div">
+<div id="background-image-div">
+<div class="content-div">
+<section id="navsection">
+ <nav id="home">
+ <br>
+ <button class="bigbutton" onclick="increaseBrightnessOnClick(), applySavedTheme()">
+ BRIGHTNESS BUTTON
+ </button>
+ <a href="#music">Music</a>
+ <a href="#writingsnav">Writings</a>
+ <a href="#contact">Contact</a>
+  <br>
+ </nav>
+
+ <nav id="music"">
+  <br>
+  <a href="https://linktr.ee/alecgargett" target="_blank">Linktree</a>
+  <br>
+ </nav>
+
+ <nav id="writingsnav">
+  <br>
+  <a href="#about">About</a>
+  <a href="#dantenav">Dante</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#politicsandpolicy">Politics and Policy</a>
+  <a href="#hypotheses">Hypotheses</a>
+  <br>
+ </nav>
+
+ <nav id="contact">
+  <br>
+  <a href="mailto:alecgargett@gmail.com" style="font-size: clamp(0.5rem, 1.5rem, 6vw)">alecgargett@gmail.com</a>
+  <br>
+ </nav>
+
+ <nav id="dantenav">
+  <br>
+  <a href="#danteEnglish">English Dante</a>
+  <a href="#danteItalian">Italian Dante</a>
+  <br>
+ </nav>
+
+ <div class="navspacer">
+ </div>
+
+<main>
+
+<section id="textsection">
+
+</section> <!-- /textsection -->
+  </main>
+  <footer class="floatingfooter center z-index-20">
+   <a class="floatingtext z-index-300" href="#home">HOME</a>
+  </footer>
+</div> <!-- /background-div -->
+</div> <!-- /background-color-div -->
+</div> <!-- /background-image-div -->
+</div> <!-- /content-div -->
+</body>
+
+<tail style="display:none">
+
+<script id="applySavedTheme">
+
+function applySavedTheme() {
+  const theme = localStorage.getItem('theme');
+  const body = document.body
+  const background_div = document.getElementById('background-div');
+  const background_color_div = document.getElementById('background-color-div');
+  const background_image_div = document.getElementById('background-image-div');
+
+  if (theme === 'blueblackmode')
+  { body.className = 'blueblackgradient';
+    background_div.className = 'blueblackgradient';
+    background_color_div.className = '';
+    background_image_div.className = ''; }
+  else if (theme === 'bluemode')
+  { body.className = 'bluebackground darktheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = ''; }
+  else if (theme === 'yellowmode')
+  { body.className = 'bluebackground'
+    body.className = 'yellowbackground lighttheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = ''; }
+  else if (theme === 'lightmode')
+  { body.className = 'yellowgradient lighttheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = ''; }
+  else if (theme === 'adelaideoval')
+  { body.className = 'bluebackground whitetheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = 'adelaideoval'; }
+  else if (theme === 'whitemode')
+  { body.className = 'whitebackground whitetheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = ''; }
+  else if (theme === 'alienmode')
+  { body.className = 'alientheme darktheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = ''; }
+  else
+  { body.className = 'halfdarkstart darktheme';
+    background_div.className = '';
+    background_color_div.className = '';
+    background_image_div.className = '';
+    setTimeout(() => { body.className = 'halfdark darktheme'; }, 0); }
+}
+</script>
+
+<script id="applyTransitionToSavedTheme">
+
+function applyTransitionToSavedTheme() {
+  const theme = localStorage.getItem('theme');
+
+  if (!theme) {
+  localStorage.setItem('theme', 'halfdark');
+  }
+
+  if (theme === 'lightmode' || theme === 'whitemode')
+  { document.getElementById('background-color-div').className = 'bluebackground'
+    document.body.className = 'yellowbackground lighttheme';
+    document.getElementById('background-color-div').className = ''
+    setTimeout(() => { applySavedTheme(); }, 2000); }
+  else if (theme === 'adelaideoval')
+  { document.body.className = 'bluemode';
+    setTimeout(() => { applySavedTheme(); }, 100); }
+  else { applySavedTheme() }
+}
+</script>
+
+<script id="increaseBrightnessOnClick" defer>
+
+function increaseBrightnessOnClick() {
+const currentTheme = localStorage.getItem('theme');
+let nextTheme = 'halfdark';
+
+if (currentTheme === 'halfdark')
+{ nextTheme = 'blueblackmode'; }
+else if (currentTheme === 'blueblackmode')
+{ nextTheme = 'bluemode'; }
+else if (currentTheme === 'bluemode')
+{ nextTheme = 'yellowmode'; }
+else if (currentTheme === 'yellowmode')
+{ nextTheme = 'lightmode'; }
+else if (currentTheme === 'lightmode')
+{ nextTheme = 'adelaideoval'; }
+else if (currentTheme === 'adelaideoval')
+{ nextTheme = 'whitemode'; }
+else if (currentTheme === 'whitemode')
+{ nextTheme = 'alienmode'; }
+else
+{ nextTheme = 'halfdark'; }
+
+localStorage.setItem('theme', nextTheme);
+applySavedTheme();
+}
+
+</script>
+
+<style>
+
+                  /* STYLES: ROOT, BODY AND SCROLLBARS */
+
+:root
+{ --font-family-main: 'Roboto', sans-serif;
+  --yellow-darker: rgb(255, 174, 0);
+  --yellow-darker-transparent: rgb(255, 174, 0, 0.7);
+  --yellow-lighter: rgb(255, 220, 100);
+  --yellow-lighter-transparent: rgb(255, 220, 100, 0.9);
+  --blue-darkest: rgb(0, 0, 60);
+  --blue-darker: rgb(0, 10, 80);
+  --blue-medium: rgb(0, 60, 180);
+  --blue-lighter: rgb(90, 200, 255);
+  --blue-lightest: rgb(111, 225, 255); }
+
+body
+{ margin: 0;
+  background-color: black;
+  color: white;
+  font-family: var(--font-family-main);
+  scrollbar-width: 5px;
+  scrollbar-color: rgba(111, 225, 255, 0.5) var(--blue-darker); }
+
+::-webkit-scrollbar
+{ width: 5px; }
+
+::-webkit-scrollbar-track
+{ background: var(--blue-darker); }
+
+::-webkit-scrollbar-thumb
+{ background: rgb(55, 111, 111); }
+
+::-webkit-scrollbar-thumb:hover
+{ background: greenyellow; }
+ 
+                  /* BODY STYLES: THEMES AND BACKGROUND-COLORS */
+
+.alientheme, .alientheme nav, .alientheme a
+{ background-color: black;
+  color: var(--blue-lighter); }
+
+.darktheme
+{ color: white; }
+
+.lighttheme
+{ background-color: var(--yellow-darker);
+  color: var(--blue-darkest);
+  transition: 3s ease; }
+
+.whitetheme
+{ color: black;
+  transition: 3s ease; }
+
+                  /* STYLES: BACKGROUNDS */
+
+.blueblackgradient
+{ background: linear-gradient(to right, var(--blue-darker) 0%, rgba(0, 0, 0) 50%, var(--blue-darker) 100%); }
+
+.yellowgradient
+{ background: linear-gradient(to right, var(--yellow-darker) 0%, var(--yellow-lighter) 25%, var(--yellow-lighter) 75%, var(--yellow-darker) 100%); }
+
+                  /* STYLES: BACKGROUND-COLORS */
+
+.blackbackground
+{ background-color: black; }
+
+.bluebackground
+{ background-color: var(--blue-darkest); }
+
+.yellowbackground
+{ background-color: var(--yellow-darker);
+  transition: background 3s ease, color 0s;
+  transition-delay: 0s, 1s; }
+
+.whitebackground
+{ background-color: black; }
+
+                  /* STYLES: BACKGROUND-IMAGES */
+
+.blackpixel
+{ background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC"); }
+
+.halfdark
+{ background-image: url('images/alec_gargett_halfdark.png');
+  background-color: black;
+  background-size: contain;
+  background-position-x: center;
+  background-position-y: top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  transition: ease 3s; }
+
+.halfdarkstart
+{ background-color: black;
+  background-image: url('images/alec_gargett_halfdark.png');
+  background-size: contain;
+  background-position-x: calc(50% - 100px);
+  background-position-y: top;
+  background-attachment: fixed;
+  background-repeat: no-repeat; }
+
+.whitebackground
+{ background-color: white;
+  transition: 3s ease; }
+
+.whitepixel
+{ background-image: url('images/white_pixel.jpg');
+  background-size: cover;
+  transition: 3s ease; }
+
+.adelaideoval::before
+{ background-image: url('images/alec_gargett_adelaide_oval_torrens_river_202303.jpg');
+  background-size: cover;
+  background-position: top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  transition: 3s ease;
+  opacity: 0; }
+
+.adelaideoval
+{ background-image: url('images/alec_gargett_adelaide_oval_torrens_river_202303.jpg');
+  background-size: cover;
+  background-position: top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  transition: 3s ease;
+  opacity: 1; }
+
+.whitetheme .floatingtext
+{ background-color: rgba(255, 255, 255, 0.8);
+  transition: 3s ease; }
+
+.center
+{ text-align: center;
+  align-items: center; }
+
+button
+{ color: white;
+  background: linear-gradient(to bottom right, rgba(0, 0, 177), rgb(0, 177, 0));
+  border: 0px; }
+
+.bigbutton
+{ width: 250px;
+  height: 150px;
+  max-width: fit-content;
+  min-height: fit-content;
+  font-size: clamp(1rem, 1.5rem, 10vw); }
+
+button:hover
+{ background: linear-gradient(to bottom right, rgb(0, 0, 255), rgb(0, 255, 0)); }
+
+button:active
+{ background: linear-gradient(to bottom right, rgb(0, 133, 255), rgb(0, 255, 133)); }
+
+nav, .navspacer
+{ height: calc(100vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  font-size: clamp(1rem, 2rem, 10vw); }
+
+a, nav, button
+{ text-decoration: none;
+  color: var(--blue-lightest);
+  font-family: 'Silkscreen', var(--font-family-main);
+  opacity: 0; 
+  animation: fadeIn 3s ease 0.1s forwards; }
+
+.yellowtheme a
+{ color: var(--blue-medium);
+  transition: color 0s;
+  transition-delay: 1s; }
+
+.lighttheme a, .whitetheme a
+{ color: var(--blue-medium); }
+
+@keyframes fadeIn
+{ 0%   { opacity: 0; }
+  100% { opacity: 1; } }
+
+.lighttheme a, .lighttheme p, .lighttheme ul, .lighttheme ol
+{ background-color: var(--yellow-lighter);
+  transition: 2s ease; }
+  
+.whitetheme a, .whitetheme p, .whitetheme ul, .whitetheme ol
+{ background-color: white; }
+
+a:hover
+{ color: greenyellow;
+  transition: color 0.2s ease-in-out; }
+
+a:active
+{ color: rgb(255, 255, 0); }
+
+.lighttheme a:hover, .yellowtheme a:hover, .whitetheme a:hover
+{ color: rgb(0, 222, 111); }
+
+.lighttheme a:active, .yellowtheme a:active, .whitetheme a:active
+{ color: rgb(0, 255, 222); }
+
+.floatingtext
+{ background-color: rgba(0, 0, 0, 0.8); }
+
+.bluetheme .floatingtext
+{ background-color: rgba(0, 30, 90, 0.85);
+  transition: 3s ease; }
+
+.yellowtheme .floatingtext
+{ background-color: var(--yellow-darker-transparent);
+  transition: 3s ease; }
+
+.lighttheme .floatingtext
+{ background-color: var(--yellow-lighter-transparent);
+  transition: 3s ease; }
+
+.z-index-20
+{ z-index: 20; }
+
+.z-index-300
+{ z-index: 300; }
+
+.z-index-4000
+{ z-index: 4000; }
+
+.z-index-50000
+{ z-index: 50000; }
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap');
+
+#textsection
+{ display: grid;
+  grid-template-columns: 1fr auto 1fr; }
+
+.floatingheader
+{ position: -webkit-sticky;
+  position: sticky;
+  top: 1px; }
+
+.floatingfooter
+{ position: -webkit-sticky;
+  position: sticky;
+  bottom: 3px; }
+
+.leftright
+{ display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; }
+
+.margin-left-auto
+{ margin-left: auto; }
+
+.right
+{ text-align: right;
+  align-items: right;
+  margin-right: 10px; }
+
+header h1
+{ margin-bottom: 0px; }
+
+header h2, header h3, header h4
+{ margin-top: 0px; }
+  
+h1
+{ text-align: left;
+  font-weight: 500;
+  font-size: 1.5em; }
+
+h2, h3
+{ text-align: left;
+  font-weight: 400; }
+
+h4
+{ margin-bottom: 4px;}
+
+p, ul, ol
+{ margin-top: 4px;
+  font-weight: 300;
+  text-shadow: 1px; }
+
+.lighttheme p, .lighttheme ul, .lighttheme ol
+{ color: black;
+  background-color: var(--yellow-lighter);
+  transition: 0.5s ease; }
+
+.whitetheme p, .whitetheme ul, .whitetheme ol
+{ color: black;
+  background-color: white; }
+
+.subheading
+{ text-align: left;
+  font-weight: 300; }
+
+p.drop::first-letter
+{ font-size: 1.5rem;
+  margin: 0.1em 0.1em 0.2em 0;
+  font-weight: 500; }
+
+sup
+{ font-size: x-small; }
+
+.middle-column
+{ max-width: 400px; }
+
+.disappearing
+{ opacity: 0;
+  transition: opacity 0.4s ease-in-out; }
+    
+.disappearing:hover
+{ opacity: 1;
+  transition: opacity 0.2s ease-in-out; }
+
+@media screen and (min-width: 1024px) {
+  .disappearingdesktop
+  { opacity: 0;
+    transition: opacity 0.4s ease-in-out; }
+
+  .disappearingdesktop:hover
+  { opacity: 1;
+    transition: opacity 0.2s ease-in-out; }
+}
+
+.code
+{ font-family: 'Cascadia Code', Menlo, Mono, Times, Liberation Sans, Baskerville, Times New Roman, serif;
+  font-size: small; }
+
+.serif
+{ font-family: Liberation Serif, Baskerville, Times, Times New Roman, serif;
+  font-style: italic;
+  font-size: larger; }
+
+ul
+{ list-style: none; }
+
+li
+{ padding: 2px; }
+
+</style>
+     
+  <script defer src="https://cdn.counter.dev/script.js" data-id="9cb95797-dd6c-4b86-ab11-90a4e37567d3" data-utcoffset="11"></script>
+ </tail>
+</html>
