@@ -10,23 +10,25 @@
 <body>
 
 <div id="ui-layer">
+
 <nav class="header-area">
-<a href="politics.html">Politics</a>
-<a href="arts.html">Arts</a>
-<a href="arts.html">CV</a>
+    <a href="politics.html">Politics</a>
+    <a href="arts.html">Arts</a>
+    <a href="CV.html">CV</a>
 </nav>
 
 <div id="controls">
-<input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
-<input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
-<input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
+    <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
+    <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
+    <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
 
-<button id="btnYellow">Preventing Yellow. Click to Allow.</button>
+    <button id="btnYellow">Preventing yellow. Click to allow.</button>
 
-<input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
-<input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
+    <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
+    <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
 </div>
-</div>
+
+</div> <!--/ui-layer-->
 
 <canvas id="noiseCanvas"></canvas>
 
