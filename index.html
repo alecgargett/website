@@ -1,11 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Alec Gargett</title>
+</head>
+
+<body>
+
+<div id="ui-layer">
+<nav class="header-area">
+<a href="politics.html">Politics</a>
+<a href="arts.html">Arts</a>
+<a href="arts.html">CV</a>
+</nav>
+
+<div id="controls">
+<input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
+<input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
+<input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
+
+<button id="btnYellow">Preventing Yellow. Click to Allow.</button>
+
+<input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
+<input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
+</div>
+</div>
+
+<canvas id="noiseCanvas"></canvas>
+
+</body>
+
+<tail>
+
+<script>
+
+(function()
+
+{
+const canvas = document.getElementById('noiseCanvas');
+const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+
+const inputs =
+{   r: document.getElementById('rMax'),
+    g: document.getElementById('gMax'),
+    b: document.getElementById('bMax'),
+    avg: document.getElementById('avgBright'),
+    speed: document.getElementById('speed') };
+
+const btnYellow = document.getElementById('btnYellow');
+
+let allowYellow = false; 
+let targetPixelsPerFrame = 0;
+let rMult = 128, gMult = 256, bMult = 256; 
+let width, height, totalPixels, imgData, buffer;
+
+const brightnessLUT = new Uint8Array(256);
+
+btnYellow.addEventListener
+('click', () => 
+{   allowYellow = !allowYellow;
+    updateButtonUI(); }
+);
+
+Object.values(inputs).forEach
+(input => 
+{   input.addEventListener('input', updateSettings); }
+);
+
+window.addEventListener('resize', resize);
+
+function updateButtonUI() 
+{   if (allowYellow) 
+    {   btnYellow.classList.add('active');
+        btnYellow.textContent = "Allowing yellow. Click to prevent."; } 
+    else 
+    {   btnYellow.classList.remove('active');
+        btnYellow.textContent = "Preventing yellow. Click to allow."; }
+}
+
+function updateSettings() 
+{   const maxR = parseInt(inputs.r.value);
+    const maxG = parseInt(inputs.g.value);
+    const maxB = parseInt(inputs.b.value);
+    rMult = maxR + 1;
+    gMult = maxG + 1;
+    bMult = maxB + 1;
+    document.body.style.color = `rgb(${maxR}, ${maxG}, ${maxB})`;
+
+    const sliderVal = parseInt(inputs.avg.value);
+    const normalized = sliderVal / 100;
+    const exponent = (1 - normalized) / normalized;
+
+    for (let i = 0; i < 256; i++) 
+    {   brightnessLUT[i] = (Math.pow(i / 255, exponent) * 255); }
+
+    const minSpeed = 500;
+    const maxSpeed = (totalPixels / 60) * 2; 
+    targetPixelsPerFrame = minSpeed + (parseFloat(inputs.speed.value) * (maxSpeed - minSpeed));
+}
+
+function resize() 
+{   width = window.innerWidth;
+    height = window.innerHeight;
+    totalPixels = width * height;
+    canvas.width = width;
+    canvas.height = height;
+    imgData = ctx.createImageData(width, height);
+    buffer = new Uint32Array(imgData.data.buffer);
+    buffer.fill(0xFF000000);
+    updateSettings();
+}
+
+function animate() 
+{   for (let i = 0; i < targetPixelsPerFrame; i++) 
+    {   const index = (Math.random() * totalPixels) | 0;
+        
+        let r = (brightnessLUT[(Math.random() * 255) | 0] * (rMult / 256)) | 0;
+        let g = (brightnessLUT[(Math.random() * 255) | 0] * (gMult / 256)) | 0;
+        let b = (brightnessLUT[(Math.random() * 255) | 0] * (bMult / 256)) | 0;
+
+        if (!allowYellow) 
+        {   if (Math.random() < 0.5) r = 0;
+            else g = 0; }
+
+        buffer[index] = 0xFF000000 | (b << 16) | (g << 8) | r;
+    }
+
+    ctx.putImageData(imgData, 0, 0);
+    requestAnimationFrame(animate);
+}
+
+updateButtonUI();
+resize();
+animate();
+}
+
+)
+();
+
+</script>
 
 <style>
+
 html
 {   height: 100%; 
     background-color: #000; }
@@ -129,115 +267,9 @@ button.active
 #controls::-webkit-scrollbar-thumb 
 {   background: rgba(255,255,255,0.3); 
     border-radius: 3px; }
+
 </style>
-</head>
-<body>
 
-<div id="ui-layer">
-<nav class="header-area">
-<a href="politics.html">Politics</a>
-<a href="arts.html">Arts</a>
-<a href="arts.html">CV</a>
-</nav>
+</tail>
 
-<div id="controls">
-<input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
-<input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
-<input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
-
-<button id="btnYellow">Preventing Yellow. Click to Allow.</button>
-
-<input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
-<input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
-</div>
-</div>
-
-<canvas id="noiseCanvas"></canvas>
-
-<script>
-(function() 
-{   const canvas = document.getElementById('noiseCanvas');
-    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
-
-    const inputs =
-    {   r: document.getElementById('rMax'),
-        g: document.getElementById('gMax'),
-        b: document.getElementById('bMax'),
-        avg: document.getElementById('avgBright'),
-        speed: document.getElementById('speed') };
-
-    const btnYellow = document.getElementById('btnYellow');
-
-    let allowYellow = false; 
-    let brightnessExponent = 1; 
-    let targetPixelsPerFrame = 0;
-    let rMult = 128, gMult = 256, bMult = 256; 
-    let width, height, totalPixels, imgData, buffer;
-
-    btnYellow.addEventListener('click', () => 
-    {   allowYellow = !allowYellow;
-        updateButtonUI(); });
-
-    Object.values(inputs).forEach(input => 
-    {   input.addEventListener('input', updateSettings); });
-
-    window.addEventListener('resize', resize);
-
-    function updateButtonUI() 
-    {   if (allowYellow) 
-        {   btnYellow.classList.add('active');
-            btnYellow.textContent = "Allowing yellow. Click to prevent."; } 
-        else 
-        {   btnYellow.classList.remove('active');
-            btnYellow.textContent = "Preventing yellow. Click to allow."; } }
-
-    function updateSettings() 
-    {   const maxR = parseInt(inputs.r.value);
-        const maxG = parseInt(inputs.g.value);
-        const maxB = parseInt(inputs.b.value);
-        rMult = maxR + 1;
-        gMult = maxG + 1;
-        bMult = maxB + 1;
-        document.body.style.color = `rgb(${maxR}, ${maxG}, ${maxB})`;
-
-        const sliderVal = parseInt(inputs.avg.value);
-        const normalized = sliderVal / 100;
-        brightnessExponent = (1 - normalized) / normalized;
-
-        const minSpeed = 500;
-        const maxSpeed = (totalPixels / 60) * 2; 
-        targetPixelsPerFrame = minSpeed + (parseFloat(inputs.speed.value) * (maxSpeed - minSpeed)); }
-
-    function resize() 
-    {   width = window.innerWidth;
-        height = window.innerHeight;
-        totalPixels = width * height;
-        canvas.width = width;
-        canvas.height = height;
-        imgData = ctx.createImageData(width, height);
-        buffer = new Uint32Array(imgData.data.buffer);
-        buffer.fill(0xFF000000);
-        updateSettings(); }
-
-    function animate() 
-    {   for (let i = 0; i < targetPixelsPerFrame; i++) 
-        {   const index = (Math.random() * totalPixels) | 0;
-            let r = (Math.pow(Math.random(), brightnessExponent) * rMult) | 0;
-            let g = (Math.pow(Math.random(), brightnessExponent) * gMult) | 0;
-            let b = (Math.pow(Math.random(), brightnessExponent) * bMult) | 0;
-
-            if (!allowYellow) 
-            {   if (Math.random() < 0.5) r = 0;
-                else g = 0; }
-
-            buffer[index] = 0xFF000000 | (b << 16) | (g << 8) | r; }
-
-        ctx.putImageData(imgData, 0, 0);
-        requestAnimationFrame(animate); }
-
-    updateButtonUI();
-    resize();
-    animate(); })();
-</script>
-</body>
 </html>
