@@ -109,6 +109,17 @@ function updateSettings()
     const uiColor = `rgb(${maxR}, ${maxG}, ${maxB})`;
     document.documentElement.style.setProperty('--ui-color', uiColor);
 
+    const updateTrack = (el, activeColor, dimColor) => {
+        const pct = (el.value - el.min) / (el.max - el.min) * 100;
+        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
+    };
+
+    updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
+    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
+    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
+    updateTrack(inputs.avg, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+    updateTrack(inputs.speed, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+
     const sliderVal = parseInt(inputs.avg.value);
     const normalized = sliderVal / 100;
     const exponent = (1 - normalized) / normalized;
@@ -253,17 +264,44 @@ a
     margin-bottom: 2px; }
 
 input[type=range] 
-{   cursor: pointer; 
+{   -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer; 
     width: 100%; 
     display: block; 
-    margin: 0; 
-    height: 20px; }
+    margin: 10px 0; 
+    height: 4px; 
+    border-radius: 2px;
+    outline: none; }
 
-.red-slider { accent-color: #ff4444; }
-.green-slider { accent-color: #44ff44; }
-.blue-slider { accent-color: #4444ff; }
-.speed-slider { accent-color: #888888; }
-.bright-slider { accent-color: #cccccc; }
+input[type=range]::-webkit-slider-thumb 
+{   -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    border: none; }
+
+input[type=range]::-moz-range-thumb 
+{   height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    border: none; }
+
+.red-slider::-webkit-slider-thumb { background: #ff4444; }
+.red-slider::-moz-range-thumb { background: #ff4444; }
+
+.green-slider::-webkit-slider-thumb { background: #44ff44; }
+.green-slider::-moz-range-thumb { background: #44ff44; }
+
+.blue-slider::-webkit-slider-thumb { background: #4444ff; }
+.blue-slider::-moz-range-thumb { background: #4444ff; }
+
+.speed-slider::-webkit-slider-thumb { background: #ffffff; }
+.speed-slider::-moz-range-thumb { background: #ffffff; }
+
+.bright-slider::-webkit-slider-thumb { background: #ffffff; }
+.bright-slider::-moz-range-thumb { background: #ffffff; }
 
 button 
 {   cursor: pointer; 
@@ -293,11 +331,11 @@ button.active
     border-radius: 3px; }
 
 #controls::-webkit-scrollbar-thumb 
-{   background: rgba(255, 255, 255, 0); 
+{   background: rgba(255,255,255,0.3); 
     border-radius: 3px; }
 
 </style>
 
 </tail>
 
-</html>
+</html>```
