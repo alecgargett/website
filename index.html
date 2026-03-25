@@ -3,7 +3,8 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Alec Gargett - Politics, Arts, and CV">
 <title>Alec Gargett</title>
 </head>
 
@@ -14,19 +15,34 @@
 <nav class="header-area">
     <a href="politics.html">Politics</a>
     <a href="arts.html">Arts</a>
-    <a href="CV.html">CV</a>
+    <a href="cv.html">CV</a>
 </nav>
 
 <div id="controls">
-    <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
-    <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
-    <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
+    <div class="control-group">
+        <label for="rMax">Red</label>
+        <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0">
+    </div>
+    <div class="control-group">
+        <label for="gMax">Green</label>
+        <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255">
+    </div>
+    <div class="control-group">
+        <label for="bMax">Blue</label>
+        <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255">
+    </div>
 
     <button id="btnYellow">Preventing yellow. Click to allow.</button>
 
-    <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
-    <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
-</div>
+    <div class="control-group">
+        <label for="avgBright">Brightness</label>
+        <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50">
+    </div>
+    <div class="control-group">
+        <label for="speed">Speed</label>
+        <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1">
+    </div>
+</div> <!--/controls-->
 
 </div> <!--/ui-layer-->
 
@@ -89,7 +105,9 @@ function updateSettings()
     rMult = maxR + 1;
     gMult = maxG + 1;
     bMult = maxB + 1;
-    document.body.style.color = `rgb(${maxR}, ${maxG}, ${maxB})`;
+    
+    const uiColor = `rgb(${maxR}, ${maxG}, ${maxB})`;
+    document.documentElement.style.setProperty('--ui-color', uiColor);
 
     const sliderVal = parseInt(inputs.avg.value);
     const normalized = sliderVal / 100;
@@ -146,6 +164,9 @@ animate();
 
 <style>
 
+:root 
+{   --ui-color: rgb(0, 255, 255); }
+
 html
 {   height: 100%; 
     background-color: #000; }
@@ -156,7 +177,7 @@ body
     width: 100%; 
     height: 100%;
     background-color: transparent; 
-    color: #fff; 
+    color: var(--ui-color); 
     font-family: sans-serif;
     overflow: hidden;
     transition: color 0.1s; }
@@ -194,15 +215,12 @@ canvas
 a 
 {   font-family: 'Courier New', Courier, monospace;
     font-size: 9vw; 
-    line-height: 1; 
+    line-height: 1.2; 
     margin: 0;
     text-align: center;
     text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
-    color: rgb(0, 255, 255);
+    color: var(--ui-color);
     text-decoration: none; }
-
-a:visited 
-{   color: rgb(0, 255, 200); }
 
 #controls 
 {   pointer-events: auto;
@@ -223,8 +241,16 @@ a:visited
     max-height: 60vh; 
     overflow-y: auto; }
 
-#controls * 
-{   pointer-events: auto; }
+.control-group 
+{   width: 100%;
+    display: flex;
+    flex-direction: column; }
+
+.control-group label 
+{   font-size: 10px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 2px; }
 
 input[type=range] 
 {   cursor: pointer; 
