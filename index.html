@@ -1,281 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RGB Noise</title>
-    <style>
-        /* --- Base Setup --- */
-        html { 
-            height: 100%; 
-            background-color: #000; 
-        }
-        
-        body {
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            height: 100%;
-            background-color: transparent; 
-            color: #fff; 
-            font-family: sans-serif;
-            overflow: hidden;
-            transition: color 0.1s;
-        }
-        
-        canvas {
-            display: block; 
-            position: fixed; 
-            top: 0; 
-            left: 0;
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Alec Gargett</title>
 
-        /* --- UI Layout --- */
-        #ui-layer {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            display: flex; 
-            flex-direction: column;
-            pointer-events: none; 
-            z-index: 10;
-        }
+<style>
+html
+{   height: 100%; 
+    background-color: #000; }
 
-        .header-area {
-            flex-grow: 1; 
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            width: 100%; 
-            min-height: 0; 
-            pointer-events: auto; 
-        }
+body 
+{   margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    height: 100%;
+    background-color: transparent; 
+    color: #fff; 
+    font-family: sans-serif;
+    overflow: hidden;
+    transition: color 0.1s; }
 
-        a {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 9vw; 
-            line-height: 1; 
-            margin: 0;
-            text-align: center;
-            text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
-            color: rgb(0, 255, 255);
-            text-decoration: none;
-        }
+canvas 
+{   display: block; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%; 
+    z-index: -1; }
 
-        a:visited {
-            color: rgb(0, 255, 200);
-        }
+#ui-layer 
+{   position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    display: flex; 
+    flex-direction: column;
+    pointer-events: none; 
+    z-index: 10; }
 
-        /* --- Controls & Sliders --- */
-        #controls {
-            pointer-events: auto;
-            background-color: rgba(0, 0, 0, 0.85);
-            padding: 20px; 
-            border-radius: 15px; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            align-items: center;
-            width: 90%; 
-            max-width: 350px; 
-            align-self: center; 
-            margin-bottom: 20px;
-            max-height: 60vh; 
-            overflow-y: auto;
-        }
-        
-        #controls * { 
-            pointer-events: auto; 
-        }
+.header-area 
+{   flex-grow: 1; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    width: 100%; 
+    min-height: 0; 
+    pointer-events: auto; }
 
-        input[type=range] { 
-            cursor: pointer; 
-            width: 100%; 
-            display: block; 
-            margin: 0; 
-            height: 20px; 
-        }
-        
-        .red-slider { accent-color: #ff4444; }
-        .green-slider { accent-color: #44ff44; }
-        .blue-slider { accent-color: #4444ff; }
-        .speed-slider { accent-color: #888888; }
-        .bright-slider { accent-color: #cccccc; }
+a 
+{   font-family: 'Courier New', Courier, monospace;
+    font-size: 9vw; 
+    line-height: 1; 
+    margin: 0;
+    text-align: center;
+    text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
+    color: rgb(0, 255, 255);
+    text-decoration: none; }
 
-        button {
-            cursor: pointer; 
-            padding: 12px 10px; 
-            width: 100%;
-            border-radius: 8px; 
-            border: 1px solid #ffcc00;
-            background-color: transparent; 
-            color: #ffcc00;
-            font-weight: bold; 
-            font-size: 14px;
-            transition: all 0.2s; 
-            text-transform: uppercase;
-            user-select: none; 
-            -webkit-tap-highlight-color: transparent;
-        }
+a:visited 
+{   color: rgb(0, 255, 200); }
 
-        button.active {
-            background-color: #ffcc00; 
-            color: #000;
-            box-shadow: 0 0 10px #ffcc00;
-        }
+#controls 
+{   pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 20px; 
+    border-radius: 15px; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+    align-items: center;
+    width: 90%; 
+    max-width: 350px; 
+    align-self: center; 
+    margin-bottom: 20px;
+    max-height: 60vh; 
+    overflow-y: auto; }
 
-        /* Custom Scrollbar */
-        #controls::-webkit-scrollbar { width: 6px; }
-        #controls::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 3px; }
-        #controls::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
-    </style>
+#controls * 
+{   pointer-events: auto; }
+
+input[type=range] 
+{   cursor: pointer; 
+    width: 100%; 
+    display: block; 
+    margin: 0; 
+    height: 20px; }
+
+.red-slider { accent-color: #ff4444; }
+.green-slider { accent-color: #44ff44; }
+.blue-slider { accent-color: #4444ff; }
+.speed-slider { accent-color: #888888; }
+.bright-slider { accent-color: #cccccc; }
+
+button 
+{   cursor: pointer; 
+    padding: 12px 10px; 
+    width: 100%;
+    border-radius: 8px; 
+    border: 1px solid #ffcc00;
+    background-color: transparent; 
+    color: #ffcc00;
+    font-weight: bold; 
+    font-size: 14px;
+    transition: all 0.2s; 
+    text-transform: uppercase;
+    user-select: none; 
+    -webkit-tap-highlight-color: transparent; }
+
+button.active 
+{   background-color: #ffcc00; 
+    color: #000;
+    box-shadow: 0 0 10px #ffcc00; }
+
+#controls::-webkit-scrollbar 
+{   width: 6px; }
+
+#controls::-webkit-scrollbar-track 
+{   background: rgba(255,255,255,0.1); 
+    border-radius: 3px; }
+
+#controls::-webkit-scrollbar-thumb 
+{   background: rgba(255,255,255,0.3); 
+    border-radius: 3px; }
+</style>
 </head>
 <body>
 
-    <div id="ui-layer">
-        <nav class="header-area">
-            <a href="politics.html">Politics</a>
-            <a href="arts.html">Arts</a>
-            <a href="arts.html">CV</a>
-        </nav>
+<div id="ui-layer">
+<nav class="header-area">
+<a href="politics.html">Politics</a>
+<a href="arts.html">Arts</a>
+<a href="arts.html">CV</a>
+</nav>
 
-        <div id="controls">
-            <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
-            <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
-            <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
-            
-            <button id="btnYellow" class="active">Allow Yellow</button>
+<div id="controls">
+<input type="range" id="rMax" class="red-slider" min="0" max="255" value="0" title="Max Red">
+<input type="range" id="gMax" class="green-slider" min="0" max="255" value="255" title="Max Green">
+<input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255" title="Max Blue">
 
-            <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
-            <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
-        </div>
-    </div>
+<button id="btnYellow">Preventing Yellow. Click to Allow.</button>
 
-    <canvas id="noiseCanvas"></canvas>
+<input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50" title="Average Brightness">
+<input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1" title="Speed">
+</div>
+</div>
 
-    <script>
-        (function() {
-            const canvas = document.getElementById('noiseCanvas');
-            const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+<canvas id="noiseCanvas"></canvas>
 
-            const inputs = {
-                r: document.getElementById('rMax'),
-                g: document.getElementById('gMax'),
-                b: document.getElementById('bMax'),
-                avg: document.getElementById('avgBright'),
-                speed: document.getElementById('speed')
-            };
-            const btnYellow = document.getElementById('btnYellow');
+<script>
+(function() 
+{   const canvas = document.getElementById('noiseCanvas');
+    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
 
-            // --- App State ---
-            let preventYellow = true; 
-            let brightnessExponent = 1; 
-            let targetPixelsPerFrame = 0;
-            
-            // Cached multipliers for the render loop (max value + 1)
-            let rMult = 128, gMult = 256, bMult = 256; 
-            
-            // Canvas variables
-            let width, height, totalPixels, imgData, buffer;
+    const inputs =
+    {   r: document.getElementById('rMax'),
+        g: document.getElementById('gMax'),
+        b: document.getElementById('bMax'),
+        avg: document.getElementById('avgBright'),
+        speed: document.getElementById('speed') };
 
-            // --- Event Listeners ---
-            btnYellow.addEventListener('click', () => {
-                preventYellow = !preventYellow;
-                updateButtonUI();
-            });
+    const btnYellow = document.getElementById('btnYellow');
 
-            Object.values(inputs).forEach(input => {
-                input.addEventListener('input', updateSettings);
-            });
+    let allowYellow = false; 
+    let brightnessExponent = 1; 
+    let targetPixelsPerFrame = 0;
+    let rMult = 128, gMult = 256, bMult = 256; 
+    let width, height, totalPixels, imgData, buffer;
 
-            window.addEventListener('resize', resize);
+    btnYellow.addEventListener('click', () => 
+    {   allowYellow = !allowYellow;
+        updateButtonUI(); });
 
-            // --- Core Functions ---
-            function updateButtonUI() {
-                if (preventYellow) {
-                    btnYellow.classList.add('active');
-                    btnYellow.textContent = "Allow Yellow";
-                } else {
-                    btnYellow.classList.remove('active');
-                    btnYellow.textContent = "Prevent Yellow (No R+G)";
-                }
-            }
+    Object.values(inputs).forEach(input => 
+    {   input.addEventListener('input', updateSettings); });
 
-            function updateSettings() {
-                // 1. Color Limits (Pre-calculate +1 for the randomizer math)
-                const maxR = parseInt(inputs.r.value);
-                const maxG = parseInt(inputs.g.value);
-                const maxB = parseInt(inputs.b.value);
-                
-                rMult = maxR + 1;
-                gMult = maxG + 1;
-                bMult = maxB + 1;
-                
-                document.body.style.color = `rgb(${maxR}, ${maxG}, ${maxB})`;
+    window.addEventListener('resize', resize);
 
-                // 2. Brightness Exponent Calculation
-                const sliderVal = parseInt(inputs.avg.value);
-                const normalized = sliderVal / 100;
-                brightnessExponent = (1 - normalized) / normalized;
+    function updateButtonUI() 
+    {   if (allowYellow) 
+        {   btnYellow.classList.add('active');
+            btnYellow.textContent = "Allowing yellow. Click to prevent."; } 
+        else 
+        {   btnYellow.classList.remove('active');
+            btnYellow.textContent = "Preventing yellow. Click to allow."; } }
 
-                // 3. Speed Allocation
-                const minSpeed = 500;
-                const maxSpeed = (totalPixels / 60) * 2; 
-                targetPixelsPerFrame = minSpeed + (parseFloat(inputs.speed.value) * (maxSpeed - minSpeed));
-            }
+    function updateSettings() 
+    {   const maxR = parseInt(inputs.r.value);
+        const maxG = parseInt(inputs.g.value);
+        const maxB = parseInt(inputs.b.value);
+        rMult = maxR + 1;
+        gMult = maxG + 1;
+        bMult = maxB + 1;
+        document.body.style.color = `rgb(${maxR}, ${maxG}, ${maxB})`;
 
-            function resize() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                totalPixels = width * height;
-                
-                canvas.width = width;
-                canvas.height = height;
-                
-                imgData = ctx.createImageData(width, height);
-                buffer = new Uint32Array(imgData.data.buffer);
-                buffer.fill(0xFF000000); // Fill with opaque black
-                
-                updateSettings();
-            }
+        const sliderVal = parseInt(inputs.avg.value);
+        const normalized = sliderVal / 100;
+        brightnessExponent = (1 - normalized) / normalized;
 
-            function animate() {
-                for (let i = 0; i < targetPixelsPerFrame; i++) {
-                    const index = (Math.random() * totalPixels) | 0;
+        const minSpeed = 500;
+        const maxSpeed = (totalPixels / 60) * 2; 
+        targetPixelsPerFrame = minSpeed + (parseFloat(inputs.speed.value) * (maxSpeed - minSpeed)); }
 
-                    // Calculate RGB using cached multipliers to save calculations per-pixel
-                    let r = (Math.pow(Math.random(), brightnessExponent) * rMult) | 0;
-                    let g = (Math.pow(Math.random(), brightnessExponent) * gMult) | 0;
-                    let b = (Math.pow(Math.random(), brightnessExponent) * bMult) | 0;
+    function resize() 
+    {   width = window.innerWidth;
+        height = window.innerHeight;
+        totalPixels = width * height;
+        canvas.width = width;
+        canvas.height = height;
+        imgData = ctx.createImageData(width, height);
+        buffer = new Uint32Array(imgData.data.buffer);
+        buffer.fill(0xFF000000);
+        updateSettings(); }
 
-                    if (preventYellow) {
-                        if (Math.random() < 0.5) r = 0;
-                        else g = 0;
-                    }
+    function animate() 
+    {   for (let i = 0; i < targetPixelsPerFrame; i++) 
+        {   const index = (Math.random() * totalPixels) | 0;
+            let r = (Math.pow(Math.random(), brightnessExponent) * rMult) | 0;
+            let g = (Math.pow(Math.random(), brightnessExponent) * gMult) | 0;
+            let b = (Math.pow(Math.random(), brightnessExponent) * bMult) | 0;
 
-                    // Write pixel. 0xFF000000 ensures Alpha is 255. 
-                    // Format is Little-Endian ABGR.
-                    buffer[index] = 0xFF000000 | (b << 16) | (g << 8) | r;
-                }
+            if (!allowYellow) 
+            {   if (Math.random() < 0.5) r = 0;
+                else g = 0; }
 
-                ctx.putImageData(imgData, 0, 0);
-                requestAnimationFrame(animate);
-            }
+            buffer[index] = 0xFF000000 | (b << 16) | (g << 8) | r; }
 
-            // --- Initialization ---
-            updateButtonUI();
-            resize();
-            animate();
-        })();
-    </script>
+        ctx.putImageData(imgData, 0, 0);
+        requestAnimationFrame(animate); }
+
+    updateButtonUI();
+    resize();
+    animate(); })();
+</script>
 </body>
 </html>
