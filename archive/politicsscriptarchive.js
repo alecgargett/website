@@ -19,9 +19,7 @@ function toggleTheme() {
     document.body.className = newTheme;
     localStorage.setItem('theme', newTheme);
 }
-</script>
 
-<script>
 function setIntroSmile(smileOn) {
   const introBox = document.querySelector('.intro-content-box');
   if (!introBox) return;
