@@ -55,9 +55,6 @@ function applySavedTheme() {
     background_image_div.className = '';
     setTimeout(() => { body.className = 'halfdark darktheme'; }, 0); }
 }
-</script>
-
-<script id="applyTransitionToSavedTheme">
 
 function applyTransitionToSavedTheme() {
   let theme = localStorage.getItem('theme');
@@ -80,9 +77,6 @@ function applyTransitionToSavedTheme() {
     setTimeout(() => { applySavedTheme(); }, 3000); }
   else { applySavedTheme() }
 }
-</script>
-
-<script id="increaseBrightnessOnClick">
 
 function increaseBrightnessOnClick() {
 const currentTheme = localStorage.getItem('theme');
