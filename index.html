@@ -12,37 +12,37 @@
 
 <div id="ui-layer">
 
- <div id="controls">
-    <div class="control-group">
-        <label for="rMax">Red</label>
-        <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0">
-    </div>
-    <div class="control-group">
-        <label for="gMax">Green</label>
-        <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255">
-    </div>
-    <div class="control-group">
-        <label for="bMax">Blue</label>
-        <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255">
-    </div>
+    <div id="controls">
+        <div class="control-group">
+            <label for="rMax">Red</label>
+            <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0">
+        </div>
+        <div class="control-group">
+            <label for="gMax">Green</label>
+            <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255">
+        </div>
+        <div class="control-group">
+            <label for="bMax">Blue</label>
+            <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255">
+        </div>
 
-    <button id="btnYellow">Preventing yellow. Click to allow.</button>
+        <button id="btnYellow">Preventing yellow. Click to allow.</button>
 
-    <div class="control-group">
-        <label for="avgBright">Brightness</label>
-        <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50">
-    </div>
-    <div class="control-group">
-        <label for="speed">Speed</label>
-        <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1">
-    </div>
-</div> <!--/controls-->
+        <div class="control-group">
+            <label for="avgBright">Brightness</label>
+            <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50">
+        </div>
+        <div class="control-group">
+            <label for="speed">Speed</label>
+            <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1">
+        </div>
+    </div> <!--/controls-->
 
-<nav class="header-area">
-    <a href="politics.html">Politics</a>
-    <a href="arts.html">Arts</a>
-    <a href="CV.html">CV</a>
-</nav>
+    <nav class="header-area">
+        <a href="politics.html">Politics</a>
+        <a href="arts.html">Arts</a>
+        <a href="CV.html">CV</a>
+    </nav>
 
 </div> <!--/ui-layer-->
 
@@ -109,10 +109,9 @@ function updateSettings()
     const uiColor = `rgb(${maxR}, ${maxG}, ${maxB})`;
     document.documentElement.style.setProperty('--ui-color', uiColor);
 
-    const updateTrack = (el, activeColor, dimColor) => {
-        const pct = (el.value - el.min) / (el.max - el.min) * 100;
-        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
-    };
+    const updateTrack = (el, activeColor, dimColor) =>
+    {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
+        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
 
     updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
     updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
@@ -141,8 +140,7 @@ function resize()
     imgData = ctx.createImageData(width, height);
     buffer = new Uint32Array(imgData.data.buffer);
     buffer.fill(0xFF000000);
-    updateSettings();
-}
+    updateSettings(); }
 
 function animate() 
 {   for (let i = 0; i < targetPixelsPerFrame; i++) 
@@ -335,6 +333,75 @@ button.active
     border-radius: 3px; }
 
 </style>
+
+<!--
+=========================================================
+    CUSTOM FORMATTING STYLE GUIDE
+=========================================================
+
+1. HTML PRINCIPLES
+   - Root structure: Direct children of <body>, <head>, 
+     and <tail> have zero indentation (flush left).
+   - Nesting: Deeper nested elements use 4-space indentation.
+   - Closing Tags: Structural closing tags (like </div>) 
+     must be immediately followed by a comment denoting 
+     the id or class.
+     Example: </div> <!--/container-id...>
+     (Note: Close the comment properly instead of the elipsis)
+   - Custom Tags: <script> and <style> blocks are wrapped 
+     in a custom <tail> tag at the end of the document.
+
+2. CSS PRINCIPLES
+   - Multi-line Blocks:
+     * Selector goes on line 1.
+     * Opening '{' goes on a new line.
+     * Exactly 3 spaces follow the '{' on the same line, 
+       immediately followed by the first property.
+     * Subsequent properties go on new lines, indented 
+       by 4 spaces to align with the first property.
+     * Closing '}' goes on the SAME line as the last 
+       property, separated by exactly 1 space.
+       Example:
+       body 
+       {   margin: 0; 
+           padding: 0; }
+           
+   - Single-line Blocks: Kept entirely on one line with 
+     1 space of padding inside the braces.
+     Example: .class { color: #fff; }
+
+3. JAVASCRIPT PRINCIPLES
+   - Outermost IIFE (The Special Rule):
+     * '(function()' on line 1.
+     * Blank line.
+     * Opening '{' on its own isolated line.
+     * ZERO indentation for all code immediately nested
+       inside this wrapper.
+     * Closing '}' on an isolated line, followed by a blank 
+       line, ')' on an isolated line, and '();' on the last.
+       
+   - Standard Block Logic (Functions, Objects, Loops, Ifs):
+     * Opening '{' drops to a new line.
+     * Exactly 3 spaces follow the '{' on the same line, 
+       immediately followed by the first statement.
+     * Subsequent statements are indented by 4 spaces.
+     
+   - The Closing Brace Rule (Inner vs. Outer):
+     * Innermost Blocks: If a block contains NO nested 
+       braces inside it, the closing '}' goes on the SAME 
+       line as the last statement, separated by 1 space.
+     * Outer Blocks: If a block contains nested braces, 
+       the outer block's closing '}' drops to a NEW line.
+       
+   - Callbacks and Chained Arguments: 
+     * When a function call involves a callback or long list 
+       (e.g., .addEventListener, .forEach), break the line 
+       BEFORE the opening '('.
+       Example:
+       btn.addEventListener
+       ('click', () => ...
+=========================================================
+-->
 
 </tail>
 
