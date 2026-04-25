@@ -19,44 +19,35 @@
 
 <body>
 
-<h1>alecgargett.com</h1>
+ <h1>alecgargett.com</h1>
 
 <div id="ui-layer">
 
     <div id="controls">
         <div class="control-group">
-            <label for="kRate">Black Rate</label>
-            <input type="range" id="kRate" class="black-slider" min="0" max="100" value="50">
+            <label for="rMax">Red</label>
+            <input type="range" id="rMax" class="red-slider" min="0" max="255" value="0">
         </div>
         <div class="control-group">
-            <label for="bRate">Blue Rate</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+            <label for="gMax">Green</label>
+            <input type="range" id="gMax" class="green-slider" min="0" max="255" value="255">
         </div>
         <div class="control-group">
-            <label for="cRate">Cyan Rate</label>
-            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="8">
+            <label for="bMax">Blue</label>
+            <input type="range" id="bMax" class="blue-slider" min="0" max="255" value="255">
+        </div>
+
+        <button id="btnYellow">Preventing yellow. Click to allow.</button>
+
+        <div class="control-group">
+            <label for="avgBright">Brightness</label>
+            <input type="range" id="avgBright" class="bright-slider" min="1" max="99" value="50">
         </div>
         <div class="control-group">
-            <label for="gRate">Green Rate</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="8">
+            <label for="speed">Speed</label>
+            <input type="range" id="speed" class="speed-slider" min="0" max="1" step="0.001" value="1">
         </div>
-        <div class="control-group">
-            <label for="yRate">Yellow Rate</label>
-            <input type="range" id="yRate" class="yellow-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="rRate">Red Rate</label>
-            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="wRate">White Rate</label>
-            <input type="range" id="wRate" class="white-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="mRate">Magenta Rate</label>
-            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="8">
-        </div>
-    </div>
+    </div> <!--/controls-->
 
     <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
     </section>
@@ -69,14 +60,24 @@
     <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
     </section>
 
-    <nav class="header-area" id="main-nav-2">
+    <nav class="header-area" id="main-nav">
         <!-- <a href="#politics-nav">Politics</a> -->
         <a href="CV.html">CV</a>
     </nav>
 
+    <!-- <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
+    </section>
+
+    <nav class="header-area" id="politics-nav">
+        <a href="archive.html">Policy archive</a>
+        <a href="">Politics on YouTube</a>
+        <a href="">Politics on facebook</a>
+        <a href="">Politics on instagram</a>
+    </nav> -->
+
 </div> <!--/ui-layer-->
 
-<canvas id="noiseCanvas"></canvas> <!--/noiseCanvas-->
+<canvas id="noiseCanvas"></canvas>
 
 </body>
 
@@ -91,26 +92,26 @@ const canvas = document.getElementById('noiseCanvas');
 const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
 
 const inputs =
-{   k: document.getElementById('kRate'),
-    m: document.getElementById('mRate'),
-    b: document.getElementById('bRate'),
-    c: document.getElementById('cRate'),
-    g: document.getElementById('gRate'),
-    y: document.getElementById('yRate'),
-    r: document.getElementById('rRate'),
-    w: document.getElementById('wRate') };
+{   r: document.getElementById('rMax'),
+    g: document.getElementById('gMax'),
+    b: document.getElementById('bMax'),
+    avg: document.getElementById('avgBright'),
+    speed: document.getElementById('speed') };
 
+const btnYellow = document.getElementById('btnYellow');
+
+let allowYellow = false; 
+let targetPixelsPerFrame = 0;
+let rMult = 128, gMult = 256, bMult = 256; 
 let width, height, totalPixels, imgData, buffer;
-let kSpeed = 0, mSpeed = 0, bSpeed = 0, cSpeed = 0, gSpeed = 0, ySpeed = 0, rSpeed = 0, wSpeed = 0;
 
-const COLOR_K = 0xFF000000; 
-const COLOR_M = 0xFFFF00FF; 
-const COLOR_B = 0xFFFF0000; 
-const COLOR_C = 0xFFFFFF00; 
-const COLOR_G = 0xFF00FF00; 
-const COLOR_Y = 0xFF00FFFF; 
-const COLOR_R = 0xFF0000FF; 
-const COLOR_W = 0xFFFFFFFF; 
+const brightnessLUT = new Uint8Array(256);
+
+btnYellow.addEventListener
+('click', () => 
+{   allowYellow = !allowYellow;
+    updateButtonUI(); }
+);
 
 Object.values(inputs).forEach
 (input => 
@@ -119,34 +120,46 @@ Object.values(inputs).forEach
 
 window.addEventListener('resize', resize);
 
-function updateSettings() 
-{   const maxPixels = (totalPixels / 5) | 0;
-    
-    const calculateSpeed = (val) =>
-    {   const normalized = parseFloat(val) / 100;
-        return (Math.pow(normalized, 3) * maxPixels) | 0; };
+function updateButtonUI() 
+{   if (allowYellow) 
+    {   btnYellow.classList.add('active');
+        btnYellow.textContent = "Allowing yellow. Click to prevent."; } 
+    else 
+    {   btnYellow.classList.remove('active');
+        btnYellow.textContent = "Preventing yellow. Click to allow."; }
+}
 
-    kSpeed = calculateSpeed(inputs.k.value);
-    mSpeed = calculateSpeed(inputs.m.value);
-    bSpeed = calculateSpeed(inputs.b.value);
-    cSpeed = calculateSpeed(inputs.c.value);
-    gSpeed = calculateSpeed(inputs.g.value);
-    ySpeed = calculateSpeed(inputs.y.value);
-    rSpeed = calculateSpeed(inputs.r.value);
-    wSpeed = calculateSpeed(inputs.w.value);
+function updateSettings() 
+{   const maxR = parseInt(inputs.r.value);
+    const maxG = parseInt(inputs.g.value);
+    const maxB = parseInt(inputs.b.value);
+    rMult = maxR + 1;
+    gMult = maxG + 1;
+    bMult = maxB + 1;
+    
+    const uiColor = `rgb(${maxR}, ${maxG}, ${maxB})`;
+    document.documentElement.style.setProperty('--ui-color', uiColor);
 
     const updateTrack = (el, activeColor, dimColor) =>
     {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
         el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
 
-    updateTrack(inputs.k, '#444444', 'rgba(68, 68, 68, 0.2)');
-    updateTrack(inputs.m, '#ff44ff', 'rgba(255, 68, 255, 0.2)');
-    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
-    updateTrack(inputs.c, '#44ffff', 'rgba(68, 255, 255, 0.2)');
-    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
-    updateTrack(inputs.y, '#ffff44', 'rgba(255, 255, 68, 0.2)');
     updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
-    updateTrack(inputs.w, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
+    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
+    updateTrack(inputs.avg, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+    updateTrack(inputs.speed, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+
+    const sliderVal = parseInt(inputs.avg.value);
+    const normalized = sliderVal / 100;
+    const exponent = (1 - normalized) / normalized;
+
+    for (let i = 0; i < 256; i++) 
+    {   brightnessLUT[i] = (Math.pow(i / 255, exponent) * 255); }
+
+    const minSpeed = 500;
+    const maxSpeed = (totalPixels / 60) * 2; 
+    targetPixelsPerFrame = minSpeed + (parseFloat(inputs.speed.value) * (maxSpeed - minSpeed));
 }
 
 function resize() 
@@ -161,34 +174,25 @@ function resize()
     updateSettings(); }
 
 function animate() 
-{   for (let i = 0; i < kSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_K; }
+{   for (let i = 0; i < targetPixelsPerFrame; i++) 
+    {   const index = (Math.random() * totalPixels) | 0;
+        
+        let r = (brightnessLUT[(Math.random() * 255) | 0] * (rMult / 256)) | 0;
+        let g = (brightnessLUT[(Math.random() * 255) | 0] * (gMult / 256)) | 0;
+        let b = (brightnessLUT[(Math.random() * 255) | 0] * (bMult / 256)) | 0;
 
-    for (let i = 0; i < mSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_M; }
+        if (!allowYellow) 
+        {   if (Math.random() < 0.5) r = 0;
+            else g = 0; }
 
-    for (let i = 0; i < bSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_B; }
-
-    for (let i = 0; i < cSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_C; }
-
-    for (let i = 0; i < gSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_G; }
-
-    for (let i = 0; i < ySpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_Y; }
-
-    for (let i = 0; i < rSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_R; }
-
-    for (let i = 0; i < wSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_W; }
+        buffer[index] = 0xFF000000 | (b << 16) | (g << 8) | r;
+    }
 
     ctx.putImageData(imgData, 0, 0);
     requestAnimationFrame(animate);
 }
 
+updateButtonUI();
 resize();
 animate();
 }
@@ -299,29 +303,40 @@ input[type=range]::-moz-range-thumb
     border-radius: 50%;
     border: none; }
 
-.black-slider::-webkit-slider-thumb { background: #000000; border: 1px solid #ffffff; }
-.black-slider::-moz-range-thumb { background: #000000; border: 1px solid #ffffff; }
-
-.magenta-slider::-webkit-slider-thumb { background: #ff44ff; }
-.magenta-slider::-moz-range-thumb { background: #ff44ff; }
-
-.blue-slider::-webkit-slider-thumb { background: #4444ff; }
-.blue-slider::-moz-range-thumb { background: #4444ff; }
-
-.cyan-slider::-webkit-slider-thumb { background: #44ffff; }
-.cyan-slider::-moz-range-thumb { background: #44ffff; }
+.red-slider::-webkit-slider-thumb { background: #ff4444; }
+.red-slider::-moz-range-thumb { background: #ff4444; }
 
 .green-slider::-webkit-slider-thumb { background: #44ff44; }
 .green-slider::-moz-range-thumb { background: #44ff44; }
 
-.yellow-slider::-webkit-slider-thumb { background: #ffff44; }
-.yellow-slider::-moz-range-thumb { background: #ffff44; }
+.blue-slider::-webkit-slider-thumb { background: #4444ff; }
+.blue-slider::-moz-range-thumb { background: #4444ff; }
 
-.red-slider::-webkit-slider-thumb { background: #ff4444; }
-.red-slider::-moz-range-thumb { background: #ff4444; }
+.speed-slider::-webkit-slider-thumb { background: #ffffff; }
+.speed-slider::-moz-range-thumb { background: #ffffff; }
 
-.white-slider::-webkit-slider-thumb { background: #ffffff; }
-.white-slider::-moz-range-thumb { background: #ffffff; }
+.bright-slider::-webkit-slider-thumb { background: #ffffff; }
+.bright-slider::-moz-range-thumb { background: #ffffff; }
+
+button 
+{   cursor: pointer; 
+    padding: 12px 10px; 
+    width: 100%;
+    border-radius: 8px; 
+    border: 1px solid #ffcc00;
+    background-color: transparent; 
+    color: #ffcc00;
+    font-weight: bold; 
+    font-size: 14px;
+    transition: all 0.2s; 
+    text-transform: uppercase;
+    user-select: none; 
+    -webkit-tap-highlight-color: transparent; }
+
+button.active 
+{   background-color: #ffcc00; 
+    color: #000;
+    box-shadow: 0 0 10px #ffcc00; }
 
 #controls::-webkit-scrollbar 
 {   width: 6px; }
@@ -345,9 +360,9 @@ input[type=range]::-moz-range-thumb
    - Root structure: Direct children of <body>, <head>, 
      and <tail> have zero indentation (flush left).
    - Nesting: Deeper nested elements use 4-space indentation.
-   - Closing Tags: Structural closing tags (like </div>) for
-     direct children of <body> must be immediately
-     followed by a comment denoting the id or class.
+   - Closing Tags: Structural closing tags (like </div>) 
+     must be immediately followed by a comment denoting 
+     the id or class.
      Example: </div> <!--/container-id...>
      (Note: Close the comment properly instead of the elipsis)
    - Custom Tags: <script> and <style> blocks are wrapped 
