@@ -38,11 +38,21 @@
         </div>
     </div> <!--/controls-->
 
-    <nav class="header-area">
-        <a href="politics.html">Politics</a>
+    <nav class="header-area" id="main-nav">
+        <!-- <a href="#politics-nav">Politics</a> -->
         <a href="arts.html">Arts</a>
         <a href="CV.html">CV</a>
     </nav>
+
+    <!-- <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
+    </section>
+
+    <nav class="header-area" id="politics-nav">
+        <a href="archive.html">Policy archive</a>
+        <a href="">Politics on YouTube</a>
+        <a href="">Politics on facebook</a>
+        <a href="">Politics on instagram</a>
+    </nav> -->
 
 </div> <!--/ui-layer-->
 
@@ -177,18 +187,15 @@ animate();
 {   --ui-color: rgb(0, 255, 255); }
 
 html
-{   height: 100%; 
-    background-color: #000; }
+{   background-color: #000; }
 
 body 
 {   margin: 0; 
     padding: 0; 
     width: 100%; 
-    height: 100%;
     background-color: transparent; 
     color: var(--ui-color); 
     font-family: sans-serif;
-    overflow: hidden;
     transition: color 0.1s; }
 
 canvas 
@@ -201,24 +208,16 @@ canvas
     z-index: -1; }
 
 #ui-layer 
-{   position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
-    display: flex; 
-    flex-direction: column;
+{   width: 100%; 
     pointer-events: none; 
     z-index: 10; }
 
 .header-area 
-{   flex-grow: 1; 
-    display: flex;
+{   display: flex;
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
     width: 100%; 
-    min-height: 0; 
     pointer-events: auto; }
 
 a 
@@ -245,8 +244,7 @@ a
     align-items: center;
     width: 90%; 
     max-width: 350px; 
-    align-self: center; 
-    margin-bottom: 20px;
+    margin: 20px auto;
     max-height: 60vh; 
     overflow-y: auto; }
 
