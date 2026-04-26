@@ -35,27 +35,27 @@
         </div>
         <div class="control-group">
             <label for="cRate">Cyan Rate</label>
-            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="8">
+            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="22">
         </div>
         <div class="control-group">
             <label for="gRate">Green Rate</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="8">
+            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="yRate">Yellow Rate</label>
-            <input type="range" id="yRate" class="yellow-slider" min="0" max="100" value="8">
+            <input type="range" id="yRate" class="yellow-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="rRate">Red Rate</label>
-            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="8">
+            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="wRate">White Rate</label>
-            <input type="range" id="wRate" class="white-slider" min="0" max="100" value="8">
+            <input type="range" id="wRate" class="white-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="mRate">Magenta Rate</label>
-            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="8">
+            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="blendRate">Blend Rate</label>
@@ -134,6 +134,8 @@ const inputs =
     blend: document.getElementById('blendRate'),
     diffuse: document.getElementById('diffuseRate') };
 
+inputs.diffuse.value = 0;
+
 let width, height, totalPixels, imgData, buffer;
 let kSpeed = 0, bSpeed = 0, cSpeed = 0, gSpeed = 0, ySpeed = 0, rSpeed = 0, wSpeed = 0, mSpeed = 0;
 let blendWeight = 0;
@@ -142,6 +144,9 @@ let isDiffusing = false;
 let fixedPixels = [];
 let fixedColors = [];
 let seedMask = new Uint8Array(0);
+let targetBuffer = new Uint32Array(0);
+let revealOrder = [];
+let revealIndex = 0;
 
 const COLOR_K = 0xFF000000; 
 const COLOR_B = 0xFFFF0000; 
@@ -222,7 +227,7 @@ function freezePixels()
     fixedPixels.push({ x: 0, y: height - 1 });
     fixedPixels.push({ x: width - 1, y: height - 1 });
 
-    for (let i = 0; i < 12; i++) 
+    for (let i = 0; i < 22; i++) 
     {   const rx = (Math.random() * width) | 0;
         const ry = (Math.random() * height) | 0;
         fixedPixels.push({ x: rx, y: ry }); }
@@ -231,54 +236,68 @@ function freezePixels()
     {   const p = fixedPixels[i];
         const idx = p.y * width + p.x;
         fixedColors.push(buffer[idx]);
-        seedMask[idx] = 1; } 
-}
+        seedMask[idx] = 1; }
+
+    computeTargetBuffer();
+    shuffleRevealOrder(); }
+
+function computeTargetBuffer() 
+{   targetBuffer = new Uint32Array(totalPixels);
+
+    for (let y = 0; y < height; y++) 
+    {   for (let x = 0; x < width; x++) 
+        {   const idx = y * width + x;
+
+            if (seedMask[idx]) 
+            {   targetBuffer[idx] = buffer[idx];
+                continue; }
+
+            let sumR = 0, sumG = 0, sumB = 0, totalWeight = 0;
+
+            for (let s = 0; s < fixedPixels.length; s++) 
+            {   const fp = fixedPixels[s];
+                const dx = x - fp.x;
+                const dy = y - fp.y;
+                const distSq = dx * dx + dy * dy;
+
+                if (distSq === 0) continue;
+
+                const weight = 1 / distSq;
+                const c = fixedColors[s];
+
+                sumR += (c & 0xFF) * weight;
+                sumG += ((c >> 8) & 0xFF) * weight;
+                sumB += ((c >> 16) & 0xFF) * weight;
+                totalWeight += weight; }
+
+            const finalR = (sumR / totalWeight) | 0;
+            const finalG = (sumG / totalWeight) | 0;
+            const finalB = (sumB / totalWeight) | 0;
+
+            targetBuffer[idx] = 0xFF000000 | (finalB << 16) | (finalG << 8) | finalR; } } }
+
+function shuffleRevealOrder() 
+{   revealOrder = [];
+
+    for (let i = 0; i < totalPixels; i++) 
+    {   if (!seedMask[i]) revealOrder.push(i); }
+
+    for (let i = revealOrder.length - 1; i > 0; i--) 
+    {   const j = (Math.random() * (i + 1)) | 0;
+        const temp = revealOrder[i];
+        revealOrder[i] = revealOrder[j];
+        revealOrder[j] = temp; }
+
+    revealIndex = 0; }
 
 function applyDiffusion() 
-{   for (let i = 0; i < diffuseSpeed; i++) 
-    {   const x = (Math.random() * width) | 0;
-        const y = (Math.random() * height) | 0;
-        const idx = y * width + x;
+{   const endIndex = Math.min(revealIndex + diffuseSpeed, revealOrder.length);
 
-        if (seedMask[idx]) continue;
+    for (let i = revealIndex; i < endIndex; i++) 
+    {   const idx = revealOrder[i];
+        buffer[idx] = targetBuffer[idx]; }
 
-        let sumR = 0, sumG = 0, sumB = 0, count = 0;
-
-        if (y > 0) 
-        {   const n = buffer[(y - 1) * width + x];
-            sumR += n & 0xFF;
-            sumG += (n >> 8) & 0xFF;
-            sumB += (n >> 16) & 0xFF;
-            count++; }
-
-        if (y < height - 1) 
-        {   const n = buffer[(y + 1) * width + x];
-            sumR += n & 0xFF;
-            sumG += (n >> 8) & 0xFF;
-            sumB += (n >> 16) & 0xFF;
-            count++; }
-
-        if (x > 0) 
-        {   const n = buffer[y * width + (x - 1)];
-            sumR += n & 0xFF;
-            sumG += (n >> 8) & 0xFF;
-            sumB += (n >> 16) & 0xFF;
-            count++; }
-
-        if (x < width - 1) 
-        {   const n = buffer[y * width + (x + 1)];
-            sumR += n & 0xFF;
-            sumG += (n >> 8) & 0xFF;
-            sumB += (n >> 16) & 0xFF;
-            count++; }
-
-        if (count > 0) 
-        {   const avgR = (sumR / count) | 0;
-            const avgG = (sumG / count) | 0;
-            const avgB = (sumB / count) | 0;
-            buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR; } 
-    }
-}
+    revealIndex = endIndex; }
 
 function applyPixels(count, pureColor) 
 {   if (blendWeight === 0) 
@@ -329,7 +348,7 @@ function animate()
         applyPixels(rSpeed, COLOR_R);
         applyPixels(wSpeed, COLOR_W);
         applyPixels(mSpeed, COLOR_M); }
-    else 
+    else if (revealIndex < revealOrder.length) 
     {   applyDiffusion(); }
 
     ctx.putImageData(imgData, 0, 0);
