@@ -21,58 +21,62 @@
 
 <h1>alecgargett.com</h1>
 
-<div id="ui-layer">
-
-    <div id="controls">
-        <div class="control-group">
-            <label for="kRate">Black Rate</label>
-            <input type="range" id="kRate" class="black-slider" min="0" max="100" value="50">
-        </div>
-        <div class="control-group">
-            <label for="bRate">Blue Rate</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
-        </div>
-        <div class="control-group">
-            <label for="cRate">Cyan Rate</label>
-            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="gRate">Green Rate</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="yRate">Yellow Rate</label>
-            <input type="range" id="yRate" class="yellow-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="rRate">Red Rate</label>
-            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="wRate">White Rate</label>
-            <input type="range" id="wRate" class="white-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="mRate">Magenta Rate</label>
-            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="8">
-        </div>
+<div id="controls">
+    <div class="control-group">
+        <label for="kRate">Black Rate</label>
+        <input type="range" id="kRate" class="black-slider" min="0" max="100" value="50 ">
     </div>
+    <div class="control-group">
+        <label for="bRate">Blue Rate</label>
+        <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+    </div>
+    <div class="control-group">
+        <label for="cRate">Cyan Rate</label>
+        <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="8">
+    </div>
+    <div class="control-group">
+        <label for="gRate">Green Rate</label>
+        <input type="range" id="gRate" class="green-slider" min="0" max="100" value="8">
+    </div>
+    <div class="control-group">
+        <label for="yRate">Yellow Rate</label>
+        <input type="range" id="yRate" class="yellow-slider" min="0" max="100" value="8">
+    </div>
+    <div class="control-group">
+        <label for="rRate">Red Rate</label>
+        <input type="range" id="rRate" class="red-slider" min="0" max="100" value="8">
+    </div>
+    <div class="control-group">
+        <label for="wRate">White Rate</label>
+        <input type="range" id="wRate" class="white-slider" min="0" max="100" value="8">
+    </div>
+    <div class="control-group">
+        <label for="mRate">Magenta Rate</label>
+        <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="8">
+    </div>
+    <div class="control-group">
+        <label for="blendRate">Blend Rate</label>
+        <input type="range" id="blendRate" class="blend-slider" min="0" max="100" value="0">
+    </div>
+    
+    <button id="btnDiffuse">Start Diffusion</button>
+</div> <!--/controls-->
 
-    <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
-    </section>
+<section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
+</section>
 
-    <nav class="header-area" id="main-nav">
-        <!-- <a href="#politics-nav">Politics</a> -->
-        <a href="arts.html">Arts</a>
-    </nav>
+<nav class="header-area" id="main-nav">
+    <!-- <a href="#politics-nav">Politics</a> -->
+    <a href="arts.html">Arts</a>
+</nav>
 
-    <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
-    </section>
+<section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
+</section>
 
-    <nav class="header-area" id="main-nav-2">
-        <!-- <a href="#politics-nav">Politics</a> -->
-        <a href="CV.html">CV</a>
-    </nav>
+<nav class="header-area" id="main-nav-2">
+    <!-- <a href="#politics-nav">Politics</a> -->
+    <a href="CV.html">CV</a>
+</nav>
 
 </div> <!--/ui-layer-->
 
@@ -92,25 +96,44 @@ const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
 
 const inputs =
 {   k: document.getElementById('kRate'),
-    m: document.getElementById('mRate'),
     b: document.getElementById('bRate'),
     c: document.getElementById('cRate'),
     g: document.getElementById('gRate'),
     y: document.getElementById('yRate'),
     r: document.getElementById('rRate'),
-    w: document.getElementById('wRate') };
+    w: document.getElementById('wRate'),
+    m: document.getElementById('mRate'),
+    blend: document.getElementById('blendRate') };
 
-let width, height, totalPixels, imgData, buffer;
-let kSpeed = 0, mSpeed = 0, bSpeed = 0, cSpeed = 0, gSpeed = 0, ySpeed = 0, rSpeed = 0, wSpeed = 0;
+const btnDiffuse = document.getElementById('btnDiffuse');
+
+let width, height, totalPixels, imgData, buffer, tempBuffer;
+let kSpeed = 0, bSpeed = 0, cSpeed = 0, gSpeed = 0, ySpeed = 0, rSpeed = 0, wSpeed = 0, mSpeed = 0;
+let blendWeight = 0;
+
+let isDiffusing = false;
+let frozenPixels = [];
 
 const COLOR_K = 0xFF000000; 
-const COLOR_M = 0xFFFF00FF; 
 const COLOR_B = 0xFFFF0000; 
 const COLOR_C = 0xFFFFFF00; 
 const COLOR_G = 0xFF00FF00; 
 const COLOR_Y = 0xFF00FFFF; 
 const COLOR_R = 0xFF0000FF; 
 const COLOR_W = 0xFFFFFFFF; 
+const COLOR_M = 0xFFFF00FF; 
+
+btnDiffuse.addEventListener
+('click', () => 
+{   isDiffusing = !isDiffusing;
+    if (isDiffusing) 
+    {   btnDiffuse.classList.add('active');
+        btnDiffuse.textContent = "Stop Diffusion";
+        freezePixels(); } 
+    else 
+    {   btnDiffuse.classList.remove('active');
+        btnDiffuse.textContent = "Start Diffusion"; } }
+);
 
 Object.values(inputs).forEach
 (input => 
@@ -127,26 +150,49 @@ function updateSettings()
         return (Math.pow(normalized, 3) * maxPixels) | 0; };
 
     kSpeed = calculateSpeed(inputs.k.value);
-    mSpeed = calculateSpeed(inputs.m.value);
     bSpeed = calculateSpeed(inputs.b.value);
     cSpeed = calculateSpeed(inputs.c.value);
     gSpeed = calculateSpeed(inputs.g.value);
     ySpeed = calculateSpeed(inputs.y.value);
     rSpeed = calculateSpeed(inputs.r.value);
     wSpeed = calculateSpeed(inputs.w.value);
+    mSpeed = calculateSpeed(inputs.m.value);
+    blendWeight = parseFloat(inputs.blend.value) / 100;
 
     const updateTrack = (el, activeColor, dimColor) =>
     {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
         el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
 
     updateTrack(inputs.k, '#444444', 'rgba(68, 68, 68, 0.2)');
-    updateTrack(inputs.m, '#ff44ff', 'rgba(255, 68, 255, 0.2)');
     updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
     updateTrack(inputs.c, '#44ffff', 'rgba(68, 255, 255, 0.2)');
     updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
     updateTrack(inputs.y, '#ffff44', 'rgba(255, 255, 68, 0.2)');
     updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
     updateTrack(inputs.w, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+    updateTrack(inputs.m, '#ff44ff', 'rgba(255, 68, 255, 0.2)');
+    updateTrack(inputs.blend, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+}
+
+function freezePixels()
+{   frozenPixels = [];
+    const corners = [0, width - 1, (height - 1) * width, totalPixels - 1];
+    const randoms = [];
+    
+    for (let i = 0; i < 4; i++) 
+    {   randoms.push((Math.random() * totalPixels) | 0); }
+    
+    const targets = [...corners, ...randoms];
+    const palette = [COLOR_K, COLOR_B, COLOR_C, COLOR_G, COLOR_Y, COLOR_R, COLOR_W, COLOR_M];
+    
+    for (let i = palette.length - 1; i > 0; i--) 
+    {   const j = (Math.random() * (i + 1)) | 0;
+        [palette[i], palette[j]] = [palette[j], palette[i]]; }
+        
+    targets.forEach
+    ((idx, i) => 
+    {   frozenPixels.push({ idx: idx, color: palette[i] }); }
+    );
 }
 
 function resize() 
@@ -157,37 +203,104 @@ function resize()
     canvas.height = height;
     imgData = ctx.createImageData(width, height);
     buffer = new Uint32Array(imgData.data.buffer);
+    tempBuffer = new Uint32Array(totalPixels);
     buffer.fill(0xFF000000);
-    updateSettings(); }
+    updateSettings(); 
+    
+    if (isDiffusing) 
+    {   freezePixels(); } 
+}
+
+function applyPixels(count, pureColor) 
+{   if (blendWeight === 0) 
+    {   for (let i = 0; i < count; i++) 
+        {   const x = (1 + Math.random() * (width - 2)) | 0;
+            const y = (1 + Math.random() * (height - 2)) | 0;
+            buffer[y * width + x] = pureColor; } 
+    }
+    else 
+    {   const invW = 1 - blendWeight;
+        const cR = pureColor & 0xFF;
+        const cG = (pureColor >> 8) & 0xFF;
+        const cB = (pureColor >> 16) & 0xFF;
+
+        for (let i = 0; i < count; i++) 
+        {   const x = (1 + Math.random() * (width - 2)) | 0;
+            const y = (1 + Math.random() * (height - 2)) | 0;
+            const idx = y * width + x;
+
+            const n1 = buffer[idx - width - 1];
+            const n2 = buffer[idx - width];
+            const n3 = buffer[idx - width + 1];
+            const n4 = buffer[idx - 1];
+            const n5 = buffer[idx + 1];
+            const n6 = buffer[idx + width - 1];
+            const n7 = buffer[idx + width];
+            const n8 = buffer[idx + width + 1];
+
+            const sumR = (n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF) + (n5 & 0xFF) + (n6 & 0xFF) + (n7 & 0xFF) + (n8 & 0xFF);
+            const sumG = ((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF) + ((n5 >> 8) & 0xFF) + ((n6 >> 8) & 0xFF) + ((n7 >> 8) & 0xFF) + ((n8 >> 8) & 0xFF);
+            const sumB = ((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF) + ((n5 >> 16) & 0xFF) + ((n6 >> 16) & 0xFF) + ((n7 >> 16) & 0xFF) + ((n8 >> 16) & 0xFF);
+
+            const avgR = sumR >> 3;
+            const avgG = sumG >> 3;
+            const avgB = sumB >> 3;
+
+            const finalR = (cR * invW + avgR * blendWeight) | 0;
+            const finalG = (cG * invW + avgG * blendWeight) | 0;
+            const finalB = (cB * invW + avgB * blendWeight) | 0;
+
+            buffer[idx] = 0xFF000000 | (finalB << 16) | (finalG << 8) | finalR; } 
+    }
+}
+
+function runDiffusion()
+{   tempBuffer.set(buffer);
+
+    for (let y = 1; y < height - 1; y++) 
+    {   let idx = y * width + 1;
+        for (let x = 1; x < width - 1; x++) 
+        {   const up = tempBuffer[idx - width];
+            const down = tempBuffer[idx + width];
+            const left = tempBuffer[idx - 1];
+            const right = tempBuffer[idx + 1];
+
+            const avgR = ((up & 0xFF) + (down & 0xFF) + (left & 0xFF) + (right & 0xFF)) >> 2;
+            const avgG = (((up >> 8) & 0xFF) + ((down >> 8) & 0xFF) + ((left >> 8) & 0xFF) + ((right >> 8) & 0xFF)) >> 2;
+            const avgB = (((up >> 16) & 0xFF) + ((down >> 16) & 0xFF) + ((left >> 16) & 0xFF) + ((right >> 16) & 0xFF)) >> 2;
+
+            buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
+            idx++; } }
+
+    for (let y = 0; y < height; y++) 
+    {   buffer[y * width] = buffer[y * width + 1];
+        buffer[y * width + width - 1] = buffer[y * width + width - 2]; }
+
+    for (let x = 0; x < width; x++) 
+    {   buffer[x] = buffer[width + x];
+        buffer[(height - 1) * width + x] = buffer[(height - 2) * width + x]; }
+
+    frozenPixels.forEach
+    (fp => 
+    {   buffer[fp.idx] = fp.color; }
+    );
+}
 
 function animate() 
-{   for (let i = 0; i < kSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_K; }
-
-    for (let i = 0; i < mSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_M; }
-
-    for (let i = 0; i < bSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_B; }
-
-    for (let i = 0; i < cSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_C; }
-
-    for (let i = 0; i < gSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_G; }
-
-    for (let i = 0; i < ySpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_Y; }
-
-    for (let i = 0; i < rSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_R; }
-
-    for (let i = 0; i < wSpeed; i++) 
-    {   buffer[(Math.random() * totalPixels) | 0] = COLOR_W; }
+{   if (isDiffusing)
+    {   runDiffusion(); }
+    else
+    {   applyPixels(kSpeed, COLOR_K);
+        applyPixels(bSpeed, COLOR_B);
+        applyPixels(cSpeed, COLOR_C);
+        applyPixels(gSpeed, COLOR_G);
+        applyPixels(ySpeed, COLOR_Y);
+        applyPixels(rSpeed, COLOR_R);
+        applyPixels(wSpeed, COLOR_W);
+        applyPixels(mSpeed, COLOR_M); }
 
     ctx.putImageData(imgData, 0, 0);
-    requestAnimationFrame(animate);
-}
+    requestAnimationFrame(animate); }
 
 resize();
 animate();
@@ -302,9 +415,6 @@ input[type=range]::-moz-range-thumb
 .black-slider::-webkit-slider-thumb { background: #000000; border: 1px solid #ffffff; }
 .black-slider::-moz-range-thumb { background: #000000; border: 1px solid #ffffff; }
 
-.magenta-slider::-webkit-slider-thumb { background: #ff44ff; }
-.magenta-slider::-moz-range-thumb { background: #ff44ff; }
-
 .blue-slider::-webkit-slider-thumb { background: #4444ff; }
 .blue-slider::-moz-range-thumb { background: #4444ff; }
 
@@ -322,6 +432,33 @@ input[type=range]::-moz-range-thumb
 
 .white-slider::-webkit-slider-thumb { background: #ffffff; }
 .white-slider::-moz-range-thumb { background: #ffffff; }
+
+.magenta-slider::-webkit-slider-thumb { background: #ff44ff; }
+.magenta-slider::-moz-range-thumb { background: #ff44ff; }
+
+.blend-slider::-webkit-slider-thumb { background: #ffffff; }
+.blend-slider::-moz-range-thumb { background: #ffffff; }
+
+button 
+{   cursor: pointer; 
+    padding: 12px 10px; 
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 8px; 
+    border: 1px solid #ffffff;
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #ffffff;
+    font-weight: bold; 
+    font-size: 14px;
+    transition: all 0.2s; 
+    text-transform: uppercase;
+    user-select: none; 
+    -webkit-tap-highlight-color: transparent; }
+
+button.active 
+{   background-color: #ffffff; 
+    color: #000;
+    box-shadow: 0 0 10px #ffffff; }
 
 #controls::-webkit-scrollbar 
 {   width: 6px; }
