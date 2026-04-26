@@ -27,15 +27,15 @@
     <div id="controls">
         <div class="control-group">
             <label for="kRate">Black</label>
-            <input type="range" id="kRate" class="black-slider" min="0" max="100" value="50">
+            <input type="range" id="kRate" class="black-slider" min="0" max="100" value="33">
         </div>
         <div class="control-group">
             <label for="bRate">Blue</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="66">
         </div>
         <div class="control-group">
             <label for="cRate">Cyan</label>
-            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="22">
+            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="33">
         </div>
         <div class="control-group">
             <label for="gRate">Green</label>
@@ -51,7 +51,7 @@
         </div>
         <div class="control-group">
             <label for="mRate">Magenta</label>
-            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="0">
+            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="33">
         </div>
         <div class="control-group">
             <label for="wRate">White</label>
@@ -410,6 +410,12 @@ a
     margin: 0;
     text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
     color: rgb(0, 255, 255); }
+
+a:hover
+{   color: rgb(0, 255, 000); }
+
+a:active
+{   color: rgb(255, 255, 000); }
 
 #controls 
 {   pointer-events: auto;
