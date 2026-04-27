@@ -1,99 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="alecgargett.net - A personal website created by Alec Gargett"
+        />
 
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="alecgargett.net - A personal website created by Alec Gargett">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
+            rel="stylesheet"
+        />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+        <meta property="og:title" content=">alecgargett.net - Alec Garget" />
+        <meta
+            property="og:description"
+            content="alecgargett.net - A personal website created by Alec Gargett"
+        />
+        <meta property="og:url" content="https://alecgargett.net" />
 
-<meta property="og:title" content=">alecgargett.net - Alec Garget">
-<meta property="og:description" content="alecgargett.net - A personal website created by Alec Gargett">
-<meta property="og:url" content="https://alecgargett.net">
+        <title>alecgargett.net - Alec Gargett</title>
+        <base target="_blank" />
+    </head>
 
-<title>alecgargett.net - Alec Gargett</title>
-<base target="_blank">
-</head>
+    <body>
+        <h1>alecgargett.net</h1>
 
-<body>
+        <div id="ui-layer">
+            <div id="controls">
+                <div class="control-group">
+                    <label for="kRate">Black</label>
+                    <input
+                        type="range"
+                        id="kRate"
+                        class="black-slider"
+                        min="0"
+                        max="100"
+                        value="33"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="bRate">Blue</label>
+                    <input
+                        type="range"
+                        id="bRate"
+                        class="blue-slider"
+                        min="0"
+                        max="100"
+                        value="66"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="cRate">Cyan</label>
+                    <input
+                        type="range"
+                        id="cRate"
+                        class="cyan-slider"
+                        min="0"
+                        max="100"
+                        value="33"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="gRate">Green</label>
+                    <input
+                        type="range"
+                        id="gRate"
+                        class="green-slider"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="yRate">Yellow</label>
+                    <input
+                        type="range"
+                        id="yRate"
+                        class="yellow-slider"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="rRate">Red</label>
+                    <input
+                        type="range"
+                        id="rRate"
+                        class="red-slider"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="mRate">Magenta</label>
+                    <input
+                        type="range"
+                        id="mRate"
+                        class="magenta-slider"
+                        min="0"
+                        max="100"
+                        value="33"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="wRate">White</label>
+                    <input
+                        type="range"
+                        id="wRate"
+                        class="white-slider"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="blendRate">Blend</label>
+                    <input
+                        type="range"
+                        id="blendRate"
+                        class="blend-slider"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="diffuseRate">Diffuse</label>
+                    <input
+                        type="range"
+                        id="diffuseRate"
+                        class="diffuse-slider"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                </div>
+            </div>
+            <!--/controls-->
 
-<h1>alecgargett.net</h1>
+            <section
+                class="hero-spacer"
+                style="min-height: 20vh"
+                aria-hidden="true"
+            ></section>
 
-<div id="ui-layer">
+            <nav class="header-area" id="main-nav">
+                <a href="arts.html">Arts</a>
+            </nav>
 
-    <div id="controls">
-        <div class="control-group">
-            <label for="kRate">Black</label>
-            <input type="range" id="kRate" class="black-slider" min="0" max="100" value="33">
+            <section
+                class="hero-spacer"
+                style="min-height: 20vh"
+                aria-hidden="true"
+            ></section>
+
+            <nav class="header-area" id="main-nav-2">
+                <a href="CV.html">CV</a>
+            </nav>
+
+            <section
+                class="hero-spacer"
+                style="min-height: 20vh"
+                aria-hidden="true"
+            ></section>
+
+            <nav class="header-area" id="main-nav-2">
+                <a href="campaign_archive.html">Campaign archive</a>
+            </nav>
         </div>
-        <div class="control-group">
-            <label for="bRate">Blue</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="66">
-        </div>
-        <div class="control-group">
-            <label for="cRate">Cyan</label>
-            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="33">
-        </div>
-        <div class="control-group">
-            <label for="gRate">Green</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="0">
-        </div>
-        <div class="control-group">
-            <label for="yRate">Yellow</label>
-            <input type="range" id="yRate" class="yellow-slider" min="0" max="100" value="0">
-        </div>
-        <div class="control-group">
-            <label for="rRate">Red</label>
-            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="0">
-        </div>
-        <div class="control-group">
-            <label for="mRate">Magenta</label>
-            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="33">
-        </div>
-        <div class="control-group">
-            <label for="wRate">White</label>
-            <input type="range" id="wRate" class="white-slider" min="0" max="100" value="0">
-        </div>
-        <div class="control-group">
-            <label for="blendRate">Blend</label>
-            <input type="range" id="blendRate" class="blend-slider" min="0" max="100" value="0">
-        </div>
-        <div class="control-group">
-            <label for="diffuseRate">Diffuse</label>
-            <input type="range" id="diffuseRate" class="diffuse-slider" min="0" max="100" value="0">
-        </div>
-    </div> <!--/controls-->
+        <!--/ui-layer-->
 
-    <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
-    </section>
+        <canvas id="noiseCanvas"></canvas>
+        <!--/noiseCanvas-->
+    </body>
 
-    <nav class="header-area" id="main-nav">
-        <!-- <a href="#politics-nav">Politics</a> -->
-        <a href="arts.html">Arts</a>
-    </nav>
-
-    <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
-    </section>
-
-    <nav class="header-area" id="main-nav-2">
-        <!-- <a href="#politics-nav">Politics</a> -->
-        <a href="CV.html">CV</a>
-    </nav>
-
-</div> <!--/ui-layer-->
-
-<canvas id="noiseCanvas"></canvas> <!--/noiseCanvas-->
-
-</body>
-
-<tail>
-
-<script>
-
-/*
+    <tail>
+        <script>
+            /*
 =========================================================
 PROMPT:
 1. Add a "Start Diffusion" slider to the #controls div with
@@ -101,425 +190,547 @@ PROMPT:
 2. When the slider is above 0, toggle an "isDiffusing" state.
 3. If diffusing:
    - STOP the existing noise generation (applyPixels).
-   - "Freeze" 16 specific pixels: the 4 corners of the canvas 
+   - "Freeze" 16 specific pixels: the 4 corners of the canvas
      AND 12 other pixels at random coordinates.
-   - These 16 pixels must capture the EXACT colors currently 
+   - These 16 pixels must capture the EXACT colors currently
      rendered on the canvas at their specific coordinates.
-   - Run an algorithm that randomly updates other pixels on the 
+   - Run an algorithm that randomly updates other pixels on the
      page to be a weighted average of the nearest two fixed pixels
      according to how close each of them is. The rate at which
      pixels are updated in this way is determined by the slider
      position.
-   - The goal is to create a perfectly smooth, fluid gradient 
-     transition that fills the entire screen, anchored by 
+   - The goal is to create a perfectly smooth, fluid gradient
+     transition that fills the entire screen, anchored by
      the 16 frozen seed colors.
 =========================================================
 */
 
-(function()
-
-{
-const canvas = document.getElementById('noiseCanvas');
-const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
-
-const inputs =
-{   k: document.getElementById('kRate'),
-    b: document.getElementById('bRate'),
-    c: document.getElementById('cRate'),
-    g: document.getElementById('gRate'),
-    y: document.getElementById('yRate'),
-    r: document.getElementById('rRate'),
-    w: document.getElementById('wRate'),
-    m: document.getElementById('mRate'),
-    blend: document.getElementById('blendRate'),
-    diffuse: document.getElementById('diffuseRate') };
-
-inputs.diffuse.value = 0;
-
-let width, height, totalPixels, imgData, buffer;
-let kSpeed = 0, bSpeed = 0, cSpeed = 0, gSpeed = 0, ySpeed = 0, rSpeed = 0, wSpeed = 0, mSpeed = 0;
-let blendWeight = 0;
-let diffuseSpeed = 0;
-let isDiffusing = false;
-let fixedPixels = [];
-let fixedColors = [];
-let seedMask = new Uint8Array(0);
-let targetBuffer = new Uint32Array(0);
-let revealOrder = [];
-let revealIndex = 0;
-
-const COLOR_K = 0xFF000000; 
-const COLOR_B = 0xFFFF0000; 
-const COLOR_C = 0xFFFFFF00; 
-const COLOR_G = 0xFF00FF00; 
-const COLOR_Y = 0xFF00FFFF; 
-const COLOR_R = 0xFF0000FF; 
-const COLOR_W = 0xFFFFFFFF; 
-const COLOR_M = 0xFFFF00FF; 
-
-Object.values(inputs).forEach
-(input => 
-{   input.addEventListener('input', updateSettings); }
-);
-
-window.addEventListener('resize', resize);
-
-function updateSettings() 
-{   const maxPixels = (totalPixels / 5) | 0;
-
-    const calculateSpeed = (val) =>
-    {   const normalized = parseFloat(val) / 100;
-        return (Math.pow(normalized, 3) * maxPixels) | 0; };
-
-    kSpeed = calculateSpeed(inputs.k.value);
-    bSpeed = calculateSpeed(inputs.b.value);
-    cSpeed = calculateSpeed(inputs.c.value);
-    gSpeed = calculateSpeed(inputs.g.value);
-    ySpeed = calculateSpeed(inputs.y.value);
-    rSpeed = calculateSpeed(inputs.r.value);
-    wSpeed = calculateSpeed(inputs.w.value);
-    mSpeed = calculateSpeed(inputs.m.value);
-    blendWeight = parseFloat(inputs.blend.value) / 100;
-
-    const prevDiffusing = isDiffusing;
-    diffuseSpeed = calculateSpeed(inputs.diffuse.value);
-    isDiffusing = inputs.diffuse.value > 0;
-
-    if (isDiffusing && !prevDiffusing) 
-    {   freezePixels(); }
-
-    const updateTrack = (el, activeColor, dimColor) =>
-    {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
-        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
-
-    updateTrack(inputs.k, '#444444', 'rgba(68, 68, 68, 0.2)');
-    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
-    updateTrack(inputs.c, '#44ffff', 'rgba(68, 255, 255, 0.2)');
-    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
-    updateTrack(inputs.y, '#ffff44', 'rgba(255, 255, 68, 0.2)');
-    updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
-    updateTrack(inputs.w, '#ffffff', 'rgba(255, 255, 255, 0.2)');
-    updateTrack(inputs.m, '#ff44ff', 'rgba(255, 68, 255, 0.2)');
-    updateTrack(inputs.blend, '#ffffff', 'rgba(255, 255, 255, 0.2)');
-    updateTrack(inputs.diffuse, '#ff8800', 'rgba(255, 136, 0, 0.2)');
-}
-
-function resize() 
-{   width = window.innerWidth;
-    height = window.innerHeight;
-    totalPixels = width * height;
-    canvas.width = width;
-    canvas.height = height;
-    imgData = ctx.createImageData(width, height);
-    buffer = new Uint32Array(imgData.data.buffer);
-    buffer.fill(0xFF000000);
-    updateSettings();
-    if (isDiffusing) 
-    {   freezePixels(); } }
-
-function freezePixels() 
-{   fixedPixels = [];
-    fixedColors = [];
-    seedMask = new Uint8Array(totalPixels);
-
-    fixedPixels.push({ x: 0, y: 0 });
-    fixedPixels.push({ x: width - 1, y: 0 });
-    fixedPixels.push({ x: 0, y: height - 1 });
-    fixedPixels.push({ x: width - 1, y: height - 1 });
-
-    for (let i = 0; i < 22; i++) 
-    {   const rx = (Math.random() * width) | 0;
-        const ry = (Math.random() * height) | 0;
-        fixedPixels.push({ x: rx, y: ry }); }
-
-    for (let i = 0; i < fixedPixels.length; i++) 
-    {   const p = fixedPixels[i];
-        const idx = p.y * width + p.x;
-        fixedColors.push(buffer[idx]);
-        seedMask[idx] = 1; }
-
-    computeTargetBuffer();
-    shuffleRevealOrder(); }
-
-function computeTargetBuffer() 
-{   targetBuffer = new Uint32Array(totalPixels);
-
-    for (let y = 0; y < height; y++) 
-    {   for (let x = 0; x < width; x++) 
-        {   const idx = y * width + x;
-
-            if (seedMask[idx]) 
-            {   targetBuffer[idx] = buffer[idx];
-                continue; }
-
-            let sumR = 0, sumG = 0, sumB = 0, totalWeight = 0;
-
-            for (let s = 0; s < fixedPixels.length; s++) 
-            {   const fp = fixedPixels[s];
-                const dx = x - fp.x;
-                const dy = y - fp.y;
-                const distSq = dx * dx + dy * dy;
-
-                if (distSq === 0) continue;
-
-                const weight = 1 / distSq;
-                const c = fixedColors[s];
-
-                sumR += (c & 0xFF) * weight;
-                sumG += ((c >> 8) & 0xFF) * weight;
-                sumB += ((c >> 16) & 0xFF) * weight;
-                totalWeight += weight; }
-
-            const finalR = (sumR / totalWeight) | 0;
-            const finalG = (sumG / totalWeight) | 0;
-            const finalB = (sumB / totalWeight) | 0;
-
-            targetBuffer[idx] = 0xFF000000 | (finalB << 16) | (finalG << 8) | finalR; } } }
-
-function shuffleRevealOrder() 
-{   revealOrder = [];
-
-    for (let i = 0; i < totalPixels; i++) 
-    {   if (!seedMask[i]) revealOrder.push(i); }
-
-    for (let i = revealOrder.length - 1; i > 0; i--) 
-    {   const j = (Math.random() * (i + 1)) | 0;
-        const temp = revealOrder[i];
-        revealOrder[i] = revealOrder[j];
-        revealOrder[j] = temp; }
-
-    revealIndex = 0; }
-
-function applyDiffusion() 
-{   const endIndex = Math.min(revealIndex + diffuseSpeed, revealOrder.length);
-
-    for (let i = revealIndex; i < endIndex; i++) 
-    {   const idx = revealOrder[i];
-        buffer[idx] = targetBuffer[idx]; }
-
-    revealIndex = endIndex; }
-
-function applyPixels(count, pureColor) 
-{   if (blendWeight === 0) 
-    {   for (let i = 0; i < count; i++) 
-        {   const x = (Math.random() * width) | 0;
-            const y = (Math.random() * height) | 0;
-            buffer[y * width + x] = pureColor; } 
-    }
-    else 
-    {   const invW = 1 - blendWeight;
-        const cR = pureColor & 0xFF;
-        const cG = (pureColor >> 8) & 0xFF;
-        const cB = (pureColor >> 16) & 0xFF;
-
-        for (let i = 0; i < count; i++) 
-        {   const x = (1 + Math.random() * (width - 2)) | 0;
-            const y = (1 + Math.random() * (height - 2)) | 0;
-            const idx = y * width + x;
-
-            const n1 = buffer[idx - width];
-            const n2 = buffer[idx + width];
-            const n3 = buffer[idx - 1];
-            const n4 = buffer[idx + 1];
-
-            const sumR = (n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF);
-            const sumG = ((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF);
-            const sumB = ((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF);
-
-            const avgR = sumR >> 2;
-            const avgG = sumG >> 2;
-            const avgB = sumB >> 2;
-
-            const finalR = (cR * invW + avgR * blendWeight) | 0;
-            const finalG = (cG * invW + avgG * blendWeight) | 0;
-            const finalB = (cB * invW + avgB * blendWeight) | 0;
-
-            buffer[idx] = 0xFF000000 | (finalB << 16) | (finalG << 8) | finalR; } 
-    }
-}
-
-function animate() 
-{   if (!isDiffusing) 
-    {   applyPixels(kSpeed, COLOR_K);
-        applyPixels(bSpeed, COLOR_B);
-        applyPixels(cSpeed, COLOR_C);
-        applyPixels(gSpeed, COLOR_G);
-        applyPixels(ySpeed, COLOR_Y);
-        applyPixels(rSpeed, COLOR_R);
-        applyPixels(wSpeed, COLOR_W);
-        applyPixels(mSpeed, COLOR_M); }
-    else if (revealIndex < revealOrder.length) 
-    {   applyDiffusion(); }
-
-    ctx.putImageData(imgData, 0, 0);
-    requestAnimationFrame(animate);
-}
-
-resize();
-animate();
-}
-
-)
-();
-
-</script>
-
-<style>
-
-:root 
-{   --ui-color: rgb(0, 255, 255); }
-
-html
-{   background-color: #000; }
-
-body 
-{   margin: 0; 
-    padding: 0; 
-    width: 100%; 
-    background-color: transparent; 
-    color: var(--ui-color); 
-    font-family: Silkscreen, 'Courier New', Courier, monospace, sans-serif;
-    text-align: center;
-    transition: color 0.1s; }
-
-canvas 
-{   display: block; 
-    position: fixed; 
-    top: 0; 
-    left: 0;
-    width: 100%; 
-    height: 100%; 
-    z-index: -1; }
-
-#ui-layer 
-{   width: 100%; 
-    pointer-events: none; 
-    z-index: 10; }
-
-.header-area 
-{   display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    width: 100%; 
-    pointer-events: auto; }
-
-a 
-{   font-size: 9vw; 
-    line-height: 1.2; 
-    margin: 0;
-    text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
-    color: rgb(0, 255, 255); }
-
-a:hover
-{   color: rgb(0, 255, 000); }
-
-a:active
-{   color: rgb(255, 255, 000); }
-
-#controls 
-{   pointer-events: auto;
-    background-color: rgba(0, 0, 0, 0.85);
-    padding: 20px; 
-    border-radius: 15px; 
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    display: flex; 
-    flex-direction: column; 
-    gap: 12px; 
-    align-items: center;
-    width: 90%; 
-    max-width: 350px; 
-    margin: 20px auto;
-    overflow-y: auto; }
-
-.control-group 
-{   width: 100%;
-    display: flex;
-    flex-direction: column; }
-
-.control-group label 
-{   font-size: 10px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 2px; }
-
-input[type=range] 
-{   -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer; 
-    width: 100%; 
-    display: block; 
-    margin: 10px 0; 
-    height: 4px; 
-    border-radius: 2px;
-    outline: none; }
-
-input[type=range]::-webkit-slider-thumb 
-{   -webkit-appearance: none;
-    appearance: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    border: none; }
-
-input[type=range]::-moz-range-thumb 
-{   height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    border: none; }
-
-.black-slider::-webkit-slider-thumb { background: #000000; border: 1px solid #ffffff; }
-.black-slider::-moz-range-thumb { background: #000000; border: 1px solid #ffffff; }
-
-.blue-slider::-webkit-slider-thumb { background: #4444ff; }
-.blue-slider::-moz-range-thumb { background: #4444ff; }
-
-.cyan-slider::-webkit-slider-thumb { background: #44ffff; }
-.cyan-slider::-moz-range-thumb { background: #44ffff; }
-
-.green-slider::-webkit-slider-thumb { background: #44ff44; }
-.green-slider::-moz-range-thumb { background: #44ff44; }
-
-.yellow-slider::-webkit-slider-thumb { background: #ffff44; }
-.yellow-slider::-moz-range-thumb { background: #ffff44; }
-
-.red-slider::-webkit-slider-thumb { background: #ff4444; }
-.red-slider::-moz-range-thumb { background: #ff4444; }
-
-.white-slider::-webkit-slider-thumb { background: #ffffff; }
-.white-slider::-moz-range-thumb { background: #ffffff; }
-
-.magenta-slider::-webkit-slider-thumb { background: #ff44ff; }
-.magenta-slider::-moz-range-thumb { background: #ff44ff; }
-
-.blend-slider::-webkit-slider-thumb { background: #ffffff; }
-.blend-slider::-moz-range-thumb { background: #ffffff; }
-
-.diffuse-slider::-webkit-slider-thumb { background: #ff8800; }
-.diffuse-slider::-moz-range-thumb { background: #ff8800; }
-
-#controls::-webkit-scrollbar 
-{   width: 6px; }
-
-#controls::-webkit-scrollbar-track 
-{   background: rgba(255,255,255,0.1); 
-    border-radius: 3px; }
-
-#controls::-webkit-scrollbar-thumb 
-{   background: rgba(255,255,255,0.3); 
-    border-radius: 3px; }
-
-</style>
-
-<!--
+            (function () {
+                const canvas = document.getElementById("noiseCanvas");
+                const ctx = canvas.getContext("2d", {
+                    alpha: false,
+                    desynchronized: true,
+                });
+
+                const inputs = {
+                    k: document.getElementById("kRate"),
+                    b: document.getElementById("bRate"),
+                    c: document.getElementById("cRate"),
+                    g: document.getElementById("gRate"),
+                    y: document.getElementById("yRate"),
+                    r: document.getElementById("rRate"),
+                    w: document.getElementById("wRate"),
+                    m: document.getElementById("mRate"),
+                    blend: document.getElementById("blendRate"),
+                    diffuse: document.getElementById("diffuseRate"),
+                };
+
+                inputs.diffuse.value = 0;
+
+                let width, height, totalPixels, imgData, buffer;
+                let kSpeed = 0,
+                    bSpeed = 0,
+                    cSpeed = 0,
+                    gSpeed = 0,
+                    ySpeed = 0,
+                    rSpeed = 0,
+                    wSpeed = 0,
+                    mSpeed = 0;
+                let blendWeight = 0;
+                let diffuseSpeed = 0;
+                let isDiffusing = false;
+                let fixedPixels = [];
+                let fixedColors = [];
+                let seedMask = new Uint8Array(0);
+                let targetBuffer = new Uint32Array(0);
+                let revealOrder = [];
+                let revealIndex = 0;
+
+                const COLOR_K = 0xff000000;
+                const COLOR_B = 0xffff0000;
+                const COLOR_C = 0xffffff00;
+                const COLOR_G = 0xff00ff00;
+                const COLOR_Y = 0xff00ffff;
+                const COLOR_R = 0xff0000ff;
+                const COLOR_W = 0xffffffff;
+                const COLOR_M = 0xffff00ff;
+
+                Object.values(inputs).forEach((input) => {
+                    input.addEventListener("input", updateSettings);
+                });
+
+                window.addEventListener("resize", resize);
+
+                function updateSettings() {
+                    const maxPixels = (totalPixels / 5) | 0;
+
+                    const calculateSpeed = (val) => {
+                        const normalized = parseFloat(val) / 100;
+                        return (Math.pow(normalized, 3) * maxPixels) | 0;
+                    };
+
+                    kSpeed = calculateSpeed(inputs.k.value);
+                    bSpeed = calculateSpeed(inputs.b.value);
+                    cSpeed = calculateSpeed(inputs.c.value);
+                    gSpeed = calculateSpeed(inputs.g.value);
+                    ySpeed = calculateSpeed(inputs.y.value);
+                    rSpeed = calculateSpeed(inputs.r.value);
+                    wSpeed = calculateSpeed(inputs.w.value);
+                    mSpeed = calculateSpeed(inputs.m.value);
+                    blendWeight = parseFloat(inputs.blend.value) / 100;
+
+                    const prevDiffusing = isDiffusing;
+                    diffuseSpeed = calculateSpeed(inputs.diffuse.value);
+                    isDiffusing = inputs.diffuse.value > 0;
+
+                    if (isDiffusing && !prevDiffusing) {
+                        freezePixels();
+                    }
+
+                    const updateTrack = (el, activeColor, dimColor) => {
+                        const pct =
+                            ((el.value - el.min) / (el.max - el.min)) * 100;
+                        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
+                    };
+
+                    updateTrack(inputs.k, "#444444", "rgba(68, 68, 68, 0.2)");
+                    updateTrack(inputs.b, "#4444ff", "rgba(68, 68, 255, 0.2)");
+                    updateTrack(inputs.c, "#44ffff", "rgba(68, 255, 255, 0.2)");
+                    updateTrack(inputs.g, "#44ff44", "rgba(68, 255, 68, 0.2)");
+                    updateTrack(inputs.y, "#ffff44", "rgba(255, 255, 68, 0.2)");
+                    updateTrack(inputs.r, "#ff4444", "rgba(255, 68, 68, 0.2)");
+                    updateTrack(
+                        inputs.w,
+                        "#ffffff",
+                        "rgba(255, 255, 255, 0.2)",
+                    );
+                    updateTrack(inputs.m, "#ff44ff", "rgba(255, 68, 255, 0.2)");
+                    updateTrack(
+                        inputs.blend,
+                        "#ffffff",
+                        "rgba(255, 255, 255, 0.2)",
+                    );
+                    updateTrack(
+                        inputs.diffuse,
+                        "#ff8800",
+                        "rgba(255, 136, 0, 0.2)",
+                    );
+                }
+
+                function resize() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    totalPixels = width * height;
+                    canvas.width = width;
+                    canvas.height = height;
+                    imgData = ctx.createImageData(width, height);
+                    buffer = new Uint32Array(imgData.data.buffer);
+                    buffer.fill(0xff000000);
+                    updateSettings();
+                    if (isDiffusing) {
+                        freezePixels();
+                    }
+                }
+
+                function freezePixels() {
+                    fixedPixels = [];
+                    fixedColors = [];
+                    seedMask = new Uint8Array(totalPixels);
+
+                    fixedPixels.push({ x: 0, y: 0 });
+                    fixedPixels.push({ x: width - 1, y: 0 });
+                    fixedPixels.push({ x: 0, y: height - 1 });
+                    fixedPixels.push({ x: width - 1, y: height - 1 });
+
+                    for (let i = 0; i < 22; i++) {
+                        const rx = (Math.random() * width) | 0;
+                        const ry = (Math.random() * height) | 0;
+                        fixedPixels.push({ x: rx, y: ry });
+                    }
+
+                    for (let i = 0; i < fixedPixels.length; i++) {
+                        const p = fixedPixels[i];
+                        const idx = p.y * width + p.x;
+                        fixedColors.push(buffer[idx]);
+                        seedMask[idx] = 1;
+                    }
+
+                    computeTargetBuffer();
+                    shuffleRevealOrder();
+                }
+
+                function computeTargetBuffer() {
+                    targetBuffer = new Uint32Array(totalPixels);
+
+                    for (let y = 0; y < height; y++) {
+                        for (let x = 0; x < width; x++) {
+                            const idx = y * width + x;
+
+                            if (seedMask[idx]) {
+                                targetBuffer[idx] = buffer[idx];
+                                continue;
+                            }
+
+                            let sumR = 0,
+                                sumG = 0,
+                                sumB = 0,
+                                totalWeight = 0;
+
+                            for (let s = 0; s < fixedPixels.length; s++) {
+                                const fp = fixedPixels[s];
+                                const dx = x - fp.x;
+                                const dy = y - fp.y;
+                                const distSq = dx * dx + dy * dy;
+
+                                if (distSq === 0) continue;
+
+                                const weight = 1 / distSq;
+                                const c = fixedColors[s];
+
+                                sumR += (c & 0xff) * weight;
+                                sumG += ((c >> 8) & 0xff) * weight;
+                                sumB += ((c >> 16) & 0xff) * weight;
+                                totalWeight += weight;
+                            }
+
+                            const finalR = (sumR / totalWeight) | 0;
+                            const finalG = (sumG / totalWeight) | 0;
+                            const finalB = (sumB / totalWeight) | 0;
+
+                            targetBuffer[idx] =
+                                0xff000000 |
+                                (finalB << 16) |
+                                (finalG << 8) |
+                                finalR;
+                        }
+                    }
+                }
+
+                function shuffleRevealOrder() {
+                    revealOrder = [];
+
+                    for (let i = 0; i < totalPixels; i++) {
+                        if (!seedMask[i]) revealOrder.push(i);
+                    }
+
+                    for (let i = revealOrder.length - 1; i > 0; i--) {
+                        const j = (Math.random() * (i + 1)) | 0;
+                        const temp = revealOrder[i];
+                        revealOrder[i] = revealOrder[j];
+                        revealOrder[j] = temp;
+                    }
+
+                    revealIndex = 0;
+                }
+
+                function applyDiffusion() {
+                    const endIndex = Math.min(
+                        revealIndex + diffuseSpeed,
+                        revealOrder.length,
+                    );
+
+                    for (let i = revealIndex; i < endIndex; i++) {
+                        const idx = revealOrder[i];
+                        buffer[idx] = targetBuffer[idx];
+                    }
+
+                    revealIndex = endIndex;
+                }
+
+                function applyPixels(count, pureColor) {
+                    if (blendWeight === 0) {
+                        for (let i = 0; i < count; i++) {
+                            const x = (Math.random() * width) | 0;
+                            const y = (Math.random() * height) | 0;
+                            buffer[y * width + x] = pureColor;
+                        }
+                    } else {
+                        const invW = 1 - blendWeight;
+                        const cR = pureColor & 0xff;
+                        const cG = (pureColor >> 8) & 0xff;
+                        const cB = (pureColor >> 16) & 0xff;
+
+                        for (let i = 0; i < count; i++) {
+                            const x = (1 + Math.random() * (width - 2)) | 0;
+                            const y = (1 + Math.random() * (height - 2)) | 0;
+                            const idx = y * width + x;
+
+                            const n1 = buffer[idx - width];
+                            const n2 = buffer[idx + width];
+                            const n3 = buffer[idx - 1];
+                            const n4 = buffer[idx + 1];
+
+                            const sumR =
+                                (n1 & 0xff) +
+                                (n2 & 0xff) +
+                                (n3 & 0xff) +
+                                (n4 & 0xff);
+                            const sumG =
+                                ((n1 >> 8) & 0xff) +
+                                ((n2 >> 8) & 0xff) +
+                                ((n3 >> 8) & 0xff) +
+                                ((n4 >> 8) & 0xff);
+                            const sumB =
+                                ((n1 >> 16) & 0xff) +
+                                ((n2 >> 16) & 0xff) +
+                                ((n3 >> 16) & 0xff) +
+                                ((n4 >> 16) & 0xff);
+
+                            const avgR = sumR >> 2;
+                            const avgG = sumG >> 2;
+                            const avgB = sumB >> 2;
+
+                            const finalR = (cR * invW + avgR * blendWeight) | 0;
+                            const finalG = (cG * invW + avgG * blendWeight) | 0;
+                            const finalB = (cB * invW + avgB * blendWeight) | 0;
+
+                            buffer[idx] =
+                                0xff000000 |
+                                (finalB << 16) |
+                                (finalG << 8) |
+                                finalR;
+                        }
+                    }
+                }
+
+                function animate() {
+                    if (!isDiffusing) {
+                        applyPixels(kSpeed, COLOR_K);
+                        applyPixels(bSpeed, COLOR_B);
+                        applyPixels(cSpeed, COLOR_C);
+                        applyPixels(gSpeed, COLOR_G);
+                        applyPixels(ySpeed, COLOR_Y);
+                        applyPixels(rSpeed, COLOR_R);
+                        applyPixels(wSpeed, COLOR_W);
+                        applyPixels(mSpeed, COLOR_M);
+                    } else if (revealIndex < revealOrder.length) {
+                        applyDiffusion();
+                    }
+
+                    ctx.putImageData(imgData, 0, 0);
+                    requestAnimationFrame(animate);
+                }
+
+                resize();
+                animate();
+            })();
+        </script>
+
+        <style>
+            :root {
+                --ui-color: rgb(0, 255, 255);
+            }
+
+            html {
+                background-color: #000;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                background-color: transparent;
+                color: var(--ui-color);
+                font-family:
+                    Silkscreen, "Courier New", Courier, monospace, sans-serif;
+                text-align: center;
+                transition: color 0.1s;
+            }
+
+            canvas {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+            }
+
+            #ui-layer {
+                width: 100%;
+                pointer-events: none;
+                z-index: 10;
+            }
+
+            .header-area {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                pointer-events: auto;
+            }
+
+            a {
+                font-size: 9vw;
+                line-height: 1.2;
+                margin: 0;
+                text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9);
+                color: rgb(0, 255, 255);
+            }
+
+            a:hover {
+                color: rgb(0, 255, 000);
+            }
+
+            a:active {
+                color: rgb(255, 255, 000);
+            }
+
+            #controls {
+                pointer-events: auto;
+                background-color: rgba(0, 0, 0, 0.85);
+                padding: 20px;
+                border-radius: 15px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(10px);
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+                width: 90%;
+                max-width: 350px;
+                margin: 20px auto;
+                overflow-y: auto;
+            }
+
+            .control-group {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .control-group label {
+                font-size: 10px;
+                text-transform: uppercase;
+                color: #888;
+                margin-bottom: 2px;
+            }
+
+            input[type="range"] {
+                -webkit-appearance: none;
+                appearance: none;
+                cursor: pointer;
+                width: 100%;
+                display: block;
+                margin: 10px 0;
+                height: 4px;
+                border-radius: 2px;
+                outline: none;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                height: 16px;
+                width: 16px;
+                border-radius: 50%;
+                border: none;
+            }
+
+            input[type="range"]::-moz-range-thumb {
+                height: 16px;
+                width: 16px;
+                border-radius: 50%;
+                border: none;
+            }
+
+            .black-slider::-webkit-slider-thumb {
+                background: #000000;
+                border: 1px solid #ffffff;
+            }
+            .black-slider::-moz-range-thumb {
+                background: #000000;
+                border: 1px solid #ffffff;
+            }
+
+            .blue-slider::-webkit-slider-thumb {
+                background: #4444ff;
+            }
+            .blue-slider::-moz-range-thumb {
+                background: #4444ff;
+            }
+
+            .cyan-slider::-webkit-slider-thumb {
+                background: #44ffff;
+            }
+            .cyan-slider::-moz-range-thumb {
+                background: #44ffff;
+            }
+
+            .green-slider::-webkit-slider-thumb {
+                background: #44ff44;
+            }
+            .green-slider::-moz-range-thumb {
+                background: #44ff44;
+            }
+
+            .yellow-slider::-webkit-slider-thumb {
+                background: #ffff44;
+            }
+            .yellow-slider::-moz-range-thumb {
+                background: #ffff44;
+            }
+
+            .red-slider::-webkit-slider-thumb {
+                background: #ff4444;
+            }
+            .red-slider::-moz-range-thumb {
+                background: #ff4444;
+            }
+
+            .white-slider::-webkit-slider-thumb {
+                background: #ffffff;
+            }
+            .white-slider::-moz-range-thumb {
+                background: #ffffff;
+            }
+
+            .magenta-slider::-webkit-slider-thumb {
+                background: #ff44ff;
+            }
+            .magenta-slider::-moz-range-thumb {
+                background: #ff44ff;
+            }
+
+            .blend-slider::-webkit-slider-thumb {
+                background: #ffffff;
+            }
+            .blend-slider::-moz-range-thumb {
+                background: #ffffff;
+            }
+
+            .diffuse-slider::-webkit-slider-thumb {
+                background: #ff8800;
+            }
+            .diffuse-slider::-moz-range-thumb {
+                background: #ff8800;
+            }
+
+            #controls::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            #controls::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+            }
+
+            #controls::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 3px;
+            }
+        </style>
+
+        <!--
 =========================================================
     CUSTOM FORMATTING STYLE GUIDE
 =========================================================
 
 1. HTML PRINCIPLES
-   - Root structure: Direct children of <body>, <head>, 
+   - Root structure: Direct children of <body>, <head>,
      and <tail> have zero indentation (flush left).
    - Nesting: Deeper nested elements use 4-space indentation.
    - Closing Tags: Structural closing tags (like </div>) for
@@ -527,25 +738,25 @@ input[type=range]::-moz-range-thumb
      followed by a comment denoting the id or class.
      Example: </div> <!--/container-id...>
      (Note: Close the comment properly instead of the elipsis)
-   - Custom Tags: <script> and <style> blocks are wrapped 
+   - Custom Tags: <script> and <style> blocks are wrapped
      in a custom <tail> tag at the end of the document.
 
 2. CSS PRINCIPLES
    - Multi-line Blocks:
      * Selector goes on line 1.
      * Opening '{' goes on a new line.
-     * Exactly 3 spaces follow the '{' on the same line, 
+     * Exactly 3 spaces follow the '{' on the same line,
        immediately followed by the first property.
-     * Subsequent properties go on new lines, indented 
+     * Subsequent properties go on new lines, indented
        by 4 spaces to align with the first property.
-     * Closing '}' goes on the SAME line as the last 
+     * Closing '}' goes on the SAME line as the last
        property, separated by exactly 1 space.
        Example:
-       body 
-       {   margin: 0; 
+       body
+       {   margin: 0;
            padding: 0; }
 
-   - Single-line Blocks: Kept entirely on one line with 
+   - Single-line Blocks: Kept entirely on one line with
      1 space of padding inside the braces.
      Example: .class { color: #fff; }
 
@@ -556,32 +767,30 @@ input[type=range]::-moz-range-thumb
      * Opening '{' on its own isolated line.
      * ZERO indentation for all code immediately nested
        inside this wrapper.
-     * Closing '}' on an isolated line, followed by a blank 
+     * Closing '}' on an isolated line, followed by a blank
        line, ')' on an isolated line, and '();' on the last.
 
    - Standard Block Logic (Functions, Objects, Loops, Ifs):
      * Opening '{' drops to a new line.
-     * Exactly 3 spaces follow the '{' on the same line, 
+     * Exactly 3 spaces follow the '{' on the same line,
        immediately followed by the first statement.
      * Subsequent statements are indented by 4 spaces.
 
    - The Closing Brace Rule (Inner vs. Outer):
-     * Innermost Blocks: If a block contains NO nested 
-       braces inside it, the closing '}' goes on the SAME 
+     * Innermost Blocks: If a block contains NO nested
+       braces inside it, the closing '}' goes on the SAME
        line as the last statement, separated by 1 space.
-     * Outer Blocks: If a block contains nested braces, 
+     * Outer Blocks: If a block contains nested braces,
        the outer block's closing '}' drops to a NEW line.
 
-   - Callbacks and Chained Arguments: 
-     * When a function call involves a callback or long list 
-       (e.g., .addEventListener, .forEach), break the line 
+   - Callbacks and Chained Arguments:
+     * When a function call involves a callback or long list
+       (e.g., .addEventListener, .forEach), break the line
        BEFORE the opening '('.
        Example:
        btn.addEventListener
        ('click', () => ...
 =========================================================
 -->
-
-</tail>
-
+    </tail>
 </html>
