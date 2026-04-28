@@ -27,100 +27,100 @@
     </head>
 
     <body>
-        <h1>alecgargett.net</h1>
+        <h1>alecgargett.com</h1>
 
         <div id="ui-layer">
             <div id="controls">
                 <div class="control-group">
-                    <label for="kRate">Black</label>
+                    <label for="kRate">Black Rate</label>
                     <input
                         type="range"
                         id="kRate"
                         class="black-slider"
                         min="0"
                         max="100"
-                        value="33"
+                        value="8"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="bRate">Blue</label>
+                    <label for="bRate">Blue Rate</label>
                     <input
                         type="range"
                         id="bRate"
                         class="blue-slider"
                         min="0"
                         max="100"
-                        value="66"
+                        value="50"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="cRate">Cyan</label>
+                    <label for="cRate">Cyan Rate</label>
                     <input
                         type="range"
                         id="cRate"
                         class="cyan-slider"
                         min="0"
                         max="100"
-                        value="33"
+                        value="8"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="gRate">Green</label>
+                    <label for="gRate">Green Rate</label>
                     <input
                         type="range"
                         id="gRate"
                         class="green-slider"
                         min="0"
                         max="100"
-                        value="0"
+                        value="8"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="yRate">Yellow</label>
+                    <label for="yRate">Yellow Rate</label>
                     <input
                         type="range"
                         id="yRate"
                         class="yellow-slider"
                         min="0"
                         max="100"
-                        value="0"
+                        value="8"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="rRate">Red</label>
+                    <label for="rRate">Red Rate</label>
                     <input
                         type="range"
                         id="rRate"
                         class="red-slider"
                         min="0"
                         max="100"
-                        value="0"
+                        value="8"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="mRate">Magenta</label>
-                    <input
-                        type="range"
-                        id="mRate"
-                        class="magenta-slider"
-                        min="0"
-                        max="100"
-                        value="33"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="wRate">White</label>
+                    <label for="wRate">White Rate</label>
                     <input
                         type="range"
                         id="wRate"
                         class="white-slider"
                         min="0"
                         max="100"
-                        value="0"
+                        value="8"
                     />
                 </div>
                 <div class="control-group">
-                    <label for="blendRate">Blend</label>
+                    <label for="mRate">Magenta Rate</label>
+                    <input
+                        type="range"
+                        id="mRate"
+                        class="magenta-slider"
+                        min="0"
+                        max="100"
+                        value="8"
+                    />
+                </div>
+                <div class="control-group">
+                    <label for="blendRate">Blend Rate</label>
                     <input
                         type="range"
                         id="blendRate"
@@ -131,7 +131,7 @@
                     />
                 </div>
                 <div class="control-group">
-                    <label for="diffuseRate">Diffuse</label>
+                    <label for="diffuseRate">Start Diffusion</label>
                     <input
                         type="range"
                         id="diffuseRate"
@@ -151,6 +151,7 @@
             ></section>
 
             <nav class="header-area" id="main-nav">
+                <!-- <a href="#politics-nav">Politics</a> -->
                 <a href="arts.html">Arts</a>
             </nav>
 
@@ -161,17 +162,8 @@
             ></section>
 
             <nav class="header-area" id="main-nav-2">
+                <!-- <a href="#politics-nav">Politics</a> -->
                 <a href="CV.html">CV</a>
-            </nav>
-
-            <section
-                class="hero-spacer"
-                style="min-height: 20vh"
-                aria-hidden="true"
-            ></section>
-
-            <nav class="header-area" id="main-nav-2">
-                <a href="campaign_archive.html">Campaign archive</a>
             </nav>
         </div>
         <!--/ui-layer-->
@@ -182,6 +174,29 @@
 
     <tail>
         <script>
+            /*
+=========================================================
+PROMPT:
+1. Add a "Start Diffusion" slider to the #controls div with
+   a default value of 0 at the default position on the far left.
+2. When the slider is above 0, toggle an "isDiffusing" state.
+3. If diffusing:
+   - STOP the existing noise generation (applyPixels).
+   - "Freeze" 16 specific pixels: the 4 corners of the canvas
+     AND 12 other pixels at random coordinates.
+   - These 16 pixels must capture the EXACT colors currently
+     rendered on the canvas at their specific coordinates.
+   - Run an algorithm that randomly updates other pixels on the
+     page to be a weighted average of the nearest two fixed pixels
+     according to how close each of them is. The rate at which
+     pixels are updated in this way is determined by the slider
+     position.
+   - The goal is to create a perfectly smooth, fluid gradient
+     transition that fills the entire screen, anchored by
+     the 16 frozen seed colors.
+=========================================================
+*/
+
             (function () {
                 const canvas = document.getElementById("noiseCanvas");
                 const ctx = canvas.getContext("2d", {
@@ -581,14 +596,6 @@
                 margin: 0;
                 text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9);
                 color: rgb(0, 255, 255);
-            }
-
-            a:hover {
-                color: rgb(0, 255, 000);
-            }
-
-            a:active {
-                color: rgb(255, 255, 000);
             }
 
             #controls {
