@@ -1,743 +1,984 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="alecgargett.net - A personal website created by Alec Gargett"
-        />
+        <head>
+                <meta charset="UTF-8" />
+                <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1.0"
+                />
+                <meta
+                        name="description"
+                        content="alecgargett.net - A personal website created by Alec Gargett"
+                />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
-            rel="stylesheet"
-        />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link
+                        rel="preconnect"
+                        href="https://fonts.gstatic.com"
+                        crossorigin
+                />
+                <link
+                        href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
+                        rel="stylesheet"
+                />
 
-        <meta property="og:title" content=">alecgargett.net - Alec Garget" />
-        <meta
-            property="og:description"
-            content="alecgargett.net - A personal website created by Alec Gargett"
-        />
-        <meta property="og:url" content="https://alecgargett.net" />
+                <meta
+                        property="og:title"
+                        content=">alecgargett.net - Alec Garget"
+                />
+                <meta
+                        property="og:description"
+                        content="alecgargett.net - A personal website created by Alec Gargett"
+                />
+                <meta property="og:url" content="https://alecgargett.net" />
 
-        <title>alecgargett.net - Alec Gargett</title>
-        <base target="_blank" />
-    </head>
+                <title>alecgargett.net - Alec Gargett</title>
+                <base target="_blank" />
+        </head>
 
-    <body>
-        <h1>alecgargett.net</h1>
+        <body>
+                <h1>alecgargett.net</h1>
 
-        <div id="ui-layer">
-            <div id="controls">
-                <div class="control-group">
-                    <label for="kRate">Black</label>
-                    <input
-                        type="range"
-                        id="kRate"
-                        class="black-slider"
-                        min="0"
-                        max="100"
-                        value="33"
-                    />
+                <div id="ui-layer">
+                        <div id="controls">
+                                <div class="control-group">
+                                        <label for="kRate">Black</label>
+                                        <input
+                                                type="range"
+                                                id="kRate"
+                                                class="black-slider"
+                                                min="0"
+                                                max="100"
+                                                value="33"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="bRate">Blue</label>
+                                        <input
+                                                type="range"
+                                                id="bRate"
+                                                class="blue-slider"
+                                                min="0"
+                                                max="100"
+                                                value="66"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="cRate">Cyan</label>
+                                        <input
+                                                type="range"
+                                                id="cRate"
+                                                class="cyan-slider"
+                                                min="0"
+                                                max="100"
+                                                value="33"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="gRate">Green</label>
+                                        <input
+                                                type="range"
+                                                id="gRate"
+                                                class="green-slider"
+                                                min="0"
+                                                max="100"
+                                                value="0"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="yRate">Yellow</label>
+                                        <input
+                                                type="range"
+                                                id="yRate"
+                                                class="yellow-slider"
+                                                min="0"
+                                                max="100"
+                                                value="0"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="rRate">Red</label>
+                                        <input
+                                                type="range"
+                                                id="rRate"
+                                                class="red-slider"
+                                                min="0"
+                                                max="100"
+                                                value="0"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="mRate">Magenta</label>
+                                        <input
+                                                type="range"
+                                                id="mRate"
+                                                class="magenta-slider"
+                                                min="0"
+                                                max="100"
+                                                value="33"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="wRate">White</label>
+                                        <input
+                                                type="range"
+                                                id="wRate"
+                                                class="white-slider"
+                                                min="0"
+                                                max="100"
+                                                value="0"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="blendRate">Blend</label>
+                                        <input
+                                                type="range"
+                                                id="blendRate"
+                                                class="blend-slider"
+                                                min="0"
+                                                max="100"
+                                                value="0"
+                                        />
+                                </div>
+                                <div class="control-group">
+                                        <label for="diffuseRate"
+                                                >Diffuse and Freeze</label
+                                        >
+                                        <input
+                                                type="range"
+                                                id="diffuseRate"
+                                                class="diffuse-slider"
+                                                min="0"
+                                                max="100"
+                                                value="0"
+                                        />
+                                </div>
+                        </div>
+                        <!--/controls-->
+
+                        <section
+                                class="hero-spacer"
+                                style="min-height: 20vh"
+                                aria-hidden="true"
+                        ></section>
+
+                        <nav class="header-area" id="main-nav">
+                                <a href="arts.html">Arts</a>
+                        </nav>
+
+                        <section
+                                class="hero-spacer"
+                                style="min-height: 20vh"
+                                aria-hidden="true"
+                        ></section>
+
+                        <nav class="header-area" id="main-nav-2">
+                                <a href="CV.html">CV</a>
+                        </nav>
+
+                        <section
+                                class="hero-spacer"
+                                style="min-height: 20vh"
+                                aria-hidden="true"
+                        ></section>
+
+                        <nav class="header-area" id="main-nav-2">
+                                <a href="campaign_archive.html"
+                                        >Campaign archive</a
+                                >
+                        </nav>
                 </div>
-                <div class="control-group">
-                    <label for="bRate">Blue</label>
-                    <input
-                        type="range"
-                        id="bRate"
-                        class="blue-slider"
-                        min="0"
-                        max="100"
-                        value="66"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="cRate">Cyan</label>
-                    <input
-                        type="range"
-                        id="cRate"
-                        class="cyan-slider"
-                        min="0"
-                        max="100"
-                        value="33"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="gRate">Green</label>
-                    <input
-                        type="range"
-                        id="gRate"
-                        class="green-slider"
-                        min="0"
-                        max="100"
-                        value="0"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="yRate">Yellow</label>
-                    <input
-                        type="range"
-                        id="yRate"
-                        class="yellow-slider"
-                        min="0"
-                        max="100"
-                        value="0"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="rRate">Red</label>
-                    <input
-                        type="range"
-                        id="rRate"
-                        class="red-slider"
-                        min="0"
-                        max="100"
-                        value="0"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="mRate">Magenta</label>
-                    <input
-                        type="range"
-                        id="mRate"
-                        class="magenta-slider"
-                        min="0"
-                        max="100"
-                        value="33"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="wRate">White</label>
-                    <input
-                        type="range"
-                        id="wRate"
-                        class="white-slider"
-                        min="0"
-                        max="100"
-                        value="0"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="blendRate">Blend</label>
-                    <input
-                        type="range"
-                        id="blendRate"
-                        class="blend-slider"
-                        min="0"
-                        max="100"
-                        value="0"
-                    />
-                </div>
-                <div class="control-group">
-                    <label for="diffuseRate">Diffuse</label>
-                    <input
-                        type="range"
-                        id="diffuseRate"
-                        class="diffuse-slider"
-                        min="0"
-                        max="100"
-                        value="0"
-                    />
-                </div>
-            </div>
-            <!--/controls-->
+                <!--/ui-layer-->
 
-            <section
-                class="hero-spacer"
-                style="min-height: 20vh"
-                aria-hidden="true"
-            ></section>
+                <canvas id="noiseCanvas"></canvas>
+                <!--/noiseCanvas-->
+        </body>
 
-            <nav class="header-area" id="main-nav">
-                <a href="arts.html">Arts</a>
-            </nav>
+        <tail>
+                <script>
+                        (function () {
+                                const canvas =
+                                        document.getElementById("noiseCanvas");
+                                const ctx = canvas.getContext("2d", {
+                                        alpha: false,
+                                        desynchronized: true,
+                                });
 
-            <section
-                class="hero-spacer"
-                style="min-height: 20vh"
-                aria-hidden="true"
-            ></section>
+                                const inputs = {
+                                        k: document.getElementById("kRate"),
+                                        b: document.getElementById("bRate"),
+                                        c: document.getElementById("cRate"),
+                                        g: document.getElementById("gRate"),
+                                        y: document.getElementById("yRate"),
+                                        r: document.getElementById("rRate"),
+                                        w: document.getElementById("wRate"),
+                                        m: document.getElementById("mRate"),
+                                        blend: document.getElementById(
+                                                "blendRate",
+                                        ),
+                                        diffuse: document.getElementById(
+                                                "diffuseRate",
+                                        ),
+                                };
 
-            <nav class="header-area" id="main-nav-2">
-                <a href="CV.html">CV</a>
-            </nav>
+                                inputs.diffuse.value = 0;
 
-            <section
-                class="hero-spacer"
-                style="min-height: 20vh"
-                aria-hidden="true"
-            ></section>
+                                let width, height, totalPixels, imgData, buffer;
+                                let kSpeed = 0,
+                                        bSpeed = 0,
+                                        cSpeed = 0,
+                                        gSpeed = 0,
+                                        ySpeed = 0,
+                                        rSpeed = 0,
+                                        wSpeed = 0,
+                                        mSpeed = 0;
+                                let blendWeight = 0;
+                                let diffuseSpeed = 0;
+                                let isDiffusing = false;
+                                let fixedPixels = [];
+                                let fixedColors = [];
+                                let seedMask = new Uint8Array(0);
+                                let targetBuffer = new Uint32Array(0);
+                                let revealOrder = [];
+                                let revealIndex = 0;
 
-            <nav class="header-area" id="main-nav-2">
-                <a href="campaign_archive.html">Campaign archive</a>
-            </nav>
-        </div>
-        <!--/ui-layer-->
+                                const COLOR_K = 0xff000000;
+                                const COLOR_B = 0xffff0000;
+                                const COLOR_C = 0xffffff00;
+                                const COLOR_G = 0xff00ff00;
+                                const COLOR_Y = 0xff00ffff;
+                                const COLOR_R = 0xff0000ff;
+                                const COLOR_W = 0xffffffff;
+                                const COLOR_M = 0xffff00ff;
 
-        <canvas id="noiseCanvas"></canvas>
-        <!--/noiseCanvas-->
-    </body>
+                                Object.values(inputs).forEach((input) => {
+                                        input.addEventListener(
+                                                "input",
+                                                updateSettings,
+                                        );
+                                });
 
-    <tail>
-        <script>
-            (function () {
-                const canvas = document.getElementById("noiseCanvas");
-                const ctx = canvas.getContext("2d", {
-                    alpha: false,
-                    desynchronized: true,
-                });
+                                window.addEventListener("resize", resize);
 
-                const inputs = {
-                    k: document.getElementById("kRate"),
-                    b: document.getElementById("bRate"),
-                    c: document.getElementById("cRate"),
-                    g: document.getElementById("gRate"),
-                    y: document.getElementById("yRate"),
-                    r: document.getElementById("rRate"),
-                    w: document.getElementById("wRate"),
-                    m: document.getElementById("mRate"),
-                    blend: document.getElementById("blendRate"),
-                    diffuse: document.getElementById("diffuseRate"),
-                };
+                                function updateSettings() {
+                                        const maxPixels = (totalPixels / 5) | 0;
 
-                inputs.diffuse.value = 0;
+                                        const calculateSpeed = (val) => {
+                                                const normalized =
+                                                        parseFloat(val) / 100;
+                                                return (
+                                                        (Math.pow(
+                                                                normalized,
+                                                                3,
+                                                        ) *
+                                                                maxPixels) |
+                                                        0
+                                                );
+                                        };
 
-                let width, height, totalPixels, imgData, buffer;
-                let kSpeed = 0,
-                    bSpeed = 0,
-                    cSpeed = 0,
-                    gSpeed = 0,
-                    ySpeed = 0,
-                    rSpeed = 0,
-                    wSpeed = 0,
-                    mSpeed = 0;
-                let blendWeight = 0;
-                let diffuseSpeed = 0;
-                let isDiffusing = false;
-                let fixedPixels = [];
-                let fixedColors = [];
-                let seedMask = new Uint8Array(0);
-                let targetBuffer = new Uint32Array(0);
-                let revealOrder = [];
-                let revealIndex = 0;
+                                        kSpeed = calculateSpeed(inputs.k.value);
+                                        bSpeed = calculateSpeed(inputs.b.value);
+                                        cSpeed = calculateSpeed(inputs.c.value);
+                                        gSpeed = calculateSpeed(inputs.g.value);
+                                        ySpeed = calculateSpeed(inputs.y.value);
+                                        rSpeed = calculateSpeed(inputs.r.value);
+                                        wSpeed = calculateSpeed(inputs.w.value);
+                                        mSpeed = calculateSpeed(inputs.m.value);
+                                        blendWeight =
+                                                parseFloat(inputs.blend.value) /
+                                                100;
 
-                const COLOR_K = 0xff000000;
-                const COLOR_B = 0xffff0000;
-                const COLOR_C = 0xffffff00;
-                const COLOR_G = 0xff00ff00;
-                const COLOR_Y = 0xff00ffff;
-                const COLOR_R = 0xff0000ff;
-                const COLOR_W = 0xffffffff;
-                const COLOR_M = 0xffff00ff;
+                                        const prevDiffusing = isDiffusing;
+                                        diffuseSpeed = calculateSpeed(
+                                                inputs.diffuse.value,
+                                        );
+                                        isDiffusing = inputs.diffuse.value > 0;
 
-                Object.values(inputs).forEach((input) => {
-                    input.addEventListener("input", updateSettings);
-                });
+                                        if (isDiffusing && !prevDiffusing) {
+                                                freezePixels();
+                                        }
 
-                window.addEventListener("resize", resize);
+                                        const updateTrack = (
+                                                el,
+                                                activeColor,
+                                                dimColor,
+                                        ) => {
+                                                const pct =
+                                                        ((el.value - el.min) /
+                                                                (el.max -
+                                                                        el.min)) *
+                                                        100;
+                                                el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
+                                        };
 
-                function updateSettings() {
-                    const maxPixels = (totalPixels / 5) | 0;
-
-                    const calculateSpeed = (val) => {
-                        const normalized = parseFloat(val) / 100;
-                        return (Math.pow(normalized, 3) * maxPixels) | 0;
-                    };
-
-                    kSpeed = calculateSpeed(inputs.k.value);
-                    bSpeed = calculateSpeed(inputs.b.value);
-                    cSpeed = calculateSpeed(inputs.c.value);
-                    gSpeed = calculateSpeed(inputs.g.value);
-                    ySpeed = calculateSpeed(inputs.y.value);
-                    rSpeed = calculateSpeed(inputs.r.value);
-                    wSpeed = calculateSpeed(inputs.w.value);
-                    mSpeed = calculateSpeed(inputs.m.value);
-                    blendWeight = parseFloat(inputs.blend.value) / 100;
-
-                    const prevDiffusing = isDiffusing;
-                    diffuseSpeed = calculateSpeed(inputs.diffuse.value);
-                    isDiffusing = inputs.diffuse.value > 0;
-
-                    if (isDiffusing && !prevDiffusing) {
-                        freezePixels();
-                    }
-
-                    const updateTrack = (el, activeColor, dimColor) => {
-                        const pct =
-                            ((el.value - el.min) / (el.max - el.min)) * 100;
-                        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
-                    };
-
-                    updateTrack(inputs.k, "#444444", "rgba(68, 68, 68, 0.2)");
-                    updateTrack(inputs.b, "#4444ff", "rgba(68, 68, 255, 0.2)");
-                    updateTrack(inputs.c, "#44ffff", "rgba(68, 255, 255, 0.2)");
-                    updateTrack(inputs.g, "#44ff44", "rgba(68, 255, 68, 0.2)");
-                    updateTrack(inputs.y, "#ffff44", "rgba(255, 255, 68, 0.2)");
-                    updateTrack(inputs.r, "#ff4444", "rgba(255, 68, 68, 0.2)");
-                    updateTrack(
-                        inputs.w,
-                        "#ffffff",
-                        "rgba(255, 255, 255, 0.2)",
-                    );
-                    updateTrack(inputs.m, "#ff44ff", "rgba(255, 68, 255, 0.2)");
-                    updateTrack(
-                        inputs.blend,
-                        "#ffffff",
-                        "rgba(255, 255, 255, 0.2)",
-                    );
-                    updateTrack(
-                        inputs.diffuse,
-                        "#ff8800",
-                        "rgba(255, 136, 0, 0.2)",
-                    );
-                }
-
-                function resize() {
-                    width = window.innerWidth;
-                    height = window.innerHeight;
-                    totalPixels = width * height;
-                    canvas.width = width;
-                    canvas.height = height;
-                    imgData = ctx.createImageData(width, height);
-                    buffer = new Uint32Array(imgData.data.buffer);
-                    buffer.fill(0xff000000);
-                    updateSettings();
-                    if (isDiffusing) {
-                        freezePixels();
-                    }
-                }
-
-                function freezePixels() {
-                    fixedPixels = [];
-                    fixedColors = [];
-                    seedMask = new Uint8Array(totalPixels);
-
-                    fixedPixels.push({ x: 0, y: 0 });
-                    fixedPixels.push({ x: width - 1, y: 0 });
-                    fixedPixels.push({ x: 0, y: height - 1 });
-                    fixedPixels.push({ x: width - 1, y: height - 1 });
-
-                    for (let i = 0; i < 12; i++) {
-                        const rx = (Math.random() * width) | 0;
-                        const ry = (Math.random() * height) | 0;
-                        fixedPixels.push({ x: rx, y: ry });
-                    }
-
-                    for (let i = 0; i < fixedPixels.length; i++) {
-                        const p = fixedPixels[i];
-                        const idx = p.y * width + p.x;
-                        fixedColors.push(buffer[idx]);
-                        seedMask[idx] = 1;
-                    }
-
-                    computeTargetBuffer();
-                    shuffleRevealOrder();
-                }
-
-                function computeTargetBuffer() {
-                    targetBuffer = new Uint32Array(totalPixels);
-
-                    for (let y = 0; y < height; y++) {
-                        for (let x = 0; x < width; x++) {
-                            const idx = y * width + x;
-
-                            if (seedMask[idx]) {
-                                targetBuffer[idx] = buffer[idx];
-                                continue;
-                            }
-
-                            let d1 = Infinity,
-                                d2 = Infinity,
-                                d3 = Infinity;
-                            let i1 = -1,
-                                i2 = -1,
-                                i3 = -1;
-
-                            for (let s = 0; s < fixedPixels.length; s++) {
-                                const fp = fixedPixels[s];
-                                const dx = x - fp.x;
-                                const dy = y - fp.y;
-                                const distSq = dx * dx + dy * dy;
-
-                                if (distSq < d1) {
-                                    d3 = d2;
-                                    i3 = i2;
-                                    d2 = d1;
-                                    i2 = i1;
-                                    d1 = distSq;
-                                    i1 = s;
-                                } else if (distSq < d2) {
-                                    d3 = d2;
-                                    i3 = i2;
-                                    d2 = distSq;
-                                    i2 = s;
-                                } else if (distSq < d3) {
-                                    d3 = distSq;
-                                    i3 = s;
+                                        updateTrack(
+                                                inputs.k,
+                                                "#444444",
+                                                "rgba(68, 68, 68, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.b,
+                                                "#4444ff",
+                                                "rgba(68, 68, 255, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.c,
+                                                "#44ffff",
+                                                "rgba(68, 255, 255, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.g,
+                                                "#44ff44",
+                                                "rgba(68, 255, 68, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.y,
+                                                "#ffff44",
+                                                "rgba(255, 255, 68, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.r,
+                                                "#ff4444",
+                                                "rgba(255, 68, 68, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.w,
+                                                "#ffffff",
+                                                "rgba(255, 255, 255, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.m,
+                                                "#ff44ff",
+                                                "rgba(255, 68, 255, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.blend,
+                                                "#ffffff",
+                                                "rgba(255, 255, 255, 0.2)",
+                                        );
+                                        updateTrack(
+                                                inputs.diffuse,
+                                                "#ff8800",
+                                                "rgba(255, 136, 0, 0.2)",
+                                        );
                                 }
-                            }
 
-                            const w1 = 1 / d1;
-                            const w2 = 1 / d2;
-                            const w3 = 1 / d3;
-                            const totalWeight = w1 + w2 + w3;
+                                function resize() {
+                                        width = window.innerWidth;
+                                        height = window.innerHeight;
+                                        totalPixels = width * height;
+                                        canvas.width = width;
+                                        canvas.height = height;
+                                        imgData = ctx.createImageData(
+                                                width,
+                                                height,
+                                        );
+                                        buffer = new Uint32Array(
+                                                imgData.data.buffer,
+                                        );
+                                        buffer.fill(0xff000000);
+                                        updateSettings();
+                                        if (isDiffusing) {
+                                                freezePixels();
+                                        }
+                                }
 
-                            const c1 = fixedColors[i1];
-                            const c2 = fixedColors[i2];
-                            const c3 = fixedColors[i3];
+                                function freezePixels() {
+                                        fixedPixels = [];
+                                        fixedColors = [];
+                                        seedMask = new Uint8Array(totalPixels);
 
-                            const r1 = c1 & 0xff;
-                            const g1 = (c1 >> 8) & 0xff;
-                            const b1 = (c1 >> 16) & 0xff;
+                                        fixedPixels.push({ x: 0, y: 0 });
+                                        fixedPixels.push({
+                                                x: width - 1,
+                                                y: 0,
+                                        });
+                                        fixedPixels.push({
+                                                x: 0,
+                                                y: height - 1,
+                                        });
+                                        fixedPixels.push({
+                                                x: width - 1,
+                                                y: height - 1,
+                                        });
 
-                            const r2 = c2 & 0xff;
-                            const g2 = (c2 >> 8) & 0xff;
-                            const b2 = (c2 >> 16) & 0xff;
+                                        for (let i = 0; i < 12; i++) {
+                                                const rx =
+                                                        (Math.random() *
+                                                                width) |
+                                                        0;
+                                                const ry =
+                                                        (Math.random() *
+                                                                height) |
+                                                        0;
+                                                fixedPixels.push({
+                                                        x: rx,
+                                                        y: ry,
+                                                });
+                                        }
 
-                            const r3 = c3 & 0xff;
-                            const g3 = (c3 >> 8) & 0xff;
-                            const b3 = (c3 >> 16) & 0xff;
+                                        for (
+                                                let i = 0;
+                                                i < fixedPixels.length;
+                                                i++
+                                        ) {
+                                                const p = fixedPixels[i];
+                                                const idx = p.y * width + p.x;
+                                                fixedColors.push(buffer[idx]);
+                                                seedMask[idx] = 1;
+                                        }
 
-                            const finalR =
-                                ((r1 * w1 + r2 * w2 + r3 * w3) / totalWeight) |
-                                0;
-                            const finalG =
-                                ((g1 * w1 + g2 * w2 + g3 * w3) / totalWeight) |
-                                0;
-                            const finalB =
-                                ((b1 * w1 + b2 * w2 + b3 * w3) / totalWeight) |
-                                0;
+                                        computeTargetBuffer();
+                                        shuffleRevealOrder();
+                                }
 
-                            targetBuffer[idx] =
-                                0xff000000 |
-                                (finalB << 16) |
-                                (finalG << 8) |
-                                finalR;
+                                function computeTargetBuffer() {
+                                        targetBuffer = new Uint32Array(
+                                                totalPixels,
+                                        );
+
+                                        for (let y = 0; y < height; y++) {
+                                                for (
+                                                        let x = 0;
+                                                        x < width;
+                                                        x++
+                                                ) {
+                                                        const idx =
+                                                                y * width + x;
+
+                                                        if (seedMask[idx]) {
+                                                                targetBuffer[
+                                                                        idx
+                                                                ] = buffer[idx];
+                                                                continue;
+                                                        }
+
+                                                        let d1 = Infinity,
+                                                                d2 = Infinity,
+                                                                d3 = Infinity;
+                                                        let i1 = -1,
+                                                                i2 = -1,
+                                                                i3 = -1;
+
+                                                        for (
+                                                                let s = 0;
+                                                                s <
+                                                                fixedPixels.length;
+                                                                s++
+                                                        ) {
+                                                                const fp =
+                                                                        fixedPixels[
+                                                                                s
+                                                                        ];
+                                                                const dx =
+                                                                        x -
+                                                                        fp.x;
+                                                                const dy =
+                                                                        y -
+                                                                        fp.y;
+                                                                const distSq =
+                                                                        dx *
+                                                                                dx +
+                                                                        dy * dy;
+
+                                                                if (
+                                                                        distSq <
+                                                                        d1
+                                                                ) {
+                                                                        d3 = d2;
+                                                                        i3 = i2;
+                                                                        d2 = d1;
+                                                                        i2 = i1;
+                                                                        d1 =
+                                                                                distSq;
+                                                                        i1 = s;
+                                                                } else if (
+                                                                        distSq <
+                                                                        d2
+                                                                ) {
+                                                                        d3 = d2;
+                                                                        i3 = i2;
+                                                                        d2 =
+                                                                                distSq;
+                                                                        i2 = s;
+                                                                } else if (
+                                                                        distSq <
+                                                                        d3
+                                                                ) {
+                                                                        d3 =
+                                                                                distSq;
+                                                                        i3 = s;
+                                                                }
+                                                        }
+
+                                                        const w1 = 1 / d1;
+                                                        const w2 = 1 / d2;
+                                                        const w3 = 1 / d3;
+                                                        const totalWeight =
+                                                                w1 + w2 + w3;
+
+                                                        const c1 =
+                                                                fixedColors[i1];
+                                                        const c2 =
+                                                                fixedColors[i2];
+                                                        const c3 =
+                                                                fixedColors[i3];
+
+                                                        const r1 = c1 & 0xff;
+                                                        const g1 =
+                                                                (c1 >> 8) &
+                                                                0xff;
+                                                        const b1 =
+                                                                (c1 >> 16) &
+                                                                0xff;
+
+                                                        const r2 = c2 & 0xff;
+                                                        const g2 =
+                                                                (c2 >> 8) &
+                                                                0xff;
+                                                        const b2 =
+                                                                (c2 >> 16) &
+                                                                0xff;
+
+                                                        const r3 = c3 & 0xff;
+                                                        const g3 =
+                                                                (c3 >> 8) &
+                                                                0xff;
+                                                        const b3 =
+                                                                (c3 >> 16) &
+                                                                0xff;
+
+                                                        const finalR =
+                                                                ((r1 * w1 +
+                                                                        r2 *
+                                                                                w2 +
+                                                                        r3 *
+                                                                                w3) /
+                                                                        totalWeight) |
+                                                                0;
+                                                        const finalG =
+                                                                ((g1 * w1 +
+                                                                        g2 *
+                                                                                w2 +
+                                                                        g3 *
+                                                                                w3) /
+                                                                        totalWeight) |
+                                                                0;
+                                                        const finalB =
+                                                                ((b1 * w1 +
+                                                                        b2 *
+                                                                                w2 +
+                                                                        b3 *
+                                                                                w3) /
+                                                                        totalWeight) |
+                                                                0;
+
+                                                        targetBuffer[idx] =
+                                                                0xff000000 |
+                                                                (finalB << 16) |
+                                                                (finalG << 8) |
+                                                                finalR;
+                                                }
+                                        }
+                                }
+
+                                function shuffleRevealOrder() {
+                                        revealOrder = [];
+
+                                        for (let i = 0; i < totalPixels; i++) {
+                                                if (!seedMask[i])
+                                                        revealOrder.push(i);
+                                        }
+
+                                        for (
+                                                let i = revealOrder.length - 1;
+                                                i > 0;
+                                                i--
+                                        ) {
+                                                const j =
+                                                        (Math.random() *
+                                                                (i + 1)) |
+                                                        0;
+                                                const temp = revealOrder[i];
+                                                revealOrder[i] = revealOrder[j];
+                                                revealOrder[j] = temp;
+                                        }
+
+                                        revealIndex = 0;
+                                }
+
+                                function applyDiffusion() {
+                                        const endIndex = Math.min(
+                                                revealIndex + diffuseSpeed,
+                                                revealOrder.length,
+                                        );
+
+                                        for (
+                                                let i = revealIndex;
+                                                i < endIndex;
+                                                i++
+                                        ) {
+                                                const idx = revealOrder[i];
+                                                buffer[idx] = targetBuffer[idx];
+                                        }
+
+                                        revealIndex = endIndex;
+                                }
+
+                                function applyPixels(count, pureColor) {
+                                        if (blendWeight === 0) {
+                                                for (
+                                                        let i = 0;
+                                                        i < count;
+                                                        i++
+                                                ) {
+                                                        const x =
+                                                                (Math.random() *
+                                                                        width) |
+                                                                0;
+                                                        const y =
+                                                                (Math.random() *
+                                                                        height) |
+                                                                0;
+                                                        buffer[y * width + x] =
+                                                                pureColor;
+                                                }
+                                        } else {
+                                                const invW = 1 - blendWeight;
+                                                const cR = pureColor & 0xff;
+                                                const cG =
+                                                        (pureColor >> 8) & 0xff;
+                                                const cB =
+                                                        (pureColor >> 16) &
+                                                        0xff;
+
+                                                for (
+                                                        let i = 0;
+                                                        i < count;
+                                                        i++
+                                                ) {
+                                                        const x =
+                                                                (1 +
+                                                                        Math.random() *
+                                                                                (width -
+                                                                                        2)) |
+                                                                0;
+                                                        const y =
+                                                                (1 +
+                                                                        Math.random() *
+                                                                                (height -
+                                                                                        2)) |
+                                                                0;
+                                                        const idx =
+                                                                y * width + x;
+
+                                                        const n1 =
+                                                                buffer[
+                                                                        idx -
+                                                                                width
+                                                                ];
+                                                        const n2 =
+                                                                buffer[
+                                                                        idx +
+                                                                                width
+                                                                ];
+                                                        const n3 =
+                                                                buffer[idx - 1];
+                                                        const n4 =
+                                                                buffer[idx + 1];
+
+                                                        const sumR =
+                                                                (n1 & 0xff) +
+                                                                (n2 & 0xff) +
+                                                                (n3 & 0xff) +
+                                                                (n4 & 0xff);
+                                                        const sumG =
+                                                                ((n1 >> 8) &
+                                                                        0xff) +
+                                                                ((n2 >> 8) &
+                                                                        0xff) +
+                                                                ((n3 >> 8) &
+                                                                        0xff) +
+                                                                ((n4 >> 8) &
+                                                                        0xff);
+                                                        const sumB =
+                                                                ((n1 >> 16) &
+                                                                        0xff) +
+                                                                ((n2 >> 16) &
+                                                                        0xff) +
+                                                                ((n3 >> 16) &
+                                                                        0xff) +
+                                                                ((n4 >> 16) &
+                                                                        0xff);
+
+                                                        const avgR = sumR >> 2;
+                                                        const avgG = sumG >> 2;
+                                                        const avgB = sumB >> 2;
+
+                                                        const finalR =
+                                                                (cR * invW +
+                                                                        avgR *
+                                                                                blendWeight) |
+                                                                0;
+                                                        const finalG =
+                                                                (cG * invW +
+                                                                        avgG *
+                                                                                blendWeight) |
+                                                                0;
+                                                        const finalB =
+                                                                (cB * invW +
+                                                                        avgB *
+                                                                                blendWeight) |
+                                                                0;
+
+                                                        buffer[idx] =
+                                                                0xff000000 |
+                                                                (finalB << 16) |
+                                                                (finalG << 8) |
+                                                                finalR;
+                                                }
+                                        }
+                                }
+
+                                function animate() {
+                                        if (!isDiffusing) {
+                                                applyPixels(kSpeed, COLOR_K);
+                                                applyPixels(bSpeed, COLOR_B);
+                                                applyPixels(cSpeed, COLOR_C);
+                                                applyPixels(gSpeed, COLOR_G);
+                                                applyPixels(ySpeed, COLOR_Y);
+                                                applyPixels(rSpeed, COLOR_R);
+                                                applyPixels(wSpeed, COLOR_W);
+                                                applyPixels(mSpeed, COLOR_M);
+                                        } else if (
+                                                revealIndex < revealOrder.length
+                                        ) {
+                                                applyDiffusion();
+                                        }
+
+                                        ctx.putImageData(imgData, 0, 0);
+                                        requestAnimationFrame(animate);
+                                }
+
+                                resize();
+                                animate();
+                        })();
+                </script>
+
+                <style>
+                        :root {
+                                --ui-color: rgb(0, 255, 255);
                         }
-                    }
-                }
 
-                function shuffleRevealOrder() {
-                    revealOrder = [];
-
-                    for (let i = 0; i < totalPixels; i++) {
-                        if (!seedMask[i]) revealOrder.push(i);
-                    }
-
-                    for (let i = revealOrder.length - 1; i > 0; i--) {
-                        const j = (Math.random() * (i + 1)) | 0;
-                        const temp = revealOrder[i];
-                        revealOrder[i] = revealOrder[j];
-                        revealOrder[j] = temp;
-                    }
-
-                    revealIndex = 0;
-                }
-
-                function applyDiffusion() {
-                    const endIndex = Math.min(
-                        revealIndex + diffuseSpeed,
-                        revealOrder.length,
-                    );
-
-                    for (let i = revealIndex; i < endIndex; i++) {
-                        const idx = revealOrder[i];
-                        buffer[idx] = targetBuffer[idx];
-                    }
-
-                    revealIndex = endIndex;
-                }
-
-                function applyPixels(count, pureColor) {
-                    if (blendWeight === 0) {
-                        for (let i = 0; i < count; i++) {
-                            const x = (Math.random() * width) | 0;
-                            const y = (Math.random() * height) | 0;
-                            buffer[y * width + x] = pureColor;
+                        html {
+                                background-color: #000;
                         }
-                    } else {
-                        const invW = 1 - blendWeight;
-                        const cR = pureColor & 0xff;
-                        const cG = (pureColor >> 8) & 0xff;
-                        const cB = (pureColor >> 16) & 0xff;
 
-                        for (let i = 0; i < count; i++) {
-                            const x = (1 + Math.random() * (width - 2)) | 0;
-                            const y = (1 + Math.random() * (height - 2)) | 0;
-                            const idx = y * width + x;
-
-                            const n1 = buffer[idx - width];
-                            const n2 = buffer[idx + width];
-                            const n3 = buffer[idx - 1];
-                            const n4 = buffer[idx + 1];
-
-                            const sumR =
-                                (n1 & 0xff) +
-                                (n2 & 0xff) +
-                                (n3 & 0xff) +
-                                (n4 & 0xff);
-                            const sumG =
-                                ((n1 >> 8) & 0xff) +
-                                ((n2 >> 8) & 0xff) +
-                                ((n3 >> 8) & 0xff) +
-                                ((n4 >> 8) & 0xff);
-                            const sumB =
-                                ((n1 >> 16) & 0xff) +
-                                ((n2 >> 16) & 0xff) +
-                                ((n3 >> 16) & 0xff) +
-                                ((n4 >> 16) & 0xff);
-
-                            const avgR = sumR >> 2;
-                            const avgG = sumG >> 2;
-                            const avgB = sumB >> 2;
-
-                            const finalR = (cR * invW + avgR * blendWeight) | 0;
-                            const finalG = (cG * invW + avgG * blendWeight) | 0;
-                            const finalB = (cB * invW + avgB * blendWeight) | 0;
-
-                            buffer[idx] =
-                                0xff000000 |
-                                (finalB << 16) |
-                                (finalG << 8) |
-                                finalR;
+                        body {
+                                margin: 0;
+                                padding: 0;
+                                width: 100%;
+                                background-color: transparent;
+                                color: var(--ui-color);
+                                font-family:
+                                        Silkscreen, "Courier New", Courier,
+                                        monospace, sans-serif;
+                                text-align: center;
+                                transition: color 0.1s;
                         }
-                    }
-                }
 
-                function animate() {
-                    if (!isDiffusing) {
-                        applyPixels(kSpeed, COLOR_K);
-                        applyPixels(bSpeed, COLOR_B);
-                        applyPixels(cSpeed, COLOR_C);
-                        applyPixels(gSpeed, COLOR_G);
-                        applyPixels(ySpeed, COLOR_Y);
-                        applyPixels(rSpeed, COLOR_R);
-                        applyPixels(wSpeed, COLOR_W);
-                        applyPixels(mSpeed, COLOR_M);
-                    } else if (revealIndex < revealOrder.length) {
-                        applyDiffusion();
-                    }
+                        canvas {
+                                display: block;
+                                position: fixed;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                z-index: -1;
+                        }
 
-                    ctx.putImageData(imgData, 0, 0);
-                    requestAnimationFrame(animate);
-                }
+                        #ui-layer {
+                                width: 100%;
+                                pointer-events: none;
+                                z-index: 10;
+                        }
 
-                resize();
-                animate();
-            })();
-        </script>
+                        .header-area {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                width: 100%;
+                                pointer-events: auto;
+                        }
 
-        <style>
-            :root {
-                --ui-color: rgb(0, 255, 255);
-            }
+                        a,
+                        h1 {
+                                text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9);
+                                color: rgb(0, 255, 255);
+                        }
 
-            html {
-                background-color: #000;
-            }
+                        a {
+                                font-size: 9vw;
+                                line-height: 1.2;
+                                margin: 0;
+                        }
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                background-color: transparent;
-                color: var(--ui-color);
-                font-family:
-                    Silkscreen, "Courier New", Courier, monospace, sans-serif;
-                text-align: center;
-                transition: color 0.1s;
-            }
+                        a:hover {
+                                color: rgb(0, 255, 000);
+                        }
 
-            canvas {
-                display: block;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-            }
+                        a:active {
+                                color: rgb(255, 255, 000);
+                        }
 
-            #ui-layer {
-                width: 100%;
-                pointer-events: none;
-                z-index: 10;
-            }
+                        #controls {
+                                pointer-events: auto;
+                                background-color: rgba(0, 0, 0, 0.85);
+                                padding: 20px;
+                                border-radius: 15px;
+                                border: 1px solid rgba(255, 255, 255, 0.2);
+                                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+                                backdrop-filter: blur(10px);
+                                display: flex;
+                                flex-direction: column;
+                                gap: 12px;
+                                align-items: center;
+                                width: 90%;
+                                max-width: 350px;
+                                margin: 20px auto;
+                                overflow-y: auto;
+                        }
 
-            .header-area {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                pointer-events: auto;
-            }
+                        .control-group {
+                                width: 100%;
+                                display: flex;
+                                flex-direction: column;
+                        }
 
-            a {
-                font-size: 9vw;
-                line-height: 1.2;
-                margin: 0;
-                text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9);
-                color: rgb(0, 255, 255);
-            }
+                        .control-group label {
+                                font-size: 10px;
+                                text-transform: uppercase;
+                                color: #888;
+                                margin-bottom: 2px;
+                        }
 
-            a:hover {
-                color: rgb(0, 255, 000);
-            }
+                        input[type="range"] {
+                                -webkit-appearance: none;
+                                appearance: none;
+                                cursor: pointer;
+                                width: 100%;
+                                display: block;
+                                margin: 10px 0;
+                                height: 4px;
+                                border-radius: 2px;
+                                outline: none;
+                        }
 
-            a:active {
-                color: rgb(255, 255, 000);
-            }
+                        input[type="range"]::-webkit-slider-thumb {
+                                -webkit-appearance: none;
+                                appearance: none;
+                                height: 16px;
+                                width: 16px;
+                                border-radius: 50%;
+                                border: none;
+                        }
 
-            #controls {
-                pointer-events: auto;
-                background-color: rgba(0, 0, 0, 0.85);
-                padding: 20px;
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-                backdrop-filter: blur(10px);
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                align-items: center;
-                width: 90%;
-                max-width: 350px;
-                margin: 20px auto;
-                overflow-y: auto;
-            }
+                        input[type="range"]::-moz-range-thumb {
+                                height: 16px;
+                                width: 16px;
+                                border-radius: 50%;
+                                border: none;
+                        }
 
-            .control-group {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-            }
+                        .black-slider::-webkit-slider-thumb {
+                                background: #000000;
+                                border: 1px solid #ffffff;
+                        }
+                        .black-slider::-moz-range-thumb {
+                                background: #000000;
+                                border: 1px solid #ffffff;
+                        }
 
-            .control-group label {
-                font-size: 10px;
-                text-transform: uppercase;
-                color: #888;
-                margin-bottom: 2px;
-            }
+                        .blue-slider::-webkit-slider-thumb {
+                                background: #4444ff;
+                        }
+                        .blue-slider::-moz-range-thumb {
+                                background: #4444ff;
+                        }
 
-            input[type="range"] {
-                -webkit-appearance: none;
-                appearance: none;
-                cursor: pointer;
-                width: 100%;
-                display: block;
-                margin: 10px 0;
-                height: 4px;
-                border-radius: 2px;
-                outline: none;
-            }
+                        .cyan-slider::-webkit-slider-thumb {
+                                background: #44ffff;
+                        }
+                        .cyan-slider::-moz-range-thumb {
+                                background: #44ffff;
+                        }
 
-            input[type="range"]::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                height: 16px;
-                width: 16px;
-                border-radius: 50%;
-                border: none;
-            }
+                        .green-slider::-webkit-slider-thumb {
+                                background: #44ff44;
+                        }
+                        .green-slider::-moz-range-thumb {
+                                background: #44ff44;
+                        }
 
-            input[type="range"]::-moz-range-thumb {
-                height: 16px;
-                width: 16px;
-                border-radius: 50%;
-                border: none;
-            }
+                        .yellow-slider::-webkit-slider-thumb {
+                                background: #ffff44;
+                        }
+                        .yellow-slider::-moz-range-thumb {
+                                background: #ffff44;
+                        }
 
-            .black-slider::-webkit-slider-thumb {
-                background: #000000;
-                border: 1px solid #ffffff;
-            }
-            .black-slider::-moz-range-thumb {
-                background: #000000;
-                border: 1px solid #ffffff;
-            }
+                        .red-slider::-webkit-slider-thumb {
+                                background: #ff4444;
+                        }
+                        .red-slider::-moz-range-thumb {
+                                background: #ff4444;
+                        }
 
-            .blue-slider::-webkit-slider-thumb {
-                background: #4444ff;
-            }
-            .blue-slider::-moz-range-thumb {
-                background: #4444ff;
-            }
+                        .white-slider::-webkit-slider-thumb {
+                                background: #ffffff;
+                        }
+                        .white-slider::-moz-range-thumb {
+                                background: #ffffff;
+                        }
 
-            .cyan-slider::-webkit-slider-thumb {
-                background: #44ffff;
-            }
-            .cyan-slider::-moz-range-thumb {
-                background: #44ffff;
-            }
+                        .magenta-slider::-webkit-slider-thumb {
+                                background: #ff44ff;
+                        }
+                        .magenta-slider::-moz-range-thumb {
+                                background: #ff44ff;
+                        }
 
-            .green-slider::-webkit-slider-thumb {
-                background: #44ff44;
-            }
-            .green-slider::-moz-range-thumb {
-                background: #44ff44;
-            }
+                        .blend-slider::-webkit-slider-thumb {
+                                background: #ffffff;
+                        }
+                        .blend-slider::-moz-range-thumb {
+                                background: #ffffff;
+                        }
 
-            .yellow-slider::-webkit-slider-thumb {
-                background: #ffff44;
-            }
-            .yellow-slider::-moz-range-thumb {
-                background: #ffff44;
-            }
+                        .diffuse-slider::-webkit-slider-thumb {
+                                background: #ff8800;
+                        }
+                        .diffuse-slider::-moz-range-thumb {
+                                background: #ff8800;
+                        }
 
-            .red-slider::-webkit-slider-thumb {
-                background: #ff4444;
-            }
-            .red-slider::-moz-range-thumb {
-                background: #ff4444;
-            }
+                        #controls::-webkit-scrollbar {
+                                width: 6px;
+                        }
 
-            .white-slider::-webkit-slider-thumb {
-                background: #ffffff;
-            }
-            .white-slider::-moz-range-thumb {
-                background: #ffffff;
-            }
+                        #controls::-webkit-scrollbar-track {
+                                background: rgba(255, 255, 255, 0.1);
+                                border-radius: 3px;
+                        }
 
-            .magenta-slider::-webkit-slider-thumb {
-                background: #ff44ff;
-            }
-            .magenta-slider::-moz-range-thumb {
-                background: #ff44ff;
-            }
-
-            .blend-slider::-webkit-slider-thumb {
-                background: #ffffff;
-            }
-            .blend-slider::-moz-range-thumb {
-                background: #ffffff;
-            }
-
-            .diffuse-slider::-webkit-slider-thumb {
-                background: #ff8800;
-            }
-            .diffuse-slider::-moz-range-thumb {
-                background: #ff8800;
-            }
-
-            #controls::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            #controls::-webkit-scrollbar-track {
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 3px;
-            }
-
-            #controls::-webkit-scrollbar-thumb {
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 3px;
-            }
-        </style>
-
-        <!--
+                        #controls::-webkit-scrollbar-thumb {
+                                background: rgba(255, 255, 255, 0.3);
+                                border-radius: 3px;
+                        }
+                </style>
+<script defer src="https://cdn.counter.dev/script.js" data-id="9cb95797-dd6c-4b86-ab11-90a4e37567d3" data-utcoffset="11">
+                <!--
 =========================================================
     CUSTOM FORMATTING STYLE GUIDE
 =========================================================
@@ -805,5 +1046,5 @@
        ('click', () => ...
 =========================================================
 -->
-    </tail>
+        </tail>
 </html>
