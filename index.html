@@ -8,6 +8,91 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
     <title>alecgargett.net - Alec Gargett</title>
+    <style>
+        :root { --ui-color: rgb(0, 255, 255); }
+
+        html {
+            background-color: #000;
+            /* Prevents pull-to-refresh and glow effects on mobile */
+            overscroll-behavior: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: transparent;
+            color: var(--ui-color);
+            font-family: Silkscreen, 'Courier New', Courier, monospace, sans-serif;
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            image-rendering: pixelated;
+        }
+
+        #ui-layer { width: 100%; pointer-events: none; z-index: 10; }
+
+        #controls {
+            pointer-events: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            width: 90%;
+            max-width: 350px;
+            margin: 20px auto;
+        }
+
+        .control-group { width: 100%; display: flex; flex-direction: column; }
+        .control-group label { font-size: 10px; text-transform: uppercase; color: #888; margin-bottom: 2px; text-align: left;}
+
+        input[type=range] { -webkit-appearance: none; appearance: none; cursor: pointer; width: 100%; height: 4px; border-radius: 2px; outline: none; margin: 10px 0; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 16px; width: 16px; border-radius: 50%; border: none; }
+
+        .red-slider::-webkit-slider-thumb { background: #ff4444; }
+        .green-slider::-webkit-slider-thumb { background: #44ff44; }
+        .blue-slider::-webkit-slider-thumb { background: #4444ff; }
+        .speed-slider::-webkit-slider-thumb { background: #ffffff; }
+        .mix-slider::-webkit-slider-thumb { background: #cc88ff; }
+        .blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
+        .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
+        .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
+
+        .zero-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: var(--ui-color);
+            font-family: Silkscreen;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .zero-button:active { background-color: rgba(255, 255, 255, 0.3); }
+
+        footer {
+            padding: 40px 0;
+            color: var(--ui-color); /* Explicitly set to Cyan */
+            font-size: 12px;
+        }
+        footer p { margin: 0; }
+    </style>
 </head>
 
 <body>
@@ -28,7 +113,6 @@
             <label for="bRate">Blue</label>
             <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="0">
         </div>
-        <!-- Speed moved under RGB -->
         <div class="control-group">
             <label for="speedRate">Speed</label>
             <input type="range" id="speedRate" class="speed-slider" min="0" max="100" value="90">
@@ -45,7 +129,6 @@
             <label for="clusterRate">Cluster</label>
             <input type="range" id="clusterRate" class="cluster-slider" min="0" max="100" value="100">
         </div>
-        <!-- New Pattern Slider -->
         <div class="control-group">
             <label for="patternRate">Pattern</label>
             <input type="range" id="patternRate" class="pattern-slider" min="0" max="100" value="50">
@@ -66,7 +149,8 @@
 <script>
 (function() {
     const canvas = document.getElementById('noiseCanvas');
-    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+    // REMOVED desynchronized: true to fix Android Chrome glitching
+    const ctx = canvas.getContext('2d', { alpha: false });
 
     const inputs = {
         r: document.getElementById('rRate'),
@@ -81,14 +165,22 @@
 
     let width, height, totalPixels, imgData, buffer;
     let blurSpeed = 0, clusterSpeed = 0, placeSpeed = 0, patternSpeed = 0;
-
     let rProps = { weight: 0, min: 0, max: 0 };
     let gProps = { weight: 0, min: 0, max: 0 };
     let bProps = { weight: 0, min: 0, max: 0 };
     let mixRatio = 0;
 
     Object.values(inputs).forEach(input => input.addEventListener('input', updateSettings));
-    window.addEventListener('resize', resize);
+
+    // Fix for the "Black Out on Scroll" issue
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+        // Only trigger a full canvas reset if the width changes (orientation change)
+        if (window.innerWidth !== lastWidth) {
+            resize();
+            lastWidth = window.innerWidth;
+        }
+    });
 
     document.getElementById('zeroBtn').addEventListener('click', () => {
         const stored = {
@@ -123,7 +215,8 @@
     }
 
     function updateSettings() {
-        const maxPixels = (totalPixels / 5) | 0;
+        const referencePixels = Math.max(width * height, window.innerWidth * window.innerHeight);
+        const maxPixels = (referencePixels / 5) | 0;
         const calculateSpeed = (val) => (Math.pow(parseFloat(val) / 100, 10) * maxPixels) | 0;
 
         rProps = calculateChannelProps(inputs.r.value);
@@ -153,7 +246,8 @@
 
     function resize() {
         width = window.innerWidth;
-        height = window.innerHeight;
+        // Set height taller than screen to prevent gaps when address bar hides
+        height = window.innerHeight + 150;
         totalPixels = width * height;
         canvas.width = width;
         canvas.height = height;
@@ -180,51 +274,36 @@
                 else b = (getRandB(bProps) * 255) | 0;
                 buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
             } else {
-                const r = (getRandB(rProps) * 255) | 0;
-                const g = (getRandB(gProps) * 255) | 0;
-                const b = (getRandB(bProps) * 255) | 0;
+                const r = (getRandB(rProps) * 255) | 0, g = (getRandB(gProps) * 255) | 0, b = (getRandB(bProps) * 255) | 0;
                 buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
             }
         }
     }
 
-    // New Pattern Function: Averaging two most similar neighbors
     function applyPattern(count) {
         for (let i = 0; i < count; i++) {
             const x = (Math.random() * width) | 0;
             const y = (Math.random() * height) | 0;
             const idx = y * width + x;
-
             const n = [
                 buffer[((y > 0 ? y - 1 : y) * width) + x],
                 buffer[((y < height - 1 ? y + 1 : y) * width) + x],
                 buffer[(y * width) + (x > 0 ? x - 1 : x)],
                 buffer[(y * width) + (x < width - 1 ? x + 1 : x)]
             ];
-
             const dist = (c1, c2) => {
-                const dr = (c1 & 0xFF) - (c2 & 0xFF);
-                const dg = ((c1 >> 8) & 0xFF) - ((c2 >> 8) & 0xFF);
-                const db = ((c1 >> 16) & 0xFF) - ((c2 >> 16) & 0xFF);
+                const dr = (c1 & 0xFF) - (c2 & 0xFF), dg = ((c1 >> 8) & 0xFF) - ((c2 >> 8) & 0xFF), db = ((c1 >> 16) & 0xFF) - ((c2 >> 16) & 0xFF);
                 return dr*dr + dg*dg + db*db;
             };
-
-            let minDist = Infinity;
-            let pair = [n[0], n[1]];
-
-            // Check all 6 combinations of neighbors
+            let minDist = Infinity; let pair = [n[0], n[1]];
             for(let j=0; j<3; j++) {
                 for(let k=j+1; k<4; k++) {
                     let d = dist(n[j], n[k]);
                     if(d < minDist) { minDist = d; pair = [n[j], n[k]]; }
                 }
             }
-
             const c1 = pair[0], c2 = pair[1];
-            const avgR = ((c1 & 0xFF) + (c2 & 0xFF)) >> 1;
-            const avgG = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) >> 1;
-            const avgB = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) >> 1;
-
+            const avgR = ((c1 & 0xFF) + (c2 & 0xFF)) >> 1, avgG = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) >> 1, avgB = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) >> 1;
             buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
         }
     }
@@ -233,13 +312,8 @@
         for (let i = 0; i < count; i++) {
             const x = (Math.random() * width) | 0;
             const y = (Math.random() * height) | 0;
-            const n1 = buffer[((y > 0 ? y - 1 : y) * width) + x];
-            const n2 = buffer[((y < height - 1 ? y + 1 : y) * width) + x];
-            const n3 = buffer[(y * width) + (x > 0 ? x - 1 : x)];
-            const n4 = buffer[(y * width) + (x < width - 1 ? x + 1 : x)];
-            const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2;
-            const avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2;
-            const avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
+            const n1 = buffer[((y > 0 ? y - 1 : y) * width) + x], n2 = buffer[((y < height - 1 ? y + 1 : y) * width) + x], n3 = buffer[(y * width) + (x > 0 ? x - 1 : x)], n4 = buffer[(y * width) + (x < width - 1 ? x + 1 : x)];
+            const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2, avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2, avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
             buffer[y * width + x] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
         }
     }
@@ -248,12 +322,7 @@
         for (let i = 0; i < count; i++) {
             const x = (Math.random() * width) | 0;
             const y = (Math.random() * height) | 0;
-            const n = [
-                buffer[((y > 0 ? y - 1 : y) * width) + x],
-                buffer[((y < height - 1 ? y + 1 : y) * width) + x],
-                buffer[(y * width) + (x > 0 ? x - 1 : x)],
-                buffer[(y * width) + (x < width - 1 ? x + 1 : x)]
-            ];
+            const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
             buffer[y * width + x] = n[(Math.random() * 4) | 0];
         }
     }
@@ -267,57 +336,22 @@
         requestAnimationFrame(animate);
     }
 
-        // --- Randomize two colors to 50 on load ---
-        const colorKeys = ['r', 'g', 'b'];
-
-        // Shuffle the array of keys
-        for (let i = colorKeys.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [colorKeys[i], colorKeys[j]] = [colorKeys[j], colorKeys[i]];
-        }
-
-        // Set the first two (now randomized) keys to 50
-        inputs[colorKeys[0]].value = 50;
-        inputs[colorKeys[1]].value = 50;
-        // ------------------------------------------
+    const colorKeys = ['r', 'g', 'b'];
+    for (let i = colorKeys.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [colorKeys[i], colorKeys[j]] = [colorKeys[j], colorKeys[i]];
+    }
+    inputs[colorKeys[0]].value = 50;
+    inputs[colorKeys[1]].value = 50;
 
     resize();
 
-    // Reset speed to zero 1 second after load
-    setTimeout(() => {
-        inputs.speed.value = 0;
-        updateSettings(); }, 1000);
-
-    // Reset blur to 1500 ms after load
-    setTimeout(() => {
-        inputs.blur.value = 0;
-        updateSettings(); }, 1500);
+    setTimeout(() => { inputs.speed.value = 0; updateSettings(); }, 1000);
+    setTimeout(() => { inputs.blur.value = 0; updateSettings(); }, 1500);
 
     animate();
 })();
 </script>
-
-<style>
-    :root { --ui-color: rgb(0, 255, 255); }
-    html { background-color: #000; }
-    body { margin: 0; padding: 0; width: 100%; background-color: transparent; color: var(--ui-color); font-family: Silkscreen, 'Courier New', Courier, monospace, sans-serif; text-align: center; }
-    canvas { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-    #ui-layer { width: 100%; pointer-events: none; z-index: 10; }
-    #controls { pointer-events: auto; background-color: rgba(0, 0, 0, 0.85); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 12px; align-items: center; width: 90%; max-width: 350px; margin: 20px auto; }
-    .control-group { width: 100%; display: flex; flex-direction: column; }
-    .control-group label { font-size: 10px; text-transform: uppercase; color: #888; margin-bottom: 2px; text-align: left;}
-    input[type=range] { -webkit-appearance: none; appearance: none; cursor: pointer; width: 100%; height: 4px; border-radius: 2px; outline: none; margin: 10px 0; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 16px; width: 16px; border-radius: 50%; border: none; }
-    .red-slider::-webkit-slider-thumb { background: #ff4444; }
-    .green-slider::-webkit-slider-thumb { background: #44ff44; }
-    .blue-slider::-webkit-slider-thumb { background: #4444ff; }
-    .speed-slider::-webkit-slider-thumb { background: #ffffff; }
-    .mix-slider::-webkit-slider-thumb { background: #cc88ff; }
-    .blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
-    .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
-    .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
-    .zero-button { width: 100%; padding: 8px; margin-top: 4px; background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; color: var(--ui-color); font-family: Silkscreen; font-size: 12px; cursor: pointer; }
-</style>
 
 </body>
 </html>
