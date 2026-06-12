@@ -26,40 +26,32 @@
 
     <div id="controls">
         <div class="control-group">
-            <label for="kRate">Black</label>
-            <input type="range" id="kRate" class="black-slider" min="0" max="100" value="8">
-        </div>
-        <div class="control-group">
-            <label for="bRate">Blue</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="22">
+            <label for="rRate">Red</label>
+            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="gRate">Green</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="0">
+            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="50">
         </div>
         <div class="control-group">
-            <label for="rRate">Red</label>
-            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="22">
+            <label for="bRate">Blue</label>
+            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
         </div>
         <div class="control-group">
-            <label for="mRate">Magenta</label>
-            <input type="range" id="mRate" class="magenta-slider" min="0" max="100" value="0">
-        </div>
-        <div class="control-group">
-            <label for="cRate">Cyan</label>
-            <input type="range" id="cRate" class="cyan-slider" min="0" max="100" value="0">
+            <label for="mixRate">Mix</label>
+            <input type="range" id="mixRate" class="mix-slider" min="0" max="100" value="50">
         </div>
         <div class="control-group">
             <label for="blurRate">Blur</label>
-            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="50">
+            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="90">
         </div>
         <div class="control-group">
             <label for="clusterRate">Cluster</label>
             <input type="range" id="clusterRate" class="cluster-slider" min="0" max="100" value="100">
         </div>
         <div class="control-group">
-            <label for="brightnessRate">Brightness</label>
-            <input type="range" id="brightnessRate" class="brightness-slider" min="0" max="100" value="0">
+            <label for="speedRate">Speed</label>
+            <input type="range" id="speedRate" class="speed-slider" min="0" max="100" value="60">
         </div>
         <button id="zeroBtn" class="zero-button">Zero</button>
     </div> <!--/controls-->
@@ -97,26 +89,22 @@ const canvas = document.getElementById('noiseCanvas');
 const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
 
 const inputs =
-{   k: document.getElementById('kRate'),
-    b: document.getElementById('bRate'),
+{   r: document.getElementById('rRate'),
     g: document.getElementById('gRate'),
-    r: document.getElementById('rRate'),
-    m: document.getElementById('mRate'),
-    c: document.getElementById('cRate'),
+    b: document.getElementById('bRate'),
+    mix: document.getElementById('mixRate'),
     blur: document.getElementById('blurRate'),
     cluster: document.getElementById('clusterRate'),
-    brightness: document.getElementById('brightnessRate') };
+    speed: document.getElementById('speedRate') };
 
 let width, height, totalPixels, imgData, buffer;
-let kSpeed = 0, bSpeed = 0, gSpeed = 0, rSpeed = 0, mSpeed = 0, cSpeed = 0, blurSpeed = 0, clusterSpeed = 0;
-let brightnessMin = 1;
+let blurSpeed = 0, clusterSpeed = 0, placeSpeed = 0;
+let rBrightness = 1, gBrightness = 0, bBrightness = 1;
+let mixRatio = 0;
 
-const COLOR_K = 0xFF000000;
-const COLOR_B = 0xFFFF0000;
-const COLOR_G = 0xFF00FF00;
 const COLOR_R = 0xFF0000FF;
-const COLOR_M = 0xFFFF00FF;
-const COLOR_C = 0xFFFFFF00;
+const COLOR_G = 0xFF00FF00;
+const COLOR_B = 0xFFFF0000;
 
 Object.values(inputs).forEach
 (input =>
@@ -138,31 +126,28 @@ function updateSettings()
 
     const calculateSpeed = (val) =>
     {   const normalized = parseFloat(val) / 100;
-        return (Math.pow(normalized, 3) * maxPixels) | 0; };
+        return (Math.pow(normalized, 10) * maxPixels) | 0; };
 
-    kSpeed = calculateSpeed(inputs.k.value);
-    bSpeed = calculateSpeed(inputs.b.value);
-    gSpeed = calculateSpeed(inputs.g.value);
-    rSpeed = calculateSpeed(inputs.r.value);
-    mSpeed = calculateSpeed(inputs.m.value);
-    cSpeed = calculateSpeed(inputs.c.value);
+    rBrightness = parseFloat(inputs.r.value) / 100;
+    gBrightness = parseFloat(inputs.g.value) / 100;
+    bBrightness = parseFloat(inputs.b.value) / 100;
+    mixRatio = parseFloat(inputs.mix.value) / 100;
+
     blurSpeed = calculateSpeed(inputs.blur.value);
     clusterSpeed = calculateSpeed(inputs.cluster.value);
-    brightnessMin = parseFloat(inputs.brightness.value) / 100;
+    placeSpeed = calculateSpeed(inputs.speed.value);
 
     const updateTrack = (el, activeColor, dimColor) =>
     {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
         el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
 
-    updateTrack(inputs.k, '#444444', 'rgba(68, 68, 68, 0.2)');
-    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
-    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
     updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
-    updateTrack(inputs.m, '#ff44ff', 'rgba(255, 68, 255, 0.2)');
-    updateTrack(inputs.c, '#44ffff', 'rgba(68, 255, 255, 0.2)');
+    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
+    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
+    updateTrack(inputs.mix, '#cc88ff', 'rgba(204, 136, 255, 0.2)');
     updateTrack(inputs.blur, '#aaaaaa', 'rgba(170, 170, 170, 0.2)');
     updateTrack(inputs.cluster, '#ffaa00', 'rgba(255, 170, 0, 0.2)');
-    updateTrack(inputs.brightness, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+    updateTrack(inputs.speed, '#ffffff', 'rgba(255, 255, 255, 0.2)');
 }
 
 function resize()
@@ -176,22 +161,43 @@ function resize()
     buffer.fill(0xFF000000);
     updateSettings(); }
 
-function applyPixels(count, pureColor)
-{   const scaleColor = pureColor !== COLOR_K && brightnessMin < 1;
-
-    for (let i = 0; i < count; i++)
+function applyColorMix(count)
+{   for (let i = 0; i < count; i++)
     {   const x = (Math.random() * width) | 0;
         const y = (Math.random() * height) | 0;
 
-        if (!scaleColor)
-        {   buffer[y * width + x] = pureColor;
+        if (Math.random() >= mixRatio)
+        {   const total = rBrightness + gBrightness + bBrightness;
+
+            if (total <= 0)
+            {   buffer[y * width + x] = 0xFF000000;
+                continue; }
+
+            const pick = Math.random() * total;
+            let pureColor, brightness;
+
+            if (pick < rBrightness)
+            {   pureColor = COLOR_R; brightness = rBrightness; }
+            else if (pick < rBrightness + gBrightness)
+            {   pureColor = COLOR_G; brightness = gBrightness; }
+            else
+            {   pureColor = COLOR_B; brightness = bBrightness; }
+
+            const spread = (b) => 2 * 255 * Math.min(b, 1 - b);
+            const factor = Math.max(0, Math.min(255, (255 * brightness + (Math.random() - 0.5) * spread(brightness)) | 0)) / 255;
+
+            const r = ((pureColor & 0xFF) * factor) | 0;
+            const g = (((pureColor >> 8) & 0xFF) * factor) | 0;
+            const b = (((pureColor >> 16) & 0xFF) * factor) | 0;
+
+            buffer[y * width + x] = 0xFF000000 | (b << 16) | (g << 8) | r;
             continue; }
 
-        const factor = brightnessMin + Math.random() * (1 - brightnessMin);
+        const spread = (b) => 2 * 255 * Math.min(b, 1 - b);
 
-        const r = ((pureColor & 0xFF) * factor) | 0;
-        const g = (((pureColor >> 8) & 0xFF) * factor) | 0;
-        const b = (((pureColor >> 16) & 0xFF) * factor) | 0;
+        const r = Math.max(0, Math.min(255, (255 * rBrightness + (Math.random() - 0.5) * spread(rBrightness)) | 0));
+        const g = Math.max(0, Math.min(255, (255 * gBrightness + (Math.random() - 0.5) * spread(gBrightness)) | 0));
+        const b = Math.max(0, Math.min(255, (255 * bBrightness + (Math.random() - 0.5) * spread(bBrightness)) | 0));
 
         buffer[y * width + x] = 0xFF000000 | (b << 16) | (g << 8) | r; }
 }
@@ -241,12 +247,7 @@ function applyCluster(count)
 }
 
 function animate()
-{   applyPixels(kSpeed, COLOR_K);
-    applyPixels(bSpeed, COLOR_B);
-    applyPixels(gSpeed, COLOR_G);
-    applyPixels(rSpeed, COLOR_R);
-    applyPixels(mSpeed, COLOR_M);
-    applyPixels(cSpeed, COLOR_C);
+{   applyColorMix(placeSpeed);
     applyBlur(blurSpeed);
     applyCluster(clusterSpeed);
 
@@ -369,23 +370,17 @@ input[type=range]::-moz-range-thumb
     border-radius: 50%;
     border: none; }
 
-.black-slider::-webkit-slider-thumb { background: #000000; border: 1px solid #ffffff; }
-.black-slider::-moz-range-thumb { background: #000000; border: 1px solid #ffffff; }
-
-.blue-slider::-webkit-slider-thumb { background: #4444ff; }
-.blue-slider::-moz-range-thumb { background: #4444ff; }
+.red-slider::-webkit-slider-thumb { background: #ff4444; }
+.red-slider::-moz-range-thumb { background: #ff4444; }
 
 .green-slider::-webkit-slider-thumb { background: #44ff44; }
 .green-slider::-moz-range-thumb { background: #44ff44; }
 
-.red-slider::-webkit-slider-thumb { background: #ff4444; }
-.red-slider::-moz-range-thumb { background: #ff4444; }
+.blue-slider::-webkit-slider-thumb { background: #4444ff; }
+.blue-slider::-moz-range-thumb { background: #4444ff; }
 
-.magenta-slider::-webkit-slider-thumb { background: #ff44ff; }
-.magenta-slider::-moz-range-thumb { background: #ff44ff; }
-
-.cyan-slider::-webkit-slider-thumb { background: #44ffff; }
-.cyan-slider::-moz-range-thumb { background: #44ffff; }
+.mix-slider::-webkit-slider-thumb { background: #cc88ff; }
+.mix-slider::-moz-range-thumb { background: #cc88ff; }
 
 .blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
 .blur-slider::-moz-range-thumb { background: #aaaaaa; }
@@ -393,8 +388,8 @@ input[type=range]::-moz-range-thumb
 .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
 .cluster-slider::-moz-range-thumb { background: #ffaa00; }
 
-.brightness-slider::-webkit-slider-thumb { background: #ffffff; }
-.brightness-slider::-moz-range-thumb { background: #ffffff; }
+.speed-slider::-webkit-slider-thumb { background: #ffffff; }
+.speed-slider::-moz-range-thumb { background: #ffffff; }
 
 
 #controls::-webkit-scrollbar
