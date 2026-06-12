@@ -13,7 +13,6 @@
 
         html {
             background-color: #000;
-            /* Prevents pull-to-refresh and glow effects on mobile */
             overscroll-behavior: none;
         }
 
@@ -47,7 +46,7 @@
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            display: flex;
+            display: none; /* Hidden by default */
             flex-direction: column;
             gap: 12px;
             align-items: center;
@@ -63,7 +62,7 @@
             color: #888;
             margin-bottom: 2px;
             text-align: left;
-            pointer-events: none; /* Prevents labels from interfering with touch */
+            pointer-events: none;
         }
 
         input[type=range] {
@@ -74,16 +73,14 @@
             height: 4px;
             border-radius: 2px;
             outline: none;
-            margin: 15px 0; /* Increased margin for easier scrolling between sliders */
-
-            /* THE FIX: Allows vertical scrolling (pan-y) even if finger starts on the slider */
+            margin: 15px 0;
             touch-action: pan-y;
         }
 
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            height: 24px; /* Larger thumb for better mobile hit-area */
+            height: 24px;
             width: 24px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -99,7 +96,7 @@
         .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
         .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
 
-        .zero-button {
+        .ui-button {
             width: 100%;
             padding: 10px;
             margin-top: 4px;
@@ -111,15 +108,21 @@
             font-size: 12px;
             cursor: pointer;
             transition: background 0.2s;
+            pointer-events: auto;
         }
-        .zero-button:active { background-color: rgba(255, 255, 255, 0.3); }
+        .ui-button:active { background-color: rgba(255, 255, 255, 0.3); }
+
+        #showControlsBtn {
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
+        }
 
         footer {
             padding: 40px 0;
-            color: var(--ui-color); /* Explicitly set to Cyan */
+            color: var(--ui-color);
             font-size: 12px;
         }
-        footer p { margin: 0; }
     </style>
 </head>
 
@@ -127,6 +130,8 @@
 
 <div id="ui-layer">
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
+
+    <button id="showControlsBtn" class="ui-button">Show Controls</button>
 
     <div id="controls">
         <div class="control-group">
@@ -161,8 +166,9 @@
             <label for="patternRate">Pattern</label>
             <input type="range" id="patternRate" class="pattern-slider" min="0" max="100" value="50">
         </div>
-        <button id="zeroBtn" class="zero-button">Zero</button>
-        <button id="unzeroBtn" class="zero-button">Unzero</button>
+
+        <button id="pauseBtn" class="ui-button">Pause</button>
+        <button id="hideControlsBtn" class="ui-button">Hide Controls</button>
     </div>
 
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
@@ -178,6 +184,11 @@
 (function() {
     const canvas = document.getElementById('noiseCanvas');
     const ctx = canvas.getContext('2d', { alpha: false });
+
+    const controls = document.getElementById('controls');
+    const showBtn = document.getElementById('showControlsBtn');
+    const hideBtn = document.getElementById('hideControlsBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
 
     const inputs = {
         r: document.getElementById('rRate'),
@@ -196,8 +207,51 @@
     let gProps = { weight: 0, min: 0, max: 0 };
     let bProps = { weight: 0, min: 0, max: 0 };
     let mixRatio = 0;
+    let isPaused = false;
+    let pausedState = null;
 
     Object.values(inputs).forEach(input => input.addEventListener('input', updateSettings));
+
+    // Visibility Toggles
+    showBtn.addEventListener('click', () => {
+        controls.style.display = 'flex';
+        showBtn.style.display = 'none';
+    });
+
+    hideBtn.addEventListener('click', () => {
+        controls.style.display = 'none';
+        showBtn.style.display = 'block';
+    });
+
+    // Pause / Unpause Logic
+    pauseBtn.addEventListener('click', () => {
+        if (!isPaused) {
+            // Logic for Pausing (Zeroing)
+            pausedState = {
+                blur: inputs.blur.value,
+                cluster: inputs.cluster.value,
+                speed: inputs.speed.value,
+                pattern: inputs.pattern.value
+            };
+            inputs.blur.value = 0;
+            inputs.cluster.value = 0;
+            inputs.speed.value = 0;
+            inputs.pattern.value = 0;
+            pauseBtn.textContent = "Unpause";
+            isPaused = true;
+        } else {
+            // Logic for Unpausing (Restoring)
+            if (pausedState) {
+                inputs.blur.value = pausedState.blur;
+                inputs.cluster.value = pausedState.cluster;
+                inputs.speed.value = pausedState.speed;
+                inputs.pattern.value = pausedState.pattern;
+            }
+            pauseBtn.textContent = "Pause";
+            isPaused = false;
+        }
+        updateSettings();
+    });
 
     let lastWidth = window.innerWidth;
     window.addEventListener('resize', () => {
@@ -205,32 +259,6 @@
             resize();
             lastWidth = window.innerWidth;
         }
-    });
-
-    document.getElementById('zeroBtn').addEventListener('click', () => {
-        const stored = {
-            blur: inputs.blur.value,
-            cluster: inputs.cluster.value,
-            speed: inputs.speed.value,
-            pattern: inputs.pattern.value
-        };
-        localStorage.setItem('zeroStash', JSON.stringify(stored));
-        inputs.blur.value = 0;
-        inputs.cluster.value = 0;
-        inputs.speed.value = 0;
-        inputs.pattern.value = 0;
-        updateSettings();
-    });
-
-    document.getElementById('unzeroBtn').addEventListener('click', () => {
-        const raw = localStorage.getItem('zeroStash');
-        if (!raw) return;
-        const stored = JSON.parse(raw);
-        inputs.blur.value = stored.blur;
-        inputs.cluster.value = stored.cluster;
-        inputs.speed.value = stored.speed;
-        inputs.pattern.value = stored.pattern || 0;
-        updateSettings();
     });
 
     function calculateChannelProps(val) {
@@ -370,6 +398,7 @@
 
     resize();
 
+    // Initial sequence
     setTimeout(() => { inputs.speed.value = 0; updateSettings(); }, 1000);
     setTimeout(() => { inputs.blur.value = 0; updateSettings(); }, 1500);
 
