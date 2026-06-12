@@ -22,11 +22,11 @@
         </div>
         <div class="control-group">
             <label for="gRate">Green</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="50">
+            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="bRate">Blue</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="0">
         </div>
         <!-- Speed moved under RGB -->
         <div class="control-group">
@@ -39,7 +39,7 @@
         </div>
         <div class="control-group">
             <label for="blurRate">Blur</label>
-            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="0">
+            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="90">
         </div>
         <div class="control-group">
             <label for="clusterRate">Cluster</label>
@@ -56,6 +56,10 @@
 
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
 </div>
+
+<footer>
+  <p>&copy; 2026 Alec Gargett. All rights reserved.</p>
+</footer>
 
 <canvas id="noiseCanvas"></canvas>
 
@@ -263,12 +267,31 @@
         requestAnimationFrame(animate);
     }
 
+        // --- Randomize two colors to 50 on load ---
+        const colorKeys = ['r', 'g', 'b'];
+
+        // Shuffle the array of keys
+        for (let i = colorKeys.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [colorKeys[i], colorKeys[j]] = [colorKeys[j], colorKeys[i]];
+        }
+
+        // Set the first two (now randomized) keys to 50
+        inputs[colorKeys[0]].value = 50;
+        inputs[colorKeys[1]].value = 50;
+        // ------------------------------------------
+
     resize();
 
     // Reset speed to zero 1 second after load
     setTimeout(() => {
         inputs.speed.value = 0;
         updateSettings(); }, 1000);
+
+    // Reset blur to 1500 ms after load
+    setTimeout(() => {
+        inputs.blur.value = 0;
+        updateSettings(); }, 1500);
 
     animate();
 })();
