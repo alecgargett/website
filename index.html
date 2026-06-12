@@ -41,11 +41,9 @@
 
         #controls {
             pointer-events: auto;
-            background-color: rgba(0, 0, 0, 0.85);
             padding: 20px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
             display: none; /* Hidden by default */
             flex-direction: column;
             gap: 12px;
@@ -59,7 +57,7 @@
         .control-group label {
             font-size: 10px;
             text-transform: uppercase;
-            color: #888;
+            color: white;
             margin-bottom: 2px;
             text-align: left;
             pointer-events: none;
@@ -96,11 +94,13 @@
         .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
         .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
 
+        #controls, .ui-button, .glass {
+            background-color: rgba(0, 0, 0, 0.7) !important; }
+
         .ui-button {
             width: 100%;
             padding: 10px;
             margin-top: 4px;
-            background-color: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 6px;
             color: var(--ui-color);
@@ -175,7 +175,7 @@
 </div>
 
 <footer>
-  <p>&copy; 2026 Alec Gargett. All rights reserved.</p>
+  <p><span class="glass">&copy; 2026 Alec Gargett. All rights reserved.</span></p>
 </footer>
 
 <canvas id="noiseCanvas"></canvas>
@@ -214,9 +214,26 @@
 
     // Visibility Toggles
     showBtn.addEventListener('click', () => {
-        controls.style.display = 'flex';
-        showBtn.style.display = 'none';
-    });
+            controls.style.display = 'flex';
+            showBtn.style.display = 'none';
+
+            // Use requestAnimationFrame to ensure the browser has
+            // calculated the height after display: flex was applied
+            requestAnimationFrame(() => {
+                const viewportHeight = window.innerHeight;
+                const controlsHeight = controls.offsetHeight;
+
+                if (controlsHeight < viewportHeight) {
+                    // If it fits on screen, put it in the middle
+                    controls.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    // If it's taller than the screen, pin to the top so it's not cut off
+                    controls.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+
 
     hideBtn.addEventListener('click', () => {
         controls.style.display = 'none';
