@@ -2,30 +2,18 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="alecgargett.net - A personal website created by Alec Gargett">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
-
-<meta property="og:title" content=">alecgargett.net - Alec Garget">
-<meta property="og:description" content="alecgargett.net - A personal website created by Alec Gargett">
-<meta property="og:url" content="https://alecgargett.net">
-
-<title>alecgargett.net - Alec Gargett</title>
-<base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <title>alecgargett.net - Alec Gargett</title>
 </head>
 
 <body>
 
-<!--<h1>alecgargett.net</h1>-->
-
 <div id="ui-layer">
-
-    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
-    </section>
+    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
 
     <div id="controls">
         <div class="control-group">
@@ -34,11 +22,16 @@
         </div>
         <div class="control-group">
             <label for="gRate">Green</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="22">
+            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="50">
         </div>
         <div class="control-group">
             <label for="bRate">Blue</label>
             <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+        </div>
+        <!-- Speed moved under RGB -->
+        <div class="control-group">
+            <label for="speedRate">Speed</label>
+            <input type="range" id="speedRate" class="speed-slider" min="0" max="100" value="90">
         </div>
         <div class="control-group">
             <label for="mixRate">Mix</label>
@@ -46,409 +39,262 @@
         </div>
         <div class="control-group">
             <label for="blurRate">Blur</label>
-            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="50">
+            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="0">
         </div>
         <div class="control-group">
             <label for="clusterRate">Cluster</label>
             <input type="range" id="clusterRate" class="cluster-slider" min="0" max="100" value="100">
         </div>
+        <!-- New Pattern Slider -->
         <div class="control-group">
-            <label for="speedRate">Speed</label>
-            <input type="range" id="speedRate" class="speed-slider" min="0" max="100" value="60">
+            <label for="patternRate">Pattern</label>
+            <input type="range" id="patternRate" class="pattern-slider" min="0" max="100" value="50">
         </div>
         <button id="zeroBtn" class="zero-button">Zero</button>
         <button id="unzeroBtn" class="zero-button">Unzero</button>
-    </div> <!--/controls-->
+    </div>
 
-    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
-    </section>
+    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
+</div>
 
-    <!--<nav class="header-area" id="main-nav">
-         <a href="#politics-nav">Politics</a>
-        <a href="arts.html">Arts</a>
-    </nav>
-
-    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
-    </section>
-
-    <nav class="header-area" id="main-nav-2">
-         <a href="#politics-nav">Politics</a>
-        <a href="CV.html">CV</a>
-    </nav>-->
-
-</div> <!--/ui-layer-->
-
-<canvas id="noiseCanvas"></canvas> <!--/noiseCanvas-->
-
-</body>
-
-<tail>
+<canvas id="noiseCanvas"></canvas>
 
 <script>
+(function() {
+    const canvas = document.getElementById('noiseCanvas');
+    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
 
-(function()
+    const inputs = {
+        r: document.getElementById('rRate'),
+        g: document.getElementById('gRate'),
+        b: document.getElementById('bRate'),
+        speed: document.getElementById('speedRate'),
+        mix: document.getElementById('mixRate'),
+        blur: document.getElementById('blurRate'),
+        cluster: document.getElementById('clusterRate'),
+        pattern: document.getElementById('patternRate')
+    };
 
-{
-const canvas = document.getElementById('noiseCanvas');
-const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+    let width, height, totalPixels, imgData, buffer;
+    let blurSpeed = 0, clusterSpeed = 0, placeSpeed = 0, patternSpeed = 0;
 
-const inputs =
-{   r: document.getElementById('rRate'),
-    g: document.getElementById('gRate'),
-    b: document.getElementById('bRate'),
-    mix: document.getElementById('mixRate'),
-    blur: document.getElementById('blurRate'),
-    cluster: document.getElementById('clusterRate'),
-    speed: document.getElementById('speedRate') };
+    let rProps = { weight: 0, min: 0, max: 0 };
+    let gProps = { weight: 0, min: 0, max: 0 };
+    let bProps = { weight: 0, min: 0, max: 0 };
+    let mixRatio = 0;
 
-let width, height, totalPixels, imgData, buffer;
-let blurSpeed = 0, clusterSpeed = 0, placeSpeed = 0;
-let rBrightness = 1, gBrightness = 0, bBrightness = 1;
-let mixRatio = 0;
+    Object.values(inputs).forEach(input => input.addEventListener('input', updateSettings));
+    window.addEventListener('resize', resize);
 
-const COLOR_R = 0xFF0000FF;
-const COLOR_G = 0xFF00FF00;
-const COLOR_B = 0xFFFF0000;
+    document.getElementById('zeroBtn').addEventListener('click', () => {
+        const stored = {
+            blur: inputs.blur.value,
+            cluster: inputs.cluster.value,
+            speed: inputs.speed.value,
+            pattern: inputs.pattern.value
+        };
+        localStorage.setItem('zeroStash', JSON.stringify(stored));
+        inputs.blur.value = 0;
+        inputs.cluster.value = 0;
+        inputs.speed.value = 0;
+        inputs.pattern.value = 0;
+        updateSettings();
+    });
 
-Object.values(inputs).forEach
-(input =>
-{   input.addEventListener('input', updateSettings); }
-);
+    document.getElementById('unzeroBtn').addEventListener('click', () => {
+        const raw = localStorage.getItem('zeroStash');
+        if (!raw) return;
+        const stored = JSON.parse(raw);
+        inputs.blur.value = stored.blur;
+        inputs.cluster.value = stored.cluster;
+        inputs.speed.value = stored.speed;
+        inputs.pattern.value = stored.pattern || 0;
+        updateSettings();
+    });
 
-window.addEventListener('resize', resize);
+    function calculateChannelProps(val) {
+        const v = parseFloat(val);
+        if (v <= 50) return { weight: v / 50, max: v / 50, min: 0 };
+        return { weight: 1.0, max: 1.0, min: (v - 50) / 50 };
+    }
 
-document.getElementById('zeroBtn').addEventListener
-('click', () =>
-{   const stored =
-    {   blur: inputs.blur.value,
-        cluster: inputs.cluster.value,
-        speed: inputs.speed.value };
+    function updateSettings() {
+        const maxPixels = (totalPixels / 5) | 0;
+        const calculateSpeed = (val) => (Math.pow(parseFloat(val) / 100, 10) * maxPixels) | 0;
 
-    localStorage.setItem('zeroStash', JSON.stringify(stored));
+        rProps = calculateChannelProps(inputs.r.value);
+        gProps = calculateChannelProps(inputs.g.value);
+        bProps = calculateChannelProps(inputs.b.value);
 
-    inputs.blur.value = 0;
-    inputs.cluster.value = 0;
-    inputs.speed.value = 0;
-    updateSettings(); }
-);
+        mixRatio = parseFloat(inputs.mix.value) / 100;
+        blurSpeed = calculateSpeed(inputs.blur.value);
+        clusterSpeed = calculateSpeed(inputs.cluster.value);
+        placeSpeed = calculateSpeed(inputs.speed.value);
+        patternSpeed = calculateSpeed(inputs.pattern.value);
 
-document.getElementById('unzeroBtn').addEventListener
-('click', () =>
-{   const raw = localStorage.getItem('zeroStash');
-    if (!raw) return;
+        const updateTrack = (el, activeColor, dimColor) => {
+            const pct = (el.value - el.min) / (el.max - el.min) * 100;
+            el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
+        };
 
-    const stored = JSON.parse(raw);
+        updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
+        updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
+        updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
+        updateTrack(inputs.speed, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+        updateTrack(inputs.mix, '#cc88ff', 'rgba(204, 136, 255, 0.2)');
+        updateTrack(inputs.blur, '#aaaaaa', 'rgba(170, 170, 170, 0.2)');
+        updateTrack(inputs.cluster, '#ffaa00', 'rgba(255, 170, 0, 0.2)');
+        updateTrack(inputs.pattern, '#00ffff', 'rgba(0, 255, 255, 0.2)');
+    }
 
-    inputs.blur.value = stored.blur;
-    inputs.cluster.value = stored.cluster;
-    inputs.speed.value = stored.speed;
-    updateSettings(); }
-);
+    function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        totalPixels = width * height;
+        canvas.width = width;
+        canvas.height = height;
+        imgData = ctx.createImageData(width, height);
+        buffer = new Uint32Array(imgData.data.buffer);
+        buffer.fill(0xFF000000);
+        updateSettings();
+    }
 
-function updateSettings()
-{   const maxPixels = (totalPixels / 5) | 0;
+    function applyColorMix(count) {
+        for (let i = 0; i < count; i++) {
+            const x = (Math.random() * width) | 0;
+            const y = (Math.random() * height) | 0;
+            const idx = y * width + x;
+            const getRandB = (p) => (p.min + Math.random() * (p.max - p.min));
 
-    const calculateSpeed = (val) =>
-    {   const normalized = parseFloat(val) / 100;
-        return (Math.pow(normalized, 10) * maxPixels) | 0; };
+            if (Math.random() >= mixRatio) {
+                const totalWeight = rProps.weight + gProps.weight + bProps.weight;
+                if (totalWeight <= 0) { buffer[idx] = 0xFF000000; continue; }
+                const pick = Math.random() * totalWeight;
+                let r=0, g=0, b=0;
+                if (pick < rProps.weight) r = (getRandB(rProps) * 255) | 0;
+                else if (pick < rProps.weight + gProps.weight) g = (getRandB(gProps) * 255) | 0;
+                else b = (getRandB(bProps) * 255) | 0;
+                buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
+            } else {
+                const r = (getRandB(rProps) * 255) | 0;
+                const g = (getRandB(gProps) * 255) | 0;
+                const b = (getRandB(bProps) * 255) | 0;
+                buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
+            }
+        }
+    }
 
-    rBrightness = parseFloat(inputs.r.value) / 100;
-    gBrightness = parseFloat(inputs.g.value) / 100;
-    bBrightness = parseFloat(inputs.b.value) / 100;
-    mixRatio = parseFloat(inputs.mix.value) / 100;
+    // New Pattern Function: Averaging two most similar neighbors
+    function applyPattern(count) {
+        for (let i = 0; i < count; i++) {
+            const x = (Math.random() * width) | 0;
+            const y = (Math.random() * height) | 0;
+            const idx = y * width + x;
 
-    blurSpeed = calculateSpeed(inputs.blur.value);
-    clusterSpeed = calculateSpeed(inputs.cluster.value);
-    placeSpeed = calculateSpeed(inputs.speed.value);
+            const n = [
+                buffer[((y > 0 ? y - 1 : y) * width) + x],
+                buffer[((y < height - 1 ? y + 1 : y) * width) + x],
+                buffer[(y * width) + (x > 0 ? x - 1 : x)],
+                buffer[(y * width) + (x < width - 1 ? x + 1 : x)]
+            ];
 
-    const updateTrack = (el, activeColor, dimColor) =>
-    {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
-        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
+            const dist = (c1, c2) => {
+                const dr = (c1 & 0xFF) - (c2 & 0xFF);
+                const dg = ((c1 >> 8) & 0xFF) - ((c2 >> 8) & 0xFF);
+                const db = ((c1 >> 16) & 0xFF) - ((c2 >> 16) & 0xFF);
+                return dr*dr + dg*dg + db*db;
+            };
 
-    updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
-    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
-    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
-    updateTrack(inputs.mix, '#cc88ff', 'rgba(204, 136, 255, 0.2)');
-    updateTrack(inputs.blur, '#aaaaaa', 'rgba(170, 170, 170, 0.2)');
-    updateTrack(inputs.cluster, '#ffaa00', 'rgba(255, 170, 0, 0.2)');
-    updateTrack(inputs.speed, '#ffffff', 'rgba(255, 255, 255, 0.2)');
-}
+            let minDist = Infinity;
+            let pair = [n[0], n[1]];
 
-function resize()
-{   width = window.innerWidth;
-    height = window.innerHeight;
-    totalPixels = width * height;
-    canvas.width = width;
-    canvas.height = height;
-    imgData = ctx.createImageData(width, height);
-    buffer = new Uint32Array(imgData.data.buffer);
-    buffer.fill(0xFF000000);
-    updateSettings(); }
+            // Check all 6 combinations of neighbors
+            for(let j=0; j<3; j++) {
+                for(let k=j+1; k<4; k++) {
+                    let d = dist(n[j], n[k]);
+                    if(d < minDist) { minDist = d; pair = [n[j], n[k]]; }
+                }
+            }
 
-function applyColorMix(count)
-{   for (let i = 0; i < count; i++)
-    {   const x = (Math.random() * width) | 0;
-        const y = (Math.random() * height) | 0;
+            const c1 = pair[0], c2 = pair[1];
+            const avgR = ((c1 & 0xFF) + (c2 & 0xFF)) >> 1;
+            const avgG = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) >> 1;
+            const avgB = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) >> 1;
 
-        if (Math.random() >= mixRatio)
-        {   const total = rBrightness + gBrightness + bBrightness;
+            buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
+        }
+    }
 
-            if (total <= 0)
-            {   buffer[y * width + x] = 0xFF000000;
-                continue; }
+    function applyBlur(count) {
+        for (let i = 0; i < count; i++) {
+            const x = (Math.random() * width) | 0;
+            const y = (Math.random() * height) | 0;
+            const n1 = buffer[((y > 0 ? y - 1 : y) * width) + x];
+            const n2 = buffer[((y < height - 1 ? y + 1 : y) * width) + x];
+            const n3 = buffer[(y * width) + (x > 0 ? x - 1 : x)];
+            const n4 = buffer[(y * width) + (x < width - 1 ? x + 1 : x)];
+            const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2;
+            const avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2;
+            const avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
+            buffer[y * width + x] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
+        }
+    }
 
-            const pick = Math.random() * total;
-            let pureColor, brightness;
+    function applyCluster(count) {
+        for (let i = 0; i < count; i++) {
+            const x = (Math.random() * width) | 0;
+            const y = (Math.random() * height) | 0;
+            const n = [
+                buffer[((y > 0 ? y - 1 : y) * width) + x],
+                buffer[((y < height - 1 ? y + 1 : y) * width) + x],
+                buffer[(y * width) + (x > 0 ? x - 1 : x)],
+                buffer[(y * width) + (x < width - 1 ? x + 1 : x)]
+            ];
+            buffer[y * width + x] = n[(Math.random() * 4) | 0];
+        }
+    }
 
-            if (pick < rBrightness)
-            {   pureColor = COLOR_R; brightness = rBrightness; }
-            else if (pick < rBrightness + gBrightness)
-            {   pureColor = COLOR_G; brightness = gBrightness; }
-            else
-            {   pureColor = COLOR_B; brightness = bBrightness; }
+    function animate() {
+        applyColorMix(placeSpeed);
+        applyBlur(blurSpeed);
+        applyCluster(clusterSpeed);
+        applyPattern(patternSpeed);
+        ctx.putImageData(imgData, 0, 0);
+        requestAnimationFrame(animate);
+    }
 
-            const spread = (b) => 2 * 255 * Math.min(b, 1 - b);
-            const factor = Math.max(0, Math.min(255, (255 * brightness + (Math.random() - 0.5) * spread(brightness)) | 0)) / 255;
+    resize();
 
-            const r = ((pureColor & 0xFF) * factor) | 0;
-            const g = (((pureColor >> 8) & 0xFF) * factor) | 0;
-            const b = (((pureColor >> 16) & 0xFF) * factor) | 0;
+    // Reset speed to zero 1 second after load
+    setTimeout(() => {
+        inputs.speed.value = 0;
+        updateSettings(); }, 1000);
 
-            buffer[y * width + x] = 0xFF000000 | (b << 16) | (g << 8) | r;
-            continue; }
-
-        const spread = (b) => 2 * 255 * Math.min(b, 1 - b);
-
-        const r = Math.max(0, Math.min(255, (255 * rBrightness + (Math.random() - 0.5) * spread(rBrightness)) | 0));
-        const g = Math.max(0, Math.min(255, (255 * gBrightness + (Math.random() - 0.5) * spread(gBrightness)) | 0));
-        const b = Math.max(0, Math.min(255, (255 * bBrightness + (Math.random() - 0.5) * spread(bBrightness)) | 0));
-
-        buffer[y * width + x] = 0xFF000000 | (b << 16) | (g << 8) | r; }
-}
-
-function applyBlur(count)
-{   for (let i = 0; i < count; i++)
-    {   const x = (Math.random() * width) | 0;
-        const y = (Math.random() * height) | 0;
-        const idx = y * width + x;
-
-        const xLeft = x > 0 ? x - 1 : x;
-        const xRight = x < width - 1 ? x + 1 : x;
-        const yUp = y > 0 ? y - 1 : y;
-        const yDown = y < height - 1 ? y + 1 : y;
-
-        const n1 = buffer[yUp * width + x];
-        const n2 = buffer[yDown * width + x];
-        const n3 = buffer[y * width + xLeft];
-        const n4 = buffer[y * width + xRight];
-
-        const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2;
-        const avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2;
-        const avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
-
-        buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR; }
-}
-
-function applyCluster(count)
-{   for (let i = 0; i < count; i++)
-    {   const x = (Math.random() * width) | 0;
-        const y = (Math.random() * height) | 0;
-        const idx = y * width + x;
-
-        const xLeft = x > 0 ? x - 1 : x;
-        const xRight = x < width - 1 ? x + 1 : x;
-        const yUp = y > 0 ? y - 1 : y;
-        const yDown = y < height - 1 ? y + 1 : y;
-
-        const neighbors =
-        [   buffer[yUp * width + x],
-            buffer[yDown * width + x],
-            buffer[y * width + xLeft],
-            buffer[y * width + xRight] ];
-
-        const pick = (Math.random() * 4) | 0;
-        buffer[idx] = neighbors[pick]; }
-}
-
-function animate()
-{   applyColorMix(placeSpeed);
-    applyBlur(blurSpeed);
-    applyCluster(clusterSpeed);
-
-    ctx.putImageData(imgData, 0, 0);
-    requestAnimationFrame(animate);
-}
-
-resize();
-animate();
-}
-
-)
-();
-
+    animate();
+})();
 </script>
 
 <style>
-
-:root
-{   --ui-color: rgb(0, 255, 255); }
-
-html
-{   background-color: #000; }
-
-body
-{   margin: 0;
-    padding: 0;
-    width: 100%;
-    background-color: transparent;
-    color: var(--ui-color);
-    font-family: Silkscreen, 'Courier New', Courier, monospace, sans-serif;
-    text-align: center;
-    transition: color 0.1s; }
-
-canvas
-{   display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; }
-
-#ui-layer
-{   width: 100%;
-    pointer-events: none;
-    z-index: 10; }
-
-.header-area
-{   display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    pointer-events: auto; }
-
-a
-{   font-size: 9vw;
-    line-height: 1.2;
-    margin: 0;
-    text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
-    color: rgb(0, 255, 255); }
-
-a:hover
-{   color: rgb(0, 255, 000); }
-
-a:active
-{   color: rgb(255, 255, 000); }
-
-#controls
-{   pointer-events: auto;
-    background-color: rgba(0, 0, 0, 0.85);
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    width: 90%;
-    max-width: 350px;
-    margin: 20px auto;
-    overflow-y: auto; }
-
-.control-group
-{   width: 100%;
-    display: flex;
-    flex-direction: column; }
-
-.control-group label
-{   font-size: 10px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 2px; }
-
-input[type=range]
-{   -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    width: 100%;
-    display: block;
-    margin: 10px 0;
-    height: 4px;
-    border-radius: 2px;
-    outline: none; }
-
-input[type=range]::-webkit-slider-thumb
-{   -webkit-appearance: none;
-    appearance: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    border: none; }
-
-input[type=range]::-moz-range-thumb
-{   height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    border: none; }
-
-.red-slider::-webkit-slider-thumb { background: #ff4444; }
-.red-slider::-moz-range-thumb { background: #ff4444; }
-
-.green-slider::-webkit-slider-thumb { background: #44ff44; }
-.green-slider::-moz-range-thumb { background: #44ff44; }
-
-.blue-slider::-webkit-slider-thumb { background: #4444ff; }
-.blue-slider::-moz-range-thumb { background: #4444ff; }
-
-.mix-slider::-webkit-slider-thumb { background: #cc88ff; }
-.mix-slider::-moz-range-thumb { background: #cc88ff; }
-
-.blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
-.blur-slider::-moz-range-thumb { background: #aaaaaa; }
-
-.cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
-.cluster-slider::-moz-range-thumb { background: #ffaa00; }
-
-.speed-slider::-webkit-slider-thumb { background: #ffffff; }
-.speed-slider::-moz-range-thumb { background: #ffffff; }
-
-
-#controls::-webkit-scrollbar
-{   width: 6px; }
-
-#controls::-webkit-scrollbar-track
-{   background: rgba(255,255,255,0.1);
-    border-radius: 3px; }
-
-#controls::-webkit-scrollbar-thumb
-{   background: rgba(255,255,255,0.3);
-    border-radius: 3px; }
-
-.zero-button
-{   width: 100%;
-    padding: 8px;
-    margin-top: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 6px;
-    color: var(--ui-color);
-    font-family: Silkscreen, 'Courier New', Courier, monospace, sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.1s; }
-
-.zero-button:hover
-{   background-color: rgba(255, 255, 255, 0.2); }
-
-.zero-button:active
-{   background-color: rgba(255, 255, 255, 0.3); }
-
+    :root { --ui-color: rgb(0, 255, 255); }
+    html { background-color: #000; }
+    body { margin: 0; padding: 0; width: 100%; background-color: transparent; color: var(--ui-color); font-family: Silkscreen, 'Courier New', Courier, monospace, sans-serif; text-align: center; }
+    canvas { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+    #ui-layer { width: 100%; pointer-events: none; z-index: 10; }
+    #controls { pointer-events: auto; background-color: rgba(0, 0, 0, 0.85); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); display: flex; flex-direction: column; gap: 12px; align-items: center; width: 90%; max-width: 350px; margin: 20px auto; }
+    .control-group { width: 100%; display: flex; flex-direction: column; }
+    .control-group label { font-size: 10px; text-transform: uppercase; color: #888; margin-bottom: 2px; text-align: left;}
+    input[type=range] { -webkit-appearance: none; appearance: none; cursor: pointer; width: 100%; height: 4px; border-radius: 2px; outline: none; margin: 10px 0; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 16px; width: 16px; border-radius: 50%; border: none; }
+    .red-slider::-webkit-slider-thumb { background: #ff4444; }
+    .green-slider::-webkit-slider-thumb { background: #44ff44; }
+    .blue-slider::-webkit-slider-thumb { background: #4444ff; }
+    .speed-slider::-webkit-slider-thumb { background: #ffffff; }
+    .mix-slider::-webkit-slider-thumb { background: #cc88ff; }
+    .blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
+    .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
+    .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
+    .zero-button { width: 100%; padding: 8px; margin-top: 4px; background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; color: var(--ui-color); font-family: Silkscreen; font-size: 12px; cursor: pointer; }
 </style>
 
-</tail>
-
+</body>
 </html>
