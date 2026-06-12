@@ -54,6 +54,7 @@
             <input type="range" id="speedRate" class="speed-slider" min="0" max="100" value="60">
         </div>
         <button id="zeroBtn" class="zero-button">Zero</button>
+        <button id="unzeroBtn" class="zero-button">Unzero</button>
     </div> <!--/controls-->
 
     <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
@@ -61,7 +62,7 @@
 
     <nav class="header-area" id="main-nav">
         <!-- <a href="#politics-nav">Politics</a> -->
-        <a href="arts.html">Arts</a>
+        <!--<a href="arts.html">Arts</a>-->
     </nav>
 
     <section class="hero-spacer" style="min-height: 20vh" aria-hidden="true">
@@ -69,7 +70,7 @@
 
     <nav class="header-area" id="main-nav-2">
         <!-- <a href="#politics-nav">Politics</a> -->
-        <a href="CV.html">CV</a>
+        <!--<a href="CV.html">CV</a>-->
     </nav>
 
 </div> <!--/ui-layer-->
@@ -115,9 +116,29 @@ window.addEventListener('resize', resize);
 
 document.getElementById('zeroBtn').addEventListener
 ('click', () =>
-{   Object.values(inputs).forEach
-    (input =>
-    {   input.value = 0; });
+{   const stored =
+    {   blur: inputs.blur.value,
+        cluster: inputs.cluster.value,
+        speed: inputs.speed.value };
+
+    localStorage.setItem('zeroStash', JSON.stringify(stored));
+
+    inputs.blur.value = 0;
+    inputs.cluster.value = 0;
+    inputs.speed.value = 0;
+    updateSettings(); }
+);
+
+document.getElementById('unzeroBtn').addEventListener
+('click', () =>
+{   const raw = localStorage.getItem('zeroStash');
+    if (!raw) return;
+
+    const stored = JSON.parse(raw);
+
+    inputs.blur.value = stored.blur;
+    inputs.cluster.value = stored.cluster;
+    inputs.speed.value = stored.speed;
     updateSettings(); }
 );
 
