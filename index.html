@@ -44,7 +44,7 @@
             padding: 20px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            display: none; /* Hidden by default */
+            display: none;
             flex-direction: column;
             gap: 12px;
             align-items: center;
@@ -55,11 +55,11 @@
 
         .control-group { width: 100%; display: flex; flex-direction: column; }
         .control-group label {
-            font-size: 10px;
+            font-size: 12px;
             text-transform: uppercase;
             color: white;
             margin-bottom: 2px;
-            text-align: left;
+            text-align: center;
             pointer-events: none;
         }
 
@@ -105,14 +105,14 @@
             border-radius: 6px;
             color: var(--ui-color);
             font-family: Silkscreen;
-            font-size: 12px;
+            font-size: 14px;
             cursor: pointer;
             transition: background 0.2s;
             pointer-events: auto;
         }
         .ui-button:active { background-color: rgba(0, 0, 0, 0.8); }
 
-        #showControlsBtn {
+        #changeBackgroundBtn {
             max-width: 200px;
             margin: 20px auto;
             display: block;
@@ -131,9 +131,10 @@
 <div id="ui-layer">
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
 
-    <button id="showControlsBtn" class="ui-button">Show Controls</button>
+    <button id="changeBackgroundBtn" class="ui-button">Change Background</button>
 
     <div id="controls">
+    <p>Refresh page to randomly select from three colour schemes</p>
         <div class="control-group">
             <label for="rRate">Red</label>
             <input type="range" id="rRate" class="red-slider" min="0" max="100" value="0">
@@ -169,6 +170,7 @@
 
         <button id="pauseBtn" class="ui-button">Pause</button>
         <button id="hideControlsBtn" class="ui-button">Hide Controls</button>
+
     </div>
 
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
@@ -186,7 +188,7 @@
     const ctx = canvas.getContext('2d', { alpha: false });
 
     const controls = document.getElementById('controls');
-    const showBtn = document.getElementById('showControlsBtn');
+    const showBtn = document.getElementById('changeBackgroundBtn');
     const hideBtn = document.getElementById('hideControlsBtn');
     const pauseBtn = document.getElementById('pauseBtn');
 
