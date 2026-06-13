@@ -19,7 +19,7 @@
 
         #ui-layer { width: 100%; pointer-events: none; z-index: 10; }
 
-        #controls, .ui-button, .glass, p, h1, h2, li {
+        #controls, .glass, p, h1, h2, li {
             background-color: rgba(0, 0, 0, var(--bg-opacity)) !important;
             display: inline-block;
             padding: 5px 15px;
@@ -49,13 +49,13 @@
         .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
         .transparency-slider::-webkit-slider-thumb { background: #ffff00; }
 
-        .ui-button { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; color: var(--ui-color); font-family: Silkscreen; font-size: 14px; cursor: pointer; transition: background 0.2s; pointer-events: auto; }
+        .ui-button { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid rgb(55, 55, 55); background-color: black; border-radius: 6px; color: var(--ui-color); font-family: Silkscreen; font-size: 14px; cursor: pointer; transition: background 0.2s; pointer-events: auto; }
         #changeBackgroundBtn { max-width: 200px; margin: 20px auto; display: block; }
 
         footer { padding: 40px 0; color: var(--ui-color); font-size: 12px; }
 
         @keyframes pulseOpacity {
-            0%, 100% { opacity: 0.5; }
+            0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
         }
         .pulsate {
@@ -89,7 +89,7 @@
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
 </div>
 
-<footer class="pulsate"><p><span class="glass">&copy; 2026 Alec Gargett. All rights reserved.</span></p></footer>
+<footer class="pulsate"><p>&copy; 2026 Alec Gargett. All rights reserved.</p></footer>
 <canvas id="noiseCanvas"></canvas>
 
 <script>
