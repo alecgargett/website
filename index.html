@@ -16,41 +16,51 @@
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
     </section>
 
-    <button id="changeBackgroundBtn" class="ui-button pulsate">Change Background</button>
+    <button id="changeBackgroundBtn" class="ui-button">Change Background</button>
 
     <div id="controls">
-        <p>Refresh page to randomly select from three colour schemes</p>
         <div class="control-group">
-            <label>Red Speckles</label>
-            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="0">
+            <label>Red</label>
+            <input type="range" id="rMax" data-color="#ff4444" min="0" max="255" value="0">
         </div>
         <div class="control-group">
-            <label>Green Speckles</label>
-            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="50">
+            <label>Green</label>
+            <input type="range" id="gMax" data-color="#44ff44" min="0" max="255" value="255">
         </div>
         <div class="control-group">
-            <label>Blue Speckles</label>
-            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+            <label>Blue</label>
+            <input type="range" id="bMax" data-color="#4444ff" min="0" max="255" value="255">
         </div>
+
+        <button id="btnYellow" class="ui-button">Allow Yellow Speckles</button>
+
         <div class="control-group">
             <label>Speckle Rate</label>
-            <input type="range" id="speckleRate" class="speckle-slider" min="0" max="100" value="50">
+            <input type="range" id="speckleRate" data-color="#ffff00" min="0" max="100" value="100">
+        </div>
+        <div class="control-group">
+            <label>Max Brightness</label>
+            <input type="range" id="maxBright" data-color="#ffffff" min="0" max="255" value="255">
+        </div>
+        <div class="control-group">
+            <label>Min Brightness</label>
+            <input type="range" id="minBright" data-color="#ffffff" min="0" max="255" value="0">
         </div>
         <div class="control-group">
             <label>Blur</label>
-            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="50">
+            <input type="range" id="blurRate" data-color="#aaaaaa" min="0" max="100" value="50">
         </div>
         <div class="control-group">
             <label>Cluster</label>
-            <input type="range" id="clusterRate" class="cluster-slider" min="0" max="100" value="100">
+            <input type="range" id="clusterRate" data-color="#ffaa00" min="0" max="100" value="100">
         </div>
         <div class="control-group">
             <label>Pattern</label>
-            <input type="range" id="patternRate" class="pattern-slider" min="0" max="100" value="50">
+            <input type="range" id="patternRate" data-color="#00ffff" min="0" max="100" value="50">
         </div>
         <div class="control-group">
-            <label>Transparency</label>
-            <input type="range" id="transparencyRate" class="transparency-slider" min="0" max="100" value="50">
+            <label>Opacity</label>
+            <input type="range" id="opacityRate" data-color="#ffff00" min="0" max="100" value="70" step="any">
         </div>
 
         <button id="pauseBtn" class="ui-button">Pause</button>
@@ -61,7 +71,7 @@
     </section>
 </div> <!--/ui-layer-->
 
-<footer class="pulsate">
+<footer>
     <p>&copy; 2026 Alec Gargett. All rights reserved.</p>
 </footer> <!--/footer-->
 
@@ -105,12 +115,6 @@ canvas
     pointer-events: none;
     z-index: 10; }
 
-#controls, .glass, p, h1, h2, li
-{   background-color: rgba(0, 0, 0, var(--bg-opacity)) !important;
-    display: inline-block;
-    padding: 5px 15px;
-    border-radius: 8px; }
-
 #controls
 {   pointer-events: auto;
     padding: 20px;
@@ -122,7 +126,12 @@ canvas
     align-items: center;
     width: 90%;
     max-width: 350px;
-    margin: 20px auto; }
+    margin: 20px auto;
+    background-color: rgba(0, 0, 0, 0.1); }
+
+p
+{   display: inline-block;
+    background-color: rgba(0, 0, 0, var(--bg-opacity)); }
 
 .control-group
 {   width: 100%;
@@ -135,50 +144,54 @@ canvas
     color: white;
     margin-bottom: 2px;
     text-align: center;
-    pointer-events: none; }
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, var(--bg-opacity));
+    border-radius: 4px;
+    padding: 2px 0; }
 
 input[type=range]
-{   -webkit-appearance: none;
-    appearance: none;
+{   appearance: none;
     cursor: pointer;
     width: 100%;
     height: 4px;
     border-radius: 2px;
     outline: none;
     margin: 15px 0;
-    touch-action: pan-y; }
+    touch-action: pan-y;
+    background: rgba(255, 255, 255, 0.1); }
 
 input[type=range]::-webkit-slider-thumb
-{   -webkit-appearance: none;
-    appearance: none;
+{   appearance: none;
     height: 24px;
     width: 24px;
     border-radius: 50%;
+    background: var(--thumb-color, #fff);
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 8px rgba(0,0,0,0.5); }
-
-.red-slider::-webkit-slider-thumb { background: #ff4444; }
-.green-slider::-webkit-slider-thumb { background: #44ff44; }
-.blue-slider::-webkit-slider-thumb { background: #4444ff; }
-.speckle-slider::-webkit-slider-thumb { background: #ffffff; }
-.blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
-.cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
-.pattern-slider::-webkit-slider-thumb { background: #00ffff; }
-.transparency-slider::-webkit-slider-thumb { background: #ffff00; }
 
 .ui-button
 {   width: 100%;
     padding: 10px;
     margin-top: 4px;
     border: 1px solid rgb(55, 55, 55);
-    background-color: black;
+    background-color: rgba(0, 0, 0, var(--bg-opacity));
     border-radius: 6px;
     color: var(--ui-color);
-    font-family: Silkscreen;
-    font-size: 14px;
+    font: 14px Silkscreen;
     cursor: pointer;
     transition: background 0.2s;
     pointer-events: auto; }
+
+.ui-button.active
+{   background-color: #ffcc00;
+    color: #000;
+    border-color: #fff; }
+
+#btnYellow
+{   color: yellow; }
+
+#btnYellow.active
+{   color: #000; }
 
 #changeBackgroundBtn
 {   max-width: 200px;
@@ -190,13 +203,6 @@ footer
     color: var(--ui-color);
     font-size: 12px; }
 
-@keyframes pulseOpacity
-{   0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; } }
-
-.pulsate
-{   animation: pulseOpacity 8s ease-in-out infinite; }
-
 </style>
 
 <script>
@@ -206,113 +212,50 @@ footer
 {
 const canvas = document.getElementById('noiseCanvas');
 const ctx = canvas.getContext('2d', { alpha: false });
-const inputs =
-{   r: document.getElementById('rRate'),
-    g: document.getElementById('gRate'),
-    b: document.getElementById('bRate'),
-    speckle: document.getElementById('speckleRate'),
-    blur: document.getElementById('blurRate'),
-    cluster: document.getElementById('clusterRate'),
-    pattern: document.getElementById('patternRate'),
-    transparency: document.getElementById('transparencyRate') };
+const controlContainer = document.getElementById('controls');
+const pauseBtn = document.getElementById('pauseBtn');
+const btnYellow = document.getElementById('btnYellow');
+const inputList = Array.from(controlContainer.querySelectorAll('input'));
+const inputs = {};
 
-inputs.speckle.value = 90;
-inputs.blur.value = 90;
-inputs.cluster.value = 100;
-inputs.pattern.value = 50;
-inputs.transparency.value = 50;
+const W_R = 0.2126, W_G = 0.7152, W_B = 0.0722;
 
-const keys = ['r', 'g', 'b'];
-const zeroIndex = Math.floor(Math.random() * 3);
-const zeroKey = keys.splice(zeroIndex, 1)[0];
-const secondIndex = Math.floor(Math.random() * 2);
-const secondKey = keys.splice(secondIndex, 1)[0];
+inputList.forEach
+((el) =>
+{   const key = el.id.replace('Max', '').replace('Rate', '');
+    inputs[key] = el;
+    el.style.setProperty('--thumb-color', el.dataset.color); });
 
-let secondVal = 0;
-if (secondKey === 'r' || secondKey === 'b')
-{   secondVal = 50; }
-else if (secondKey === 'g')
-{   secondVal = 40; }
-
-const thirdKey = keys[0];
-let thirdVal = 0;
-
-if (Math.random() < 0.5)
-{   if (thirdKey === 'r' || thirdKey === 'b')
-    {   thirdVal = 50; }
-    else if (thirdKey === 'g')
-    {   thirdVal = 30; }
-}
-else
-{   if (Math.random() < 0.1)
-    {   thirdVal = 0; }
-    else
-    {   thirdVal = Math.floor(Math.random() * 31) + 20; }
-}
-
-const results = { [zeroKey]: 0, [secondKey]: secondVal, [thirdKey]: thirdVal };
-inputs.r.value = results.r;
-inputs.g.value = results.g;
-inputs.b.value = results.b;
-
-inputs.r.dataset.prevValue = inputs.r.value;
-inputs.g.dataset.prevValue = inputs.g.value;
-inputs.b.dataset.prevValue = inputs.b.value;
-
-let width, height, imgData, buffer;
-let blurSpeed = 0, clusterSpeed = 0, speckleSpeed = 0, patternSpeed = 0;
-let rProps, gProps, bProps;
-let isPaused = false, pausedState = null;
-
-Object.values(inputs).forEach
-(input =>
-{   input.addEventListener
-    ('input', () =>
-    {   if (input === inputs.r || input === inputs.g || input === inputs.b)
-        {   const newVal = parseInt(input.value);
-            const oldVal = parseInt(input.dataset.prevValue || 0);
-            const currentSpeckle = parseInt(inputs.speckle.value);
-
-            if (newVal > oldVal && oldVal >= currentSpeckle)
-            {   inputs.speckle.value = Math.min(100, currentSpeckle + (newVal - oldVal)); }
-            input.dataset.prevValue = newVal; }
-        updateSettings();
-    });
-});
-
-function calculateChannelProps(val)
-{   const v = parseFloat(val);
-    if (v <= 50)
-    {   return { weight: v / 50, max: v / 50, min: 0 }; }
-    return { weight: 1.0, max: 1.0, min: (v - 50) / 50 }; }
+let width, height, imgData, buffer, isPaused = false, allowYellow = false, userInterrupted = false;
+let speeds = { blur: 0, cluster: 0, pattern: 0, speckle: 0 };
 
 function updateSettings()
-{   const referencePixels = Math.max(width * height, window.innerWidth * window.innerHeight);
-    const maxPixels = (referencePixels / 5) | 0;
-    const calculateSpeed = (val) => (Math.pow(parseFloat(val) / 100, 10) * maxPixels) | 0;
+{   const area = width * height;
+    const maxPixels = (area / 10) | 0;
 
-    rProps = calculateChannelProps(inputs.r.value);
-    gProps = calculateChannelProps(inputs.g.value);
-    bProps = calculateChannelProps(inputs.b.value);
-    blurSpeed = calculateSpeed(inputs.blur.value);
-    clusterSpeed = calculateSpeed(inputs.cluster.value);
-    speckleSpeed = calculateSpeed(inputs.speckle.value);
-    patternSpeed = calculateSpeed(inputs.pattern.value);
+    speeds.blur = (Math.pow(inputs.blur.value / 100, 10) * maxPixels) | 0;
+    speeds.cluster = (Math.pow(inputs.cluster.value / 100, 10) * maxPixels) | 0;
+    speeds.pattern = (Math.pow(inputs.pattern.value / 100, 10) * maxPixels) | 0;
+    speeds.speckle = (Math.pow(inputs.speckle.value / 100, 5) * (maxPixels / 2)) | 0;
 
-    document.documentElement.style.setProperty('--bg-opacity', inputs.transparency.value / 100);
+    const maxR = parseInt(inputs.r.value), maxG = parseInt(inputs.g.value), maxB = parseInt(inputs.b.value);
+    const uiColor = `rgb(${maxR}, ${maxG}, ${maxB})`;
+    document.documentElement.style.setProperty('--ui-color', uiColor);
+    document.documentElement.style.setProperty('--bg-opacity', inputs.opacity.value / 100);
 
-    const updateTrack = (el, activeColor, dimColor) =>
+    inputList.forEach
+    ((el) =>
     {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
-        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
+        el.style.background = `linear-gradient(to right, ${el.dataset.color} ${pct}%, rgba(255,255,255,0.1) ${pct}%)`; });
+}
 
-    updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
-    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
-    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
-    updateTrack(inputs.speckle, '#ffffff', 'rgba(255, 255, 255, 0.2)');
-    updateTrack(inputs.blur, '#aaaaaa', 'rgba(170, 170, 170, 0.2)');
-    updateTrack(inputs.cluster, '#ffaa00', 'rgba(255, 170, 0, 0.2)');
-    updateTrack(inputs.pattern, '#00ffff', 'rgba(0, 255, 255, 0.2)');
-    updateTrack(inputs.transparency, '#ffff00', 'rgba(255, 255, 0, 0.2)');
+function updateButtonUI()
+{   if (allowYellow)
+    {   btnYellow.classList.add('active');
+        btnYellow.textContent = "Prevent Yellow Speckles"; }
+    else
+    {   btnYellow.classList.remove('active');
+        btnYellow.textContent = "Allow Yellow Speckles"; }
 }
 
 function resize()
@@ -325,182 +268,232 @@ function resize()
     buffer.fill(0xFF000000);
     updateSettings(); }
 
-function applyColorMix(count)
-{   for (let i = 0; i < count; i++)
-    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0, idx = y * width + x;
-        const getRandB = (p) => (p.min + Math.random() * (p.max - p.min));
-        const totalWeight = rProps.weight + gProps.weight + bProps.weight;
-        if (totalWeight <= 0)
-        {   buffer[idx] = 0xFF000000;
-            continue; }
-        const pick = Math.random() * totalWeight;
-        let r=0, g=0, b=0;
-        if (pick < rProps.weight) r = (getRandB(rProps) * 255) | 0;
-        else if (pick < rProps.weight + gProps.weight) g = (getRandB(gProps) * 255) | 0;
-        else b = (getRandB(bProps) * 255) | 0;
-        buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
-    }
+function addSpeckle()
+{   const minB = parseFloat(inputs.minBright.value);
+    const maxB = parseFloat(inputs.maxBright.value);
+    const rMult = (parseInt(inputs.r.value) + 1) / 256;
+    const gMult = (parseInt(inputs.g.value) + 1) / 256;
+    const bMult = (parseInt(inputs.b.value) + 1) / 256;
+
+    const idx = ((Math.random() * height) | 0) * width + ((Math.random() * width) | 0);
+    const baseBright = minB + Math.random() * (maxB - minB);
+
+    let r = (baseBright * rMult) | 0;
+    let g = (baseBright * gMult) | 0;
+    let b = (baseBright * bMult) | 0;
+
+    if (!allowYellow)
+    {   if (Math.random() < 0.5) r = 0;
+        else g = 0; }
+
+    buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
 }
 
-function applyPattern(count)
+function processPixels(count, mode)
 {   for (let i = 0; i < count; i++)
     {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0, idx = y * width + x;
-        const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
-        const dist = (c1, c2) =>
-        {   const dr = (c1 & 0xFF) - (c2 & 0xFF), dg = ((c1 >> 8) & 0xFF) - ((c2 >> 8) & 0xFF), db = ((c1 >> 16) & 0xFF) - ((c2 >> 16) & 0xFF);
-            return dr*dr + dg*dg + db*db; };
-        let minDist = Infinity; let pair = [n[0], n[1]];
-        for(let j=0; j<3; j++) for(let k=j+1; k<4; k++)
-        {   let d = dist(n[j], n[k]);
-            if(d < minDist)
-            {   minDist = d; pair = [n[j], n[k]]; }
+        const n =
+            [buffer[((y > 0 ? y - 1 : y) * width) + x],
+            buffer[((y < height - 1 ? y + 1 : y) * width) + x],
+            buffer[(y * width) + (x > 0 ? x - 1 : x)],
+            buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
+
+        if (mode === 'blur')
+        {   const r = ((n[0]&0xFF)+(n[1]&0xFF)+(n[2]&0xFF)+(n[3]&0xFF))>>2;
+            const g = (((n[0]>>8)&0xFF)+((n[1]>>8)&0xFF)+((n[2]>>8)&0xFF)+((n[3]>>8)&0xFF))>>2;
+            const b = (((n[0]>>16)&0xFF)+((n[1]>>16)&0xFF)+((n[2]>>16)&0xFF)+((n[3]>>16)&0xFF))>>2;
+            buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r; }
+        else if (mode === 'cluster') buffer[idx] = n[(Math.random() * 4) | 0];
+        else
+        {   let minDist = Infinity, p = [n[0], n[1]];
+            for (let j = 0; j < 3; j++)
+            {   for (let k = j + 1; k < 4; k++)
+                {   const dr = ((n[j]&0xFF) - (n[k]&0xFF)) * W_R;
+                    const dg = (((n[j]>>8)&0xFF) - ((n[k]>>8)&0xFF)) * W_G;
+                    const db = (((n[j]>>16)&0xFF) - ((n[k]>>16)&0xFF)) * W_B;
+                    const d = dr*dr + dg*dg + db*db;
+                    if (d < minDist) { minDist = d; p = [n[j], n[k]]; }
+                }
+            }
+            const r = ((p[0]&0xFF)+(p[1]&0xFF))>>1;
+            const g = (((p[0]>>8)&0xFF)+((p[1]>>8)&0xFF))>>1;
+            const b = (((p[0]>>16)&0xFF)+((p[1]>>16)&0xFF))>>1;
+            buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
         }
-        const c1 = pair[0], c2 = pair[1];
-        const avgR = ((c1 & 0xFF) + (c2 & 0xFF)) >> 1, avgG = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) >> 1, avgB = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) >> 1;
-        buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
-    }
-}
-
-function applyBlur(count)
-{   for (let i = 0; i < count; i++)
-    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0;
-        const n1 = buffer[((y > 0 ? y - 1 : y) * width) + x], n2 = buffer[((y < height - 1 ? y + 1 : y) * width) + x], n3 = buffer[(y * width) + (x > 0 ? x - 1 : x)], n4 = buffer[(y * width) + (x < width - 1 ? x + 1 : x)];
-        const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2, avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2, avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
-        buffer[y * width + x] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
-    }
-}
-
-function applyCluster(count)
-{   for (let i = 0; i < count; i++)
-    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0;
-        const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
-        buffer[y * width + x] = n[(Math.random() * 4) | 0];
     }
 }
 
 function animate()
-{   applyColorMix(speckleSpeed);
-    applyBlur(blurSpeed);
-    applyCluster(clusterSpeed);
-    applyPattern(patternSpeed);
-    ctx.putImageData(imgData, 0, 0);
+{   if (!isPaused)
+    {   for (let i = 0; i < speeds.speckle; i++) { addSpeckle(); }
+        processPixels(speeds.blur, 'blur');
+        processPixels(speeds.cluster, 'cluster');
+        processPixels(speeds.pattern, 'pattern');
+        ctx.putImageData(imgData, 0, 0); }
     requestAnimationFrame(animate); }
+
+function handleInteraction()
+{   userInterrupted = true; }
 
 resize();
 animate();
 
-setTimeout
-(() =>
-{   inputs.speckle.value = 0;
-    inputs.pattern.value = 100;
-    updateSettings();
-}, 1000);
+(function initSequence()
+{   inputList.forEach
+    ((el) =>
+    {   el.value = 0; });
 
-setTimeout
-(() =>
-{   inputs.blur.value = 0;
-    updateSettings();
-}, 1500);
+    allowYellow = false;
+    updateButtonUI();
 
-setTimeout
-(() =>
-{   inputs.pattern.value = 50;
+    const colorKeys = ['r', 'g', 'b'];
+    const chosenColor = colorKeys[(Math.random() * 3) | 0];
+    inputs[chosenColor].value = 255;
+
+    inputs.speckle.value = 100;
+    inputs.maxBright.value = 255;
+    inputs.opacity.value = 70;
     updateSettings();
-}, 5000);
+
+    setTimeout
+    (() =>
+    {   if (userInterrupted) return;
+        if (Math.random() < 0.9)
+        {   if (chosenColor === 'r' || chosenColor === 'g') inputs.b.value = 255;
+            else inputs.r.value = 255;
+            updateSettings(); }
+
+        setTimeout
+        (() =>
+        {   if (userInterrupted) return;
+            if (Math.random() < 0.5)
+            {   allowYellow = true;
+                updateButtonUI();
+                updateSettings(); }
+
+            setTimeout
+            (() =>
+            {   if (userInterrupted) return;
+                inputs.speckle.value = 0;
+                inputs.blur.value = 100;
+                inputs.cluster.value = 100;
+                inputs.pattern.value = 100;
+                updateSettings();
+
+                setTimeout
+                (() =>
+                {   if (userInterrupted) return;
+                    inputs.blur.value = 0;
+                    updateSettings(); }, (Math.random() * 5000));
+
+                setTimeout
+                (() =>
+                {   if (userInterrupted) return;
+                    inputs.pattern.value = 50;
+                    updateSettings(); }, (Math.random() * 5000));
+            }, 3000);
+        }, 3000);
+    }, 3000);
+})
+();
+
+controlContainer.addEventListener
+('input', (e) =>
+{   if (e.target.id !== 'opacityRate') handleInteraction();
+    if (isPaused && e.target.type === 'range')
+    {   isPaused = false;
+        pauseBtn.textContent = "Pause"; }
+    updateSettings();
+});
 
 document.getElementById('changeBackgroundBtn').addEventListener
 ('click', () =>
-{   document.getElementById('controls').style.display = 'flex';
+{   controlContainer.style.display = 'flex';
     document.getElementById('changeBackgroundBtn').style.display = 'none';
-    document.getElementById('changeBackgroundBtn').classList.remove('pulsate');
-    document.querySelector('footer').classList.remove('pulsate');
 });
 
 document.getElementById('hideControlsBtn').addEventListener
 ('click', () =>
-{   document.getElementById('controls').style.display = 'none';
+{   controlContainer.style.display = 'none';
     document.getElementById('changeBackgroundBtn').style.display = 'block';
 });
 
-document.getElementById('pauseBtn').addEventListener
-('click', () =>
-{   if (!isPaused)
-    {   pausedState = { blur: inputs.blur.value, cluster: inputs.cluster.value, speckle: inputs.speckle.value, pattern: inputs.pattern.value };
-        inputs.blur.value = 0; inputs.cluster.value = 0; inputs.speckle.value = 0; inputs.pattern.value = 0;
-        document.getElementById('pauseBtn').textContent = "Unpause"; isPaused = true;
-    }
-    else
-    {   if (pausedState)
-        {   inputs.blur.value = pausedState.blur; inputs.cluster.value = pausedState.cluster; inputs.speckle.value = pausedState.speckle; inputs.pattern.value = pausedState.pattern; }
-        document.getElementById('pauseBtn').textContent = "Pause"; isPaused = false;
-    }
-    updateSettings();
+pauseBtn.addEventListener
+('click', (e) =>
+{   handleInteraction();
+    isPaused = !isPaused;
+    e.target.textContent = iPaused ? "Unpause" : "Pause";
 });
+
+btnYellow.addEventListener
+('click', () =>
+{   handleInteraction();
+    allowYellow = !allowYellow;
+    updateButtonUI(); });
 }
 
 )
 ();
-
-/*
-=========================================================
-    CUSTOM FORMATTING STYLE GUIDE
-=========================================================
-
-1. HTML PRINCIPLES
-   - Root structure: Direct children of <body>, <head>,
-     and <tail> have zero indentation (flush left).
-   - Nesting: Deeper nested elements use 4-space indentation.
-   - Closing Tags: Structural closing tags (like </div>) for
-     direct children of <body> must be immediately
-     followed by a comment denoting the id or class.
-     Example: </div> <!--/container-id-->
-
-2. CSS PRINCIPLES
-   - Multi-line Blocks:
-     * Selector goes on line 1.
-     * Opening '{' goes on a new line.
-     * Exactly 3 spaces follow the '{' on the same line,
-       immediately followed by the first property.
-     * Subsequent properties go on new lines, indented
-       by 4 spaces to align with the first property.
-     * Closing '}' goes on the SAME line as the last
-       property, separated by exactly 1 space.
-
-   - Single-line Blocks: Kept entirely on one line with
-     1 space of padding inside the braces.
-
-3. JAVASCRIPT PRINCIPLES
-   - Outermost IIFE (The Special Rule):
-     * '(function()' on line 1.
-     * Blank line.
-     * Opening '{' on its own isolated line.
-     * ZERO indentation for all code immediately nested
-       inside this wrapper.
-     * Closing '}' on an isolated line, followed by a blank
-       line, ')' on an isolated line, and '();' on the last.
-
-   - Standard Block Logic (Functions, Objects, Loops, Ifs):
-     * Opening '{' drops to a new line.
-     * Exactly 3 spaces follow the '{' on the same line,
-       immediately followed by the first statement.
-     * Subsequent statements are indented by 4 spaces.
-
-   - The Closing Brace Rule (Inner vs. Outer):
-     * Innermost Blocks: If a block contains NO nested
-       braces inside it, the closing '}' goes on the SAME
-       line as the last statement, separated by 1 space.
-     * Outer Blocks: If a block contains nested braces,
-       the outer block's closing '}' drops to a NEW line.
-
-   - Callbacks and Chained Arguments:
-     * When a function call involves a callback or long list
-       (e.g., .addEventListener, .forEach), break the line
-       BEFORE the opening '('.
-=========================================================
-*/
 
 </script>
 
 </tail>
 
 </html>
+
+<!--
+=========================================================
+    CUSTOM FORMATTING STYLE GUIDE
+=========================================================
+
+1. HTML PRINCIPLES
+   - Root Structure: Direct children of <body>, <head>,
+     and <tail> have zero indentation (flush left).
+   - Nesting: Deeper nested elements use 4-space indentation.
+   - Closing Tags: Structural closing tags (like </div>) for
+     direct children of <body> must be followed by a
+     comment denoting the ID or class: <!--/id-name--\>
+   - Out-of-Bounds Content: Any documentation or text
+     placed in the <tail> or after the </html> tag must
+     be wrapped in HTML comments (<!-- --\>) to prevent
+     the browser from rendering it as plain text.
+
+2. CSS PRINCIPLES
+   - Multi-line Blocks:
+     * Selector on line 1; opening '{' on a new line.
+     * Exactly 3 spaces follow the '{' on the same line,
+       immediately followed by the first property.
+     * Subsequent properties are indented by 4 spaces.
+     * Closing '}' on the SAME line as the last property.
+   - Single-line Blocks: Use 1 space of padding inside
+     the braces: { property: value; }
+
+3. JAVASCRIPT PRINCIPLES
+   - Outermost IIFE:
+     * Opening '{' on its own line.
+     * ZERO indentation for code nested inside the IIFE.
+     * Closing '}' on an isolated line.
+
+   - Standard Block Logic (Functions, Loops, Ifs):
+     * Opening '{' drops to a new line.
+     * Exactly 3 spaces follow the '{' on the same line.
+     * Innermost Blocks: If a block contains NO nested
+       braces, the closing '}' stays on the same line.
+     * Outer Blocks: If a block contains nested braces,
+       the closing '}' drops to a new line.
+
+   - Call-Site Formatting:
+     * When a function call involves a callback or array
+       method (e.g., .addEventListener, .forEach), break
+       the line BEFORE the opening parenthesis '('.
+
+   - Expression Breaking (The Long Line Rule):
+     * For long variable assignments, array definitions,
+       or complex ternary chains, break the line at
+       logical separators (commas, ||, &&, or :).
+     * The continuation line must be indented by 4 spaces
+       relative to the start of the declaration to
+       clearly distinguish the logic from the block.
+
+=========================================================
+-->
