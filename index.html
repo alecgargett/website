@@ -392,6 +392,7 @@ animate();
 setTimeout
 (() =>
 {   inputs.speckle.value = 0;
+    inputs.pattern.value = 100;
     updateSettings();
 }, 1000);
 
@@ -400,6 +401,12 @@ setTimeout
 {   inputs.blur.value = 0;
     updateSettings();
 }, 1500);
+
+setTimeout
+(() =>
+{   inputs.pattern.value = 50;
+    updateSettings();
+}, 5000);
 
 document.getElementById('changeBackgroundBtn').addEventListener
 ('click', () =>
