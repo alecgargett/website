@@ -2,329 +2,498 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
-    <title>alecgargett.net - Alec Gargett</title>
-    <style>
-        :root {
-            --ui-color: rgb(0, 255, 255);
-            --bg-opacity: 0.7; /* Controlled by slider */
-        }
-        html { background-color: #000; overscroll-behavior: none; }
-        body { margin: 0; padding: 0; width: 100%; background-color: transparent; color: var(--ui-color); font-family: Silkscreen, sans-serif; text-align: center; }
-        canvas { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; image-rendering: pixelated; }
-
-        #ui-layer { width: 100%; pointer-events: none; z-index: 10; }
-
-        #controls, .glass, p, h1, h2, li {
-            background-color: rgba(0, 0, 0, var(--bg-opacity)) !important;
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 8px;
-        }
-
-        #controls {
-            pointer-events: auto; padding: 20px; border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2); display: none;
-            flex-direction: column; gap: 12px; align-items: center;
-            width: 90%; max-width: 350px; margin: 20px auto;
-        }
-
-        .control-group { width: 100%; display: flex; flex-direction: column; }
-        .control-group label { font-size: 12px; text-transform: uppercase; color: white; margin-bottom: 2px; text-align: center; pointer-events: none; }
-
-        input[type=range] { -webkit-appearance: none; appearance: none; cursor: pointer; width: 100%; height: 4px; border-radius: 2px; outline: none; margin: 15px 0; touch-action: pan-y; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 24px; width: 24px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 0 8px rgba(0,0,0,0.5); }
-
-        .red-slider::-webkit-slider-thumb { background: #ff4444; }
-        .green-slider::-webkit-slider-thumb { background: #44ff44; }
-        .blue-slider::-webkit-slider-thumb { background: #4444ff; }
-        .speckle-slider::-webkit-slider-thumb { background: #ffffff; }
-        .mix-slider::-webkit-slider-thumb { background: #cc88ff; }
-        .blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
-        .cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
-        .pattern-slider::-webkit-slider-thumb { background: #00ffff; }
-        .transparency-slider::-webkit-slider-thumb { background: #ffff00; }
-
-        .ui-button { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid rgb(55, 55, 55); background-color: black; border-radius: 6px; color: var(--ui-color); font-family: Silkscreen; font-size: 14px; cursor: pointer; transition: background 0.2s; pointer-events: auto; }
-        #changeBackgroundBtn { max-width: 200px; margin: 20px auto; display: block; }
-
-        footer { padding: 40px 0; color: var(--ui-color); font-size: 12px; }
-
-        @keyframes pulseOpacity {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        .pulsate {
-            animation: pulseOpacity 8s ease-in-out infinite;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+<title>alecgargett.net - Alec Gargett</title>
 </head>
 
 <body>
 
 <div id="ui-layer">
-    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
+    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
+    </section>
 
     <button id="changeBackgroundBtn" class="ui-button pulsate">Change Background</button>
 
     <div id="controls">
         <p>Refresh page to randomly select from three colour schemes</p>
-        <div class="control-group"><label>Red Speckles</label><input type="range" id="rRate" class="red-slider" min="0" max="100" value="0"></div>
-        <div class="control-group"><label>Green Speckles</label><input type="range" id="gRate" class="green-slider" min="0" max="100" value="0"></div>
-        <div class="control-group"><label>Blue Speckles</label><input type="range" id="bRate" class="blue-slider" min="0" max="100" value="0"></div>
-        <div class="control-group"><label>Speckle Rate</label><input type="range" id="speckleRate" class="speckle-slider" min="0" max="100" value="90"></div>
-        <div class="control-group"><label>Mix</label><input type="range" id="mixRate" class="mix-slider" min="0" max="100" value="100"></div>
-        <div class="control-group"><label>Blur</label><input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="90"></div>
-        <div class="control-group"><label>Cluster</label><input type="range" id="clusterRate" class="cluster-slider" min="0" max="100" value="100"></div>
-        <div class="control-group"><label>Pattern</label><input type="range" id="patternRate" class="pattern-slider" min="0" max="100" value="50"></div>
-        <div class="control-group"><label>Transparency</label><input type="range" id="transparencyRate" class="transparency-slider" min="0" max="100" value="50"></div>
+        <div class="control-group">
+            <label>Red Speckles</label>
+            <input type="range" id="rRate" class="red-slider" min="0" max="100" value="0">
+        </div>
+        <div class="control-group">
+            <label>Green Speckles</label>
+            <input type="range" id="gRate" class="green-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-group">
+            <label>Blue Speckles</label>
+            <input type="range" id="bRate" class="blue-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-group">
+            <label>Speckle Rate</label>
+            <input type="range" id="speckleRate" class="speckle-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-group">
+            <label>Blur</label>
+            <input type="range" id="blurRate" class="blur-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-group">
+            <label>Cluster</label>
+            <input type="range" id="clusterRate" class="cluster-slider" min="0" max="100" value="100">
+        </div>
+        <div class="control-group">
+            <label>Pattern</label>
+            <input type="range" id="patternRate" class="pattern-slider" min="0" max="100" value="50">
+        </div>
+        <div class="control-group">
+            <label>Transparency</label>
+            <input type="range" id="transparencyRate" class="transparency-slider" min="0" max="100" value="50">
+        </div>
 
         <button id="pauseBtn" class="ui-button">Pause</button>
         <button id="hideControlsBtn" class="ui-button">Hide Controls</button>
-    </div>
-    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true"></section>
-</div>
+    </div> <!--/controls-->
 
-<footer class="pulsate"><p>&copy; 2026 Alec Gargett. All rights reserved.</p></footer>
-<canvas id="noiseCanvas"></canvas>
+    <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
+    </section>
+</div> <!--/ui-layer-->
+
+<footer class="pulsate">
+    <p>&copy; 2026 Alec Gargett. All rights reserved.</p>
+</footer> <!--/footer-->
+
+<canvas id="noiseCanvas"></canvas> <!--/noiseCanvas-->
+
+</body>
+
+<tail>
+
+<style>
+
+:root
+{   --ui-color: rgb(0, 255, 255);
+    --bg-opacity: 0.7; }
+
+html
+{   background-color: #000;
+    overscroll-behavior: none; }
+
+body
+{   margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: transparent;
+    color: var(--ui-color);
+    font-family: Silkscreen, sans-serif;
+    text-align: center; }
+
+canvas
+{   display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    image-rendering: pixelated; }
+
+#ui-layer
+{   width: 100%;
+    pointer-events: none;
+    z-index: 10; }
+
+#controls, .glass, p, h1, h2, li
+{   background-color: rgba(0, 0, 0, var(--bg-opacity)) !important;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 8px; }
+
+#controls
+{   pointer-events: auto;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    width: 90%;
+    max-width: 350px;
+    margin: 20px auto; }
+
+.control-group
+{   width: 100%;
+    display: flex;
+    flex-direction: column; }
+
+.control-group label
+{   font-size: 12px;
+    text-transform: uppercase;
+    color: white;
+    margin-bottom: 2px;
+    text-align: center;
+    pointer-events: none; }
+
+input[type=range]
+{   -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    outline: none;
+    margin: 15px 0;
+    touch-action: pan-y; }
+
+input[type=range]::-webkit-slider-thumb
+{   -webkit-appearance: none;
+    appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 8px rgba(0,0,0,0.5); }
+
+.red-slider::-webkit-slider-thumb { background: #ff4444; }
+.green-slider::-webkit-slider-thumb { background: #44ff44; }
+.blue-slider::-webkit-slider-thumb { background: #4444ff; }
+.speckle-slider::-webkit-slider-thumb { background: #ffffff; }
+.blur-slider::-webkit-slider-thumb { background: #aaaaaa; }
+.cluster-slider::-webkit-slider-thumb { background: #ffaa00; }
+.pattern-slider::-webkit-slider-thumb { background: #00ffff; }
+.transparency-slider::-webkit-slider-thumb { background: #ffff00; }
+
+.ui-button
+{   width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border: 1px solid rgb(55, 55, 55);
+    background-color: black;
+    border-radius: 6px;
+    color: var(--ui-color);
+    font-family: Silkscreen;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    pointer-events: auto; }
+
+#changeBackgroundBtn
+{   max-width: 200px;
+    margin: 20px auto;
+    display: block; }
+
+footer
+{   padding: 40px 0;
+    color: var(--ui-color);
+    font-size: 12px; }
+
+@keyframes pulseOpacity
+{   0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; } }
+
+.pulsate
+{   animation: pulseOpacity 8s ease-in-out infinite; }
+
+</style>
 
 <script>
-(function() {
-    const canvas = document.getElementById('noiseCanvas');
-    const ctx = canvas.getContext('2d', { alpha: false });
-    const inputs = {
-        r: document.getElementById('rRate'),
-        g: document.getElementById('gRate'),
-        b: document.getElementById('bRate'),
-        speckle: document.getElementById('speckleRate'),
-        mix: document.getElementById('mixRate'),
-        blur: document.getElementById('blurRate'),
-        cluster: document.getElementById('clusterRate'),
-        pattern: document.getElementById('patternRate'),
-        transparency: document.getElementById('transparencyRate')
-    };
 
-    // Static Defaults
-    inputs.speckle.value = 90;
-    inputs.blur.value = 90;
-    inputs.cluster.value = 100;
-    inputs.pattern.value = 50;
-    inputs.transparency.value = 50;
+(function()
 
-    // MIX RANDOMIZATION: 50% chance zero, 50% chance 1-100
-    inputs.mix.value = Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 100) + 1;
+{
+const canvas = document.getElementById('noiseCanvas');
+const ctx = canvas.getContext('2d', { alpha: false });
+const inputs =
+{   r: document.getElementById('rRate'),
+    g: document.getElementById('gRate'),
+    b: document.getElementById('bRate'),
+    speckle: document.getElementById('speckleRate'),
+    blur: document.getElementById('blurRate'),
+    cluster: document.getElementById('clusterRate'),
+    pattern: document.getElementById('patternRate'),
+    transparency: document.getElementById('transparencyRate') };
 
-        // --- UPDATED COLOUR STARTUP LOGIC ---
-        const keys = ['r', 'g', 'b'];
+inputs.speckle.value = 90;
+inputs.blur.value = 90;
+inputs.cluster.value = 100;
+inputs.pattern.value = 50;
+inputs.transparency.value = 50;
 
-        // 1. One is randomly set to 0
-        const zeroIndex = Math.floor(Math.random() * 3);
-        const zeroKey = keys.splice(zeroIndex, 1)[0]; // Remove and store the zero key
+const keys = ['r', 'g', 'b'];
+const zeroIndex = Math.floor(Math.random() * 3);
+const zeroKey = keys.splice(zeroIndex, 1)[0];
+const secondIndex = Math.floor(Math.random() * 2);
+const secondKey = keys.splice(secondIndex, 1)[0];
 
-        // 2. A second is set based on its color
-        const secondIndex = Math.floor(Math.random() * 2);
-        const secondKey = keys.splice(secondIndex, 1)[0]; // Remove and store the second key
-        let secondVal = 0;
-        if (secondKey === 'r' || secondKey === 'b') secondVal = 50;
-        else if (secondKey === 'g') secondVal = 40;
+let secondVal = 0;
+if (secondKey === 'r' || secondKey === 'b')
+{   secondVal = 50; }
+else if (secondKey === 'g')
+{   secondVal = 40; }
 
-        // 3. The third has complex probability
-        const thirdKey = keys[0]; // The remaining key
-        let thirdVal = 0;
+const thirdKey = keys[0];
+let thirdVal = 0;
 
-        if (Math.random() < 0.5) {
-                // 50% chance branch
-                if (thirdKey === 'r' || thirdKey === 'b') thirdVal = 50;
-                else if (thirdKey === 'g') thirdVal = 30;
-        } else {
-                // Otherwise branch (the other 50%)
-                if (Math.random() < 0.1) {
-                // 10% chance of zero
-                thirdVal = 0;
-                } else {
-                // Otherwise random between 20 and 50
-                thirdVal = Math.floor(Math.random() * 31) + 20;
-                }
-        }
+if (Math.random() < 0.5)
+{   if (thirdKey === 'r' || thirdKey === 'b')
+    {   thirdVal = 50; }
+    else if (thirdKey === 'g')
+    {   thirdVal = 30; }
+}
+else
+{   if (Math.random() < 0.1)
+    {   thirdVal = 0; }
+    else
+    {   thirdVal = Math.floor(Math.random() * 31) + 20; }
+}
 
-        // Apply values to inputs
-        const results = { [zeroKey]: 0, [secondKey]: secondVal, [thirdKey]: thirdVal };
-        inputs.r.value = results.r;
-        inputs.g.value = results.g;
-        inputs.b.value = results.b;
+const results = { [zeroKey]: 0, [secondKey]: secondVal, [thirdKey]: thirdVal };
+inputs.r.value = results.r;
+inputs.g.value = results.g;
+inputs.b.value = results.b;
 
-        // Initialize tracking for RGB values to detect increase amounts
-        inputs.r.dataset.prevValue = inputs.r.value;
-        inputs.g.dataset.prevValue = inputs.g.value;
-        inputs.b.dataset.prevValue = inputs.b.value;
-        // ------------------------------------
+inputs.r.dataset.prevValue = inputs.r.value;
+inputs.g.dataset.prevValue = inputs.g.value;
+inputs.b.dataset.prevValue = inputs.b.value;
 
-    let width, height, imgData, buffer;
-    let blurSpeed = 0, clusterSpeed = 0, speckleSpeed = 0, patternSpeed = 0;
-    let rProps, gProps, bProps, mixRatio;
-    let isPaused = false, pausedState = null;
+let width, height, imgData, buffer;
+let blurSpeed = 0, clusterSpeed = 0, speckleSpeed = 0, patternSpeed = 0;
+let rProps, gProps, bProps;
+let isPaused = false, pausedState = null;
 
-    Object.values(inputs).forEach(input => {
-        input.addEventListener('input', () => {
-            // Logic: If R, G, or B increases and was >= speckleRate, increase speckleRate too
-            if (input === inputs.r || input === inputs.g || input === inputs.b) {
-                const newVal = parseInt(input.value);
-                const oldVal = parseInt(input.dataset.prevValue || 0);
-                const currentSpeckle = parseInt(inputs.speckle.value);
+Object.values(inputs).forEach
+(input =>
+{   input.addEventListener
+    ('input', () =>
+    {   if (input === inputs.r || input === inputs.g || input === inputs.b)
+        {   const newVal = parseInt(input.value);
+            const oldVal = parseInt(input.dataset.prevValue || 0);
+            const currentSpeckle = parseInt(inputs.speckle.value);
 
-                if (newVal > oldVal && oldVal >= currentSpeckle) {
-                    inputs.speckle.value = Math.min(100, currentSpeckle + (newVal - oldVal));
-                }
-                input.dataset.prevValue = newVal;
-            }
-            updateSettings();
-        });
-    });
-
-    function calculateChannelProps(val) {
-        const v = parseFloat(val);
-        if (v <= 50) return { weight: v / 50, max: v / 50, min: 0 };
-        return { weight: 1.0, max: 1.0, min: (v - 50) / 50 };
-    }
-
-    function updateSettings() {
-        const referencePixels = Math.max(width * height, window.innerWidth * window.innerHeight);
-        const maxPixels = (referencePixels / 5) | 0;
-        const calculateSpeed = (val) => (Math.pow(parseFloat(val) / 100, 10) * maxPixels) | 0;
-
-        rProps = calculateChannelProps(inputs.r.value);
-        gProps = calculateChannelProps(inputs.g.value);
-        bProps = calculateChannelProps(inputs.b.value);
-        mixRatio = parseFloat(inputs.mix.value) / 100;
-        blurSpeed = calculateSpeed(inputs.blur.value);
-        clusterSpeed = calculateSpeed(inputs.cluster.value);
-        speckleSpeed = calculateSpeed(inputs.speckle.value);
-        patternSpeed = calculateSpeed(inputs.pattern.value);
-
-        document.documentElement.style.setProperty('--bg-opacity', inputs.transparency.value / 100);
-
-        const updateTrack = (el, activeColor, dimColor) => {
-            const pct = (el.value - el.min) / (el.max - el.min) * 100;
-            el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`;
-        };
-        updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
-        updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
-        updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
-        updateTrack(inputs.speckle, '#ffffff', 'rgba(255, 255, 255, 0.2)');
-        updateTrack(inputs.mix, '#cc88ff', 'rgba(204, 136, 255, 0.2)');
-        updateTrack(inputs.blur, '#aaaaaa', 'rgba(170, 170, 170, 0.2)');
-        updateTrack(inputs.cluster, '#ffaa00', 'rgba(255, 170, 0, 0.2)');
-        updateTrack(inputs.pattern, '#00ffff', 'rgba(0, 255, 255, 0.2)');
-        updateTrack(inputs.transparency, '#ffff00', 'rgba(255, 255, 0, 0.2)');
-    }
-
-    function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight + 150;
-        canvas.width = width;
-        canvas.height = height;
-        imgData = ctx.createImageData(width, height);
-        buffer = new Uint32Array(imgData.data.buffer);
-        buffer.fill(0xFF000000);
-        updateSettings();
-    }
-
-    function applyColorMix(count) {
-        for (let i = 0; i < count; i++) {
-            const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0, idx = y * width + x;
-            const getRandB = (p) => (p.min + Math.random() * (p.max - p.min));
-            if (Math.random() >= mixRatio) {
-                const totalWeight = rProps.weight + gProps.weight + bProps.weight;
-                if (totalWeight <= 0) { buffer[idx] = 0xFF000000; continue; }
-                const pick = Math.random() * totalWeight;
-                let r=0, g=0, b=0;
-                if (pick < rProps.weight) r = (getRandB(rProps) * 255) | 0;
-                else if (pick < rProps.weight + gProps.weight) g = (getRandB(gProps) * 255) | 0;
-                else b = (getRandB(bProps) * 255) | 0;
-                buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
-            } else {
-                const r = (getRandB(rProps) * 255) | 0, g = (getRandB(gProps) * 255) | 0, b = (getRandB(bProps) * 255) | 0;
-                buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
-            }
-        }
-    }
-
-    function applyPattern(count) {
-        for (let i = 0; i < count; i++) {
-            const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0, idx = y * width + x;
-            const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
-            const dist = (c1, c2) => {
-                const dr = (c1 & 0xFF) - (c2 & 0xFF), dg = ((c1 >> 8) & 0xFF) - ((c2 >> 8) & 0xFF), db = ((c1 >> 16) & 0xFF) - ((c2 >> 16) & 0xFF);
-                return dr*dr + dg*dg + db*db;
-            };
-            let minDist = Infinity; let pair = [n[0], n[1]];
-            for(let j=0; j<3; j++) for(let k=j+1; k<4; k++) { let d = dist(n[j], n[k]); if(d < minDist) { minDist = d; pair = [n[j], n[k]]; } }
-            const c1 = pair[0], c2 = pair[1];
-            const avgR = ((c1 & 0xFF) + (c2 & 0xFF)) >> 1, avgG = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) >> 1, avgB = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) >> 1;
-            buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
-        }
-    }
-
-    function applyBlur(count) {
-        for (let i = 0; i < count; i++) {
-            const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0;
-            const n1 = buffer[((y > 0 ? y - 1 : y) * width) + x], n2 = buffer[((y < height - 1 ? y + 1 : y) * width) + x], n3 = buffer[(y * width) + (x > 0 ? x - 1 : x)], n4 = buffer[(y * width) + (x < width - 1 ? x + 1 : x)];
-            const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2, avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2, avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
-            buffer[y * width + x] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
-        }
-    }
-
-    function applyCluster(count) {
-        for (let i = 0; i < count; i++) {
-            const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0;
-            const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
-            buffer[y * width + x] = n[(Math.random() * 4) | 0];
-        }
-    }
-
-    function animate() {
-        applyColorMix(speckleSpeed);
-        applyBlur(blurSpeed);
-        applyCluster(clusterSpeed);
-        applyPattern(patternSpeed);
-        ctx.putImageData(imgData, 0, 0);
-        requestAnimationFrame(animate);
-    }
-
-    resize();
-    animate();
-
-    setTimeout(() => { inputs.speckle.value = 0; updateSettings(); }, 1000);
-    setTimeout(() => { inputs.blur.value = 0; updateSettings(); }, 1500);
-
-    document.getElementById('changeBackgroundBtn').addEventListener('click', () => {
-        document.getElementById('controls').style.display = 'flex';
-        document.getElementById('changeBackgroundBtn').style.display = 'none';
-        document.getElementById('changeBackgroundBtn').classList.remove('pulsate');
-        document.querySelector('footer').classList.remove('pulsate');
-    });
-
-    document.getElementById('hideControlsBtn').addEventListener('click', () => {
-        document.getElementById('controls').style.display = 'none';
-        document.getElementById('changeBackgroundBtn').style.display = 'block';
-    });
-
-    document.getElementById('pauseBtn').addEventListener('click', () => {
-        if (!isPaused) {
-            pausedState = { blur: inputs.blur.value, cluster: inputs.cluster.value, speckle: inputs.speckle.value, pattern: inputs.pattern.value };
-            inputs.blur.value = 0; inputs.cluster.value = 0; inputs.speckle.value = 0; inputs.pattern.value = 0;
-            document.getElementById('pauseBtn').textContent = "Unpause"; isPaused = true;
-        } else {
-            if (pausedState) { inputs.blur.value = pausedState.blur; inputs.cluster.value = pausedState.cluster; inputs.speckle.value = pausedState.speckle; inputs.pattern.value = pausedState.pattern; }
-            document.getElementById('pauseBtn').textContent = "Pause"; isPaused = false;
-        }
+            if (newVal > oldVal && oldVal >= currentSpeckle)
+            {   inputs.speckle.value = Math.min(100, currentSpeckle + (newVal - oldVal)); }
+            input.dataset.prevValue = newVal; }
         updateSettings();
     });
-})();
+});
+
+function calculateChannelProps(val)
+{   const v = parseFloat(val);
+    if (v <= 50)
+    {   return { weight: v / 50, max: v / 50, min: 0 }; }
+    return { weight: 1.0, max: 1.0, min: (v - 50) / 50 }; }
+
+function updateSettings()
+{   const referencePixels = Math.max(width * height, window.innerWidth * window.innerHeight);
+    const maxPixels = (referencePixels / 5) | 0;
+    const calculateSpeed = (val) => (Math.pow(parseFloat(val) / 100, 10) * maxPixels) | 0;
+
+    rProps = calculateChannelProps(inputs.r.value);
+    gProps = calculateChannelProps(inputs.g.value);
+    bProps = calculateChannelProps(inputs.b.value);
+    blurSpeed = calculateSpeed(inputs.blur.value);
+    clusterSpeed = calculateSpeed(inputs.cluster.value);
+    speckleSpeed = calculateSpeed(inputs.speckle.value);
+    patternSpeed = calculateSpeed(inputs.pattern.value);
+
+    document.documentElement.style.setProperty('--bg-opacity', inputs.transparency.value / 100);
+
+    const updateTrack = (el, activeColor, dimColor) =>
+    {   const pct = (el.value - el.min) / (el.max - el.min) * 100;
+        el.style.background = `linear-gradient(to right, ${activeColor} ${pct}%, ${dimColor} ${pct}%)`; };
+
+    updateTrack(inputs.r, '#ff4444', 'rgba(255, 68, 68, 0.2)');
+    updateTrack(inputs.g, '#44ff44', 'rgba(68, 255, 68, 0.2)');
+    updateTrack(inputs.b, '#4444ff', 'rgba(68, 68, 255, 0.2)');
+    updateTrack(inputs.speckle, '#ffffff', 'rgba(255, 255, 255, 0.2)');
+    updateTrack(inputs.blur, '#aaaaaa', 'rgba(170, 170, 170, 0.2)');
+    updateTrack(inputs.cluster, '#ffaa00', 'rgba(255, 170, 0, 0.2)');
+    updateTrack(inputs.pattern, '#00ffff', 'rgba(0, 255, 255, 0.2)');
+    updateTrack(inputs.transparency, '#ffff00', 'rgba(255, 255, 0, 0.2)');
+}
+
+function resize()
+{   width = window.innerWidth;
+    height = window.innerHeight + 150;
+    canvas.width = width;
+    canvas.height = height;
+    imgData = ctx.createImageData(width, height);
+    buffer = new Uint32Array(imgData.data.buffer);
+    buffer.fill(0xFF000000);
+    updateSettings(); }
+
+function applyColorMix(count)
+{   for (let i = 0; i < count; i++)
+    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0, idx = y * width + x;
+        const getRandB = (p) => (p.min + Math.random() * (p.max - p.min));
+        const totalWeight = rProps.weight + gProps.weight + bProps.weight;
+        if (totalWeight <= 0)
+        {   buffer[idx] = 0xFF000000;
+            continue; }
+        const pick = Math.random() * totalWeight;
+        let r=0, g=0, b=0;
+        if (pick < rProps.weight) r = (getRandB(rProps) * 255) | 0;
+        else if (pick < rProps.weight + gProps.weight) g = (getRandB(gProps) * 255) | 0;
+        else b = (getRandB(bProps) * 255) | 0;
+        buffer[idx] = 0xFF000000 | (b << 16) | (g << 8) | r;
+    }
+}
+
+function applyPattern(count)
+{   for (let i = 0; i < count; i++)
+    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0, idx = y * width + x;
+        const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
+        const dist = (c1, c2) =>
+        {   const dr = (c1 & 0xFF) - (c2 & 0xFF), dg = ((c1 >> 8) & 0xFF) - ((c2 >> 8) & 0xFF), db = ((c1 >> 16) & 0xFF) - ((c2 >> 16) & 0xFF);
+            return dr*dr + dg*dg + db*db; };
+        let minDist = Infinity; let pair = [n[0], n[1]];
+        for(let j=0; j<3; j++) for(let k=j+1; k<4; k++)
+        {   let d = dist(n[j], n[k]);
+            if(d < minDist)
+            {   minDist = d; pair = [n[j], n[k]]; }
+        }
+        const c1 = pair[0], c2 = pair[1];
+        const avgR = ((c1 & 0xFF) + (c2 & 0xFF)) >> 1, avgG = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) >> 1, avgB = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) >> 1;
+        buffer[idx] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
+    }
+}
+
+function applyBlur(count)
+{   for (let i = 0; i < count; i++)
+    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0;
+        const n1 = buffer[((y > 0 ? y - 1 : y) * width) + x], n2 = buffer[((y < height - 1 ? y + 1 : y) * width) + x], n3 = buffer[(y * width) + (x > 0 ? x - 1 : x)], n4 = buffer[(y * width) + (x < width - 1 ? x + 1 : x)];
+        const avgR = ((n1 & 0xFF) + (n2 & 0xFF) + (n3 & 0xFF) + (n4 & 0xFF)) >> 2, avgG = (((n1 >> 8) & 0xFF) + ((n2 >> 8) & 0xFF) + ((n3 >> 8) & 0xFF) + ((n4 >> 8) & 0xFF)) >> 2, avgB = (((n1 >> 16) & 0xFF) + ((n2 >> 16) & 0xFF) + ((n3 >> 16) & 0xFF) + ((n4 >> 16) & 0xFF)) >> 2;
+        buffer[y * width + x] = 0xFF000000 | (avgB << 16) | (avgG << 8) | avgR;
+    }
+}
+
+function applyCluster(count)
+{   for (let i = 0; i < count; i++)
+    {   const x = (Math.random() * width) | 0, y = (Math.random() * height) | 0;
+        const n = [buffer[((y > 0 ? y - 1 : y) * width) + x], buffer[((y < height - 1 ? y + 1 : y) * width) + x], buffer[(y * width) + (x > 0 ? x - 1 : x)], buffer[(y * width) + (x < width - 1 ? x + 1 : x)]];
+        buffer[y * width + x] = n[(Math.random() * 4) | 0];
+    }
+}
+
+function animate()
+{   applyColorMix(speckleSpeed);
+    applyBlur(blurSpeed);
+    applyCluster(clusterSpeed);
+    applyPattern(patternSpeed);
+    ctx.putImageData(imgData, 0, 0);
+    requestAnimationFrame(animate); }
+
+resize();
+animate();
+
+setTimeout
+(() =>
+{   inputs.speckle.value = 0;
+    updateSettings();
+}, 1000);
+
+setTimeout
+(() =>
+{   inputs.blur.value = 0;
+    updateSettings();
+}, 1500);
+
+document.getElementById('changeBackgroundBtn').addEventListener
+('click', () =>
+{   document.getElementById('controls').style.display = 'flex';
+    document.getElementById('changeBackgroundBtn').style.display = 'none';
+    document.getElementById('changeBackgroundBtn').classList.remove('pulsate');
+    document.querySelector('footer').classList.remove('pulsate');
+});
+
+document.getElementById('hideControlsBtn').addEventListener
+('click', () =>
+{   document.getElementById('controls').style.display = 'none';
+    document.getElementById('changeBackgroundBtn').style.display = 'block';
+});
+
+document.getElementById('pauseBtn').addEventListener
+('click', () =>
+{   if (!isPaused)
+    {   pausedState = { blur: inputs.blur.value, cluster: inputs.cluster.value, speckle: inputs.speckle.value, pattern: inputs.pattern.value };
+        inputs.blur.value = 0; inputs.cluster.value = 0; inputs.speckle.value = 0; inputs.pattern.value = 0;
+        document.getElementById('pauseBtn').textContent = "Unpause"; isPaused = true;
+    }
+    else
+    {   if (pausedState)
+        {   inputs.blur.value = pausedState.blur; inputs.cluster.value = pausedState.cluster; inputs.speckle.value = pausedState.speckle; inputs.pattern.value = pausedState.pattern; }
+        document.getElementById('pauseBtn').textContent = "Pause"; isPaused = false;
+    }
+    updateSettings();
+});
+}
+
+)
+();
+
+/*
+=========================================================
+    CUSTOM FORMATTING STYLE GUIDE
+=========================================================
+
+1. HTML PRINCIPLES
+   - Root structure: Direct children of <body>, <head>,
+     and <tail> have zero indentation (flush left).
+   - Nesting: Deeper nested elements use 4-space indentation.
+   - Closing Tags: Structural closing tags (like </div>) for
+     direct children of <body> must be immediately
+     followed by a comment denoting the id or class.
+     Example: </div> <!--/container-id-->
+
+2. CSS PRINCIPLES
+   - Multi-line Blocks:
+     * Selector goes on line 1.
+     * Opening '{' goes on a new line.
+     * Exactly 3 spaces follow the '{' on the same line,
+       immediately followed by the first property.
+     * Subsequent properties go on new lines, indented
+       by 4 spaces to align with the first property.
+     * Closing '}' goes on the SAME line as the last
+       property, separated by exactly 1 space.
+
+   - Single-line Blocks: Kept entirely on one line with
+     1 space of padding inside the braces.
+
+3. JAVASCRIPT PRINCIPLES
+   - Outermost IIFE (The Special Rule):
+     * '(function()' on line 1.
+     * Blank line.
+     * Opening '{' on its own isolated line.
+     * ZERO indentation for all code immediately nested
+       inside this wrapper.
+     * Closing '}' on an isolated line, followed by a blank
+       line, ')' on an isolated line, and '();' on the last.
+
+   - Standard Block Logic (Functions, Objects, Loops, Ifs):
+     * Opening '{' drops to a new line.
+     * Exactly 3 spaces follow the '{' on the same line,
+       immediately followed by the first statement.
+     * Subsequent statements are indented by 4 spaces.
+
+   - The Closing Brace Rule (Inner vs. Outer):
+     * Innermost Blocks: If a block contains NO nested
+       braces inside it, the closing '}' goes on the SAME
+       line as the last statement, separated by 1 space.
+     * Outer Blocks: If a block contains nested braces,
+       the outer block's closing '}' drops to a NEW line.
+
+   - Callbacks and Chained Arguments:
+     * When a function call involves a callback or long list
+       (e.g., .addEventListener, .forEach), break the line
+       BEFORE the opening '('.
+=========================================================
+*/
+
 </script>
-</body>
+
+</tail>
+
 </html>
