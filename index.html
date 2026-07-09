@@ -16,6 +16,13 @@
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
     </section>
 
+    <form id="donateForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+        <input type="hidden" name="cmd" value="_donations">
+        <input type="hidden" name="business" value="alecgargett@gmail.com">
+        <input type="hidden" name="currency_code" value="AUD">
+        <button type="submit" class="ui-button">Donate</button>
+    </form>
+
     <button id="changeBackgroundBtn" class="ui-button">Change Background</button>
 
     <div id="controls">
@@ -194,6 +201,11 @@ input[type=range]::-webkit-slider-thumb
 
 #btnYellow.active
 {   color: #000; }
+
+#donateForm
+{   max-width: 200px;
+    margin: 20px auto;
+    display: block; }
 
 #changeBackgroundBtn
 {   max-width: 200px;
@@ -424,7 +436,7 @@ pauseBtn.addEventListener
 ('click', (e) =>
 {   handleInteraction();
     isPaused = !isPaused;
-    e.target.textContent = iPaused ? "Unpause" : "Pause";
+    e.target.textContent = isPaused ? "Unpause" : "Pause";
 });
 
 btnYellow.addEventListener
