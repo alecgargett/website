@@ -16,12 +16,16 @@
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
     </section>
 
+    <section class="buttons">
+
     <form id="donateForm" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
         <input type="hidden" name="cmd" value="_donations">
         <input type="hidden" name="business" value="alecgargett@gmail.com">
         <input type="hidden" name="currency_code" value="AUD">
         <button type="submit" class="ui-button">Donate</button>
     </form>
+
+    <a href="CV.html">CV</a>
 
     <button id="changeBackgroundBtn" class="ui-button">Change Background</button>
 
@@ -74,13 +78,13 @@
         <button id="hideControlsBtn" class="ui-button">Hide Controls</button>
     </div> <!--/controls-->
 
+    </section> <!--/class="buttons"-->
+
     <section class="hero-spacer" style="min-height: 100vh" aria-hidden="true">
     </section>
 </div> <!--/ui-layer-->
 
 <footer>
-	<p><a href="CV.html">CV</a></p>
-	<br>
     <p>&copy; 2026 Alec Gargett. All rights reserved.</p>
 </footer> <!--/footer-->
 
@@ -178,7 +182,7 @@ input[type=range]::-webkit-slider-thumb
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 8px rgba(0,0,0,0.5); }
 
-.ui-button
+.ui-button, .buttons a
 {   width: 100%;
     padding: 10px;
     margin-top: 4px;
@@ -211,6 +215,13 @@ input[type=range]::-webkit-slider-thumb
 {   max-width: 200px;
     margin: 20px auto;
     display: block; }
+
+.buttons a
+{   max-width: 200px;
+    margin: 20px auto;
+    display: block;
+    box-sizing: border-box;
+    text-decoration: none; }
 
 footer
 {   padding: 40px 0;
@@ -326,7 +337,7 @@ function processPixels(count, mode)
                     const dg = (((n[j]>>8)&0xFF) - ((n[k]>>8)&0xFF)) * W_G;
                     const db = (((n[j]>>16)&0xFF) - ((n[k]>>16)&0xFF)) * W_B;
                     const d = dr*dr + dg*dg + db*db;
-                    if (d < minDist) { minDist = d; p = [n[j], n[k]]; }
+                    if (d < minDist) { minDist = d; p = [n[j], k = [n[j], n[k]]]; }
                 }
             }
             const r = ((p[0]&0xFF)+(p[1]&0xFF))>>1;
